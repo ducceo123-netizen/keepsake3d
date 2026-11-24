@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "characters": {
+    "left": {
+      "hair_style_asset_id": "long",
+      "hair_color_id": "blonde",
+      "facial_hair_id": "none",
+      "glasses_asset_id": "round",
+      "skin_material_id": "light",
+      "outfit_palette_id": "sage",
+      "face_morphs": {},
+      "engraving_text": "Alexandra"
+    },
+    "right": {
+      "hair_style_asset_id": "bun",
+      "hair_color_id": "silver",
+      "facial_hair_id": "beard",
+      "glasses_asset_id": "round",
+      "skin_material_id": "deep",
+      "outfit_palette_id": "rose",
+      "face_morphs": {},
+      "engraving_text": "Christopher"
+    }
+  }
+}

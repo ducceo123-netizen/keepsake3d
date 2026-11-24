@@ -1,0 +1,29 @@
+
+> keepsake3d@0.1.0 test:e2e
+> playwright test --list
+
+Listing tests:
+  [chromium] › blender-lifecycle.spec.ts:6:1 › real fixture builds files, approves, corrects, rejects stale approval and deletes @blender
+  [chromium] › recovery.spec.ts:4:1 › a reloaded FAILED session renders its error and retries the saved parameters
+  [chromium] › recovery.spec.ts:44:1 › Refresh status resumes polling even when the build state is unchanged
+  [chromium] › recovery.spec.ts:74:1 › an in-flight response cannot restore a deleted session
+  [chromium] › responsive.spec.ts:7:5 › / fits a 320px viewport
+  [chromium] › responsive.spec.ts:7:5 › /studio fits a 320px viewport
+  [chromium] › responsive.spec.ts:7:5 › / fits a 390px viewport
+  [chromium] › responsive.spec.ts:7:5 › /studio fits a 390px viewport
+  [chromium] › responsive.spec.ts:7:5 › / fits a 768px viewport
+  [chromium] › responsive.spec.ts:7:5 › /studio fits a 768px viewport
+  [chromium] › responsive.spec.ts:7:5 › / fits a 1280px viewport
+  [chromium] › responsive.spec.ts:7:5 › /studio fits a 1280px viewport
+  [chromium] › responsive.spec.ts:7:5 › / fits a 1440px viewport
+  [chromium] › responsive.spec.ts:7:5 › /studio fits a 1440px viewport
+  [chromium] › responsive.spec.ts:22:3 › / has no serious or critical WCAG scan findings
+  [chromium] › responsive.spec.ts:22:3 › /studio has no serious or critical WCAG scan findings
+  [chromium] › upload.spec.ts:4:1 › keyboard upload reports an unsupported file and keeps generation disabled
+  [chromium] › upload.spec.ts:23:1 › a file larger than 10 MB has a useful error before network upload
+  [chromium] › upload.spec.ts:32:1 › name inputs accept the documented hyphen and reject unsupported characters
+  [chromium] › visual.spec.ts:6:5 › @visual homepage at 390px
+  [chromium] › visual.spec.ts:6:5 › @visual studio-empty at 390px
+  [chromium] › visual.spec.ts:6:5 › @visual homepage at 1280px
+  [chromium] › visual.spec.ts:6:5 › @visual studio-empty at 1280px
+Total: 23 tests in 5 files

@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "characters": {
+    "left": {"hair_style_asset_id":"bun","hair_color_id":"chestnut","facial_hair_id":"none","glasses_asset_id":"none","skin_material_id":"warm","outfit_palette_id":"cream","face_morphs":{},"engraving_text":"Alex"},
+    "right": {"hair_style_asset_id":"short","hair_color_id":"black","facial_hair_id":"none","glasses_asset_id":"none","skin_material_id":"warm","outfit_palette_id":"blue","face_morphs":{},"engraving_text":"Jamie"}
+  }
+}

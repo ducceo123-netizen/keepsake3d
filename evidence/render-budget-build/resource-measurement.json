@@ -1,0 +1,19 @@
+{
+  "platform": "macOS arm64 (not Linux/Render)",
+  "elapsed_seconds": 14.16,
+  "exit_code": 0,
+  "peak_combined_descendant_rss_mib": 157.45,
+  "phase_peak_rss_mib": {
+    "STARTING": 143.12,
+    "MODEL_BUILDING": 155.78,
+    "MODEL_RENDERING": 149.05,
+    "QA_RUNNING": 157.45
+  },
+  "method": "ps descendant RSS sampled every 100ms; excludes API process; shared pages may be counted more than once",
+  "render_settings": {
+    "resolution": 512,
+    "samples": 8,
+    "denoise": false,
+    "threads": 1
+  }
+}

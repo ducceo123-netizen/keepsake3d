@@ -1,0 +1,167 @@
+{
+  "$defs": {
+    "CharacterCorrection": {
+      "additionalProperties": false,
+      "properties": {
+        "hair_style_asset_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "short",
+                "long",
+                "bun"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hair Style Asset Id"
+        },
+        "hair_color_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "chestnut",
+                "black",
+                "blonde",
+                "silver"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hair Color Id"
+        },
+        "facial_hair_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "none",
+                "beard"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Facial Hair Id"
+        },
+        "glasses_asset_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "none",
+                "round"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Glasses Asset Id"
+        },
+        "skin_material_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "warm",
+                "light",
+                "deep"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Skin Material Id"
+        },
+        "outfit_palette_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "cream",
+                "blue",
+                "rose",
+                "sage"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Outfit Palette Id"
+        },
+        "engraving_text": {
+          "anyOf": [
+            {
+              "maxLength": 12,
+              "pattern": "^[A-Za-z -]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Engraving Text"
+        }
+      },
+      "title": "CharacterCorrection",
+      "type": "object"
+    },
+    "CharacterCorrections": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CharacterCorrection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "right": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CharacterCorrection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "CharacterCorrections",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "characters": {
+      "$ref": "#/$defs/CharacterCorrections"
+    }
+  },
+  "required": [
+    "characters"
+  ],
+  "title": "Corrections",
+  "type": "object"
+}

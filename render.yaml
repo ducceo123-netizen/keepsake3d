@@ -1,0 +1,51 @@
+# Free, ephemeral engineering demo. No paid compute or persistent disk declared.
+# Render builds the repository into one Linux/amd64 Docker web service.
+services:
+  - type: web
+    name: keepsake3d-demo
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/v1/health
+    autoDeployTrigger: 'off'
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: KEEPSAKE_WEB_DIR
+        value: /app/public
+      - key: KEEPSAKE_DATA_DIR
+        value: /tmp/keepsake-data
+      - key: KEEPSAKE_DEPLOYMENT_MODE
+        value: public-demo
+      - key: KEEPSAKE_STORAGE_MODE
+        value: ephemeral
+      - key: KEEPSAKE_RETENTION_HOURS
+        value: "24"
+      - key: KEEPSAKE_BUILD_WORKERS
+        value: "1"
+      - key: KEEPSAKE_MAX_PENDING_BUILDS
+        value: "2"
+      - key: KEEPSAKE_BUILD_TIMEOUT_SECONDS
+        value: "1000"
+      - key: KEEPSAKE_MAX_STORAGE_MB
+        value: "512"
+      - key: KEEPSAKE_MAX_SESSIONS
+        value: "100"
+      - key: KEEPSAKE_MAX_BUILDS_PER_HOUR
+        value: "30"
+      - key: BLENDER_THREADS
+        value: "1"
+      - key: BLENDER_RENDER_RESOLUTION
+        value: "512"
+      - key: BLENDER_RENDER_SAMPLES
+        value: "8"
+      - key: BLENDER_DENOISE
+        value: "0"
+      - key: BLENDER_TIMEOUT_SECONDS
+        value: "900"
+      - key: KEEPSAKE_OPERATOR_TOKEN
+        generateValue: true

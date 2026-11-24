@@ -1,0 +1,21 @@
+name: Local application checks
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: npm ci
+      - run: python -m pip install -r apps/api/requirements.txt
+      - run: python -m pytest tests/api tests/pipeline -q
+      - run: npm run typecheck
+      - run: npm run check:design
+      - run: npm run build
+      - run: KEEPSAKE_STATIC_EXPORT=1 npm run build

@@ -1,0 +1,110 @@
+{
+  "$defs": {
+    "Character": {
+      "additionalProperties": false,
+      "properties": {
+        "hair_style_asset_id": {
+          "default": "short",
+          "enum": [
+            "short",
+            "long",
+            "bun"
+          ],
+          "title": "Hair Style Asset Id",
+          "type": "string"
+        },
+        "hair_color_id": {
+          "default": "chestnut",
+          "enum": [
+            "chestnut",
+            "black",
+            "blonde",
+            "silver"
+          ],
+          "title": "Hair Color Id",
+          "type": "string"
+        },
+        "facial_hair_id": {
+          "default": "none",
+          "enum": [
+            "none",
+            "beard"
+          ],
+          "title": "Facial Hair Id",
+          "type": "string"
+        },
+        "glasses_asset_id": {
+          "default": "none",
+          "enum": [
+            "none",
+            "round"
+          ],
+          "title": "Glasses Asset Id",
+          "type": "string"
+        },
+        "skin_material_id": {
+          "default": "warm",
+          "enum": [
+            "warm",
+            "light",
+            "deep"
+          ],
+          "title": "Skin Material Id",
+          "type": "string"
+        },
+        "outfit_palette_id": {
+          "default": "cream",
+          "enum": [
+            "cream",
+            "blue",
+            "rose",
+            "sage"
+          ],
+          "title": "Outfit Palette Id",
+          "type": "string"
+        },
+        "face_morphs": {
+          "additionalProperties": true,
+          "title": "Face Morphs",
+          "type": "object"
+        },
+        "engraving_text": {
+          "default": "",
+          "maxLength": 12,
+          "pattern": "^[A-Za-z -]*$",
+          "title": "Engraving Text",
+          "type": "string"
+        }
+      },
+      "title": "Character",
+      "type": "object"
+    },
+    "Characters": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Character"
+        },
+        "right": {
+          "$ref": "#/$defs/Character"
+        }
+      },
+      "title": "Characters",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "characters": {
+      "$ref": "#/$defs/Characters"
+    }
+  },
+  "title": "Parameters",
+  "type": "object"
+}

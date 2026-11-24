@@ -1,0 +1,35 @@
+/* Keepsake 3D — Soft Keepsake Editorial (customer-facing). Proposed brand tokens. */
+:root {
+  --ks-canvas: #faf6f0;
+  --ks-surface: #fffdf9;
+  --ks-accent: #b96f68;
+  --ks-primary: #a85d50;
+  --ks-primary-hover: #924b41;
+  --ks-heading: #47312b;
+  --ks-text: #594740;
+  --ks-muted: #75645f;
+  --ks-blush: #f2deda;
+  --ks-border: #e7dad2;
+  --ks-focus: #a85d50;
+  --ks-success: #39765f;
+  --ks-warning: #8a5518;
+  --ks-error: #af4141;
+  --ks-font-display: "Fraunces", Georgia, serif;
+  --ks-font-body: "DM Sans", system-ui, sans-serif;
+  --ks-radius-control: 12px;
+  --ks-radius-card: 18px;
+  --ks-radius-modal: 20px;
+  --ks-radius-media: 24px;
+  --ks-page-width: 1200px;
+}
+/* When adapting shadcn, map its semantic variables to these tokens; test contrast on all states. */
+:root {
+  --ks-white: #ffffff;
+  --ks-shadow: 0 12px 40px rgb(71 49 43 / 7%);
+  --ks-overlay: rgb(71 49 43 / 38%);
+  --ks-viewer: #ede5db;
+  --ks-warning-surface: #fcf0df;
+  --ks-success-surface: #e6f1ea;
+  --ks-error-surface: #fbe8e4;
+  --ks-radius-pill: 999px;
+}

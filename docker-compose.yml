@@ -1,0 +1,41 @@
+# Optional container development recipe. Docker was unavailable during local QA.
+# No database/queue services are implied: this first slice uses private SQLite.
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      KEEPSAKE_DATA_DIR: /app/.data/private
+      KEEPSAKE_RETENTION_HOURS: ${KEEPSAKE_RETENTION_HOURS:-24}
+      KEEPSAKE_ALLOWED_ORIGIN: http://localhost:3000
+      KEEPSAKE_OPERATOR_TOKEN: ${KEEPSAKE_OPERATOR_TOKEN:-}
+      # Optional Linux Blender must be supplied in a derived image or mount.
+      # A macOS Blender binary cannot execute inside this Linux container.
+      BLENDER_BIN: ${CONTAINER_BLENDER_BIN:-}
+    volumes:
+      - private-data:/app/.data
+    restart: "no"
+  web:
+    image: node:24-bookworm-slim
+    working_dir: /app
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      API_ORIGIN: http://api:8000
+      NEXT_TELEMETRY_DISABLED: "1"
+    volumes:
+      - .:/app
+      - web-dependencies:/app/node_modules
+      - web-build:/app/apps/web/.next
+    command: >-
+      sh -c "npm ci && npm exec --workspace @keepsake/web -- next dev --hostname 0.0.0.0"
+    depends_on:
+      - api
+    restart: "no"
+volumes:
+  private-data:
+  web-dependencies:
+  web-build:

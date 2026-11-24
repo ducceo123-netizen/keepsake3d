@@ -1,0 +1,37 @@
+Requirement already satisfied: fastapi==0.135.1 in ./.venv/lib/python3.14/site-packages (from -r apps/api/requirements.txt (line 1)) (0.135.1)
+Requirement already satisfied: uvicorn==0.41.0 in ./.venv/lib/python3.14/site-packages (from -r apps/api/requirements.txt (line 2)) (0.41.0)
+Requirement already satisfied: pydantic==2.12.5 in ./.venv/lib/python3.14/site-packages (from -r apps/api/requirements.txt (line 3)) (2.12.5)
+Requirement already satisfied: python-multipart==0.0.22 in ./.venv/lib/python3.14/site-packages (from -r apps/api/requirements.txt (line 4)) (0.0.22)
+Requirement already satisfied: Pillow==12.1.1 in ./.venv/lib/python3.14/site-packages (from -r apps/api/requirements.txt (line 5)) (12.1.1)
+Requirement already satisfied: httpx==0.28.1 in ./.venv/lib/python3.14/site-packages (from -r apps/api/requirements.txt (line 6)) (0.28.1)
+Requirement already satisfied: pytest==9.0.2 in ./.venv/lib/python3.14/site-packages (from -r apps/api/requirements.txt (line 7)) (9.0.2)
+Requirement already satisfied: trimesh==4.11.2 in ./.venv/lib/python3.14/site-packages (from -r apps/api/requirements.txt (line 8)) (4.11.2)
+Requirement already satisfied: numpy==2.4.2 in ./.venv/lib/python3.14/site-packages (from -r apps/api/requirements.txt (line 9)) (2.4.2)
+Requirement already satisfied: starlette>=0.46.0 in ./.venv/lib/python3.14/site-packages (from fastapi==0.135.1->-r apps/api/requirements.txt (line 1)) (1.10.0)
+Requirement already satisfied: typing-extensions>=4.8.0 in ./.venv/lib/python3.14/site-packages (from fastapi==0.135.1->-r apps/api/requirements.txt (line 1)) (4.16.0)
+Requirement already satisfied: typing-inspection>=0.4.2 in ./.venv/lib/python3.14/site-packages (from fastapi==0.135.1->-r apps/api/requirements.txt (line 1)) (0.4.5)
+Requirement already satisfied: annotated-doc>=0.0.2 in ./.venv/lib/python3.14/site-packages (from fastapi==0.135.1->-r apps/api/requirements.txt (line 1)) (0.0.7)
+Requirement already satisfied: click>=7.0 in ./.venv/lib/python3.14/site-packages (from uvicorn==0.41.0->-r apps/api/requirements.txt (line 2)) (8.5.1)
+Requirement already satisfied: h11>=0.8 in ./.venv/lib/python3.14/site-packages (from uvicorn==0.41.0->-r apps/api/requirements.txt (line 2)) (0.16.0)
+Requirement already satisfied: annotated-types>=0.6.0 in ./.venv/lib/python3.14/site-packages (from pydantic==2.12.5->-r apps/api/requirements.txt (line 3)) (0.8.0)
+Requirement already satisfied: pydantic-core==2.41.5 in ./.venv/lib/python3.14/site-packages (from pydantic==2.12.5->-r apps/api/requirements.txt (line 3)) (2.41.5)
+Requirement already satisfied: anyio in ./.venv/lib/python3.14/site-packages (from httpx==0.28.1->-r apps/api/requirements.txt (line 6)) (4.16.0)
+Requirement already satisfied: certifi in ./.venv/lib/python3.14/site-packages (from httpx==0.28.1->-r apps/api/requirements.txt (line 6)) (2026.11.20)
+Requirement already satisfied: httpcore==1.* in ./.venv/lib/python3.14/site-packages (from httpx==0.28.1->-r apps/api/requirements.txt (line 6)) (1.0.9)
+Requirement already satisfied: idna in ./.venv/lib/python3.14/site-packages (from httpx==0.28.1->-r apps/api/requirements.txt (line 6)) (3.20)
+Requirement already satisfied: iniconfig>=1.0.1 in ./.venv/lib/python3.14/site-packages (from pytest==9.0.2->-r apps/api/requirements.txt (line 7)) (2.3.1)
+Requirement already satisfied: packaging>=22 in ./.venv/lib/python3.14/site-packages (from pytest==9.0.2->-r apps/api/requirements.txt (line 7)) (26.4)
+Requirement already satisfied: pluggy<2,>=1.5 in ./.venv/lib/python3.14/site-packages (from pytest==9.0.2->-r apps/api/requirements.txt (line 7)) (1.7.0)
+Requirement already satisfied: pygments>=2.7.2 in ./.venv/lib/python3.14/site-packages (from pytest==9.0.2->-r apps/api/requirements.txt (line 7)) (2.21.0)
+
+[notice] A new release of pip is available: 26.0.1 -> 26.3
+[notice] To update, run: /Users/ducnguyen/Documents/Codex/2026-11-24/files-mentioned-by-the-user-keepsake3d/outputs/keepsake3d/.venv/bin/python -m pip install --upgrade pip
+
+added 73 packages, and audited 75 packages in 6s
+
+9 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+Dependencies installed. Set BLENDER_BIN in .env if needed, then run bash scripts/dev.sh.

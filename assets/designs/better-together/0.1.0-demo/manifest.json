@@ -1,0 +1,105 @@
+{
+  "design_id": "better-together",
+  "version": "0.1.0-demo",
+  "status": "DEMO_NOT_PRINT_APPROVED",
+  "master_blend_asset": "assets/designs/better-together/0.1.0-demo/master.blend",
+  "master_sha256": "94fa36d7aca0d4fee3f4242bcc42f190dbd0cf57866622ad687b4cc53d6eb3ba",
+  "character_slots": [
+    "left",
+    "right"
+  ],
+  "geometry_lock_objects": [
+    "ANCHOR_LEFT",
+    "ANCHOR_RIGHT",
+    "ARM_left_0",
+    "ARM_left_1",
+    "ARM_right_0",
+    "ARM_right_1",
+    "BODY_LEFT",
+    "BODY_RIGHT",
+    "HAND_left_0",
+    "HAND_left_1",
+    "HAND_right_0",
+    "HAND_right_1",
+    "HEART_BASE_LEFT",
+    "HEART_BASE_RIGHT",
+    "SHIN_left_0",
+    "SHIN_left_1",
+    "SHIN_right_0",
+    "SHIN_right_1",
+    "SHOE_left_0",
+    "SHOE_left_1",
+    "SHOE_right_0",
+    "SHOE_right_1",
+    "THIGH_left_0",
+    "THIGH_left_1",
+    "THIGH_right_0",
+    "THIGH_right_1"
+  ],
+  "allowed_asset_slots": {
+    "hair_style_asset_id": [
+      "short",
+      "long",
+      "bun"
+    ],
+    "facial_hair_id": [
+      "none",
+      "beard"
+    ],
+    "glasses_asset_id": [
+      "none",
+      "round"
+    ]
+  },
+  "allowed_shape_keys": {},
+  "allowed_materials": {
+    "hair_color_id": [
+      "chestnut",
+      "black",
+      "blonde",
+      "silver"
+    ],
+    "skin_material_id": [
+      "warm",
+      "light",
+      "deep"
+    ],
+    "outfit_palette_id": [
+      "cream",
+      "blue",
+      "rose",
+      "sage"
+    ]
+  },
+  "engraving_constraints": {
+    "max_characters": 12,
+    "pattern": "^[A-Za-z -]{0,12}$",
+    "max_width_scene_units": 0.63,
+    "mode": "raised_demo_label",
+    "manufacturing_relief_validated": false
+  },
+  "attachment_anchors": {
+    "left": "ANCHOR_LEFT",
+    "right": "ANCHOR_RIGHT"
+  },
+  "assembly_part_ids": [
+    "ASSEMBLY_LEFT",
+    "ASSEMBLY_RIGHT"
+  ],
+  "preview_cameras": [
+    "three_quarter",
+    "front",
+    "side",
+    "back"
+  ],
+  "export_units": "DEMO_SCENE_UNITS_NOT_MANUFACTURING_SCALE",
+  "print_profiles": [],
+  "validation_rules": {
+    "locked_geometry_tolerance": 0,
+    "require_finite_vertices": true,
+    "require_closed_component_edges": true,
+    "join_clearance_validated": false,
+    "intersections_validated": false
+  },
+  "print_approved": false
+}

@@ -1,0 +1,32 @@
+Keepsake3D local verification — 2026-11-24 (Asia/Ho_Chi_Minh)
+
+Observed command:
+KEEPSAKE_RUN_BLENDER_TESTS=1 .venv/bin/python -m pytest tests/api tests/pipeline -q
+Result: 35 passed, 1 warning in 48.11s
+Warning: StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead.
+The included integration test executed actual Blender generation for two revisions and checked authenticated artifact reads, SHA256, approval, stale revision rejection, correction, and deletion.
+
+Observed commands:
+npm run typecheck
+npm run check:design
+npm run build
+All exited 0. Next.js 16.4.6 produced /, /studio, /design-system, /admin and /_not-found.
+
+Live CUA browser checks:
+Synthetic fixture upload; optional names; explicit consent; actual background Blender build;
+private GLB viewer; front/reset/separated views; approval; correction to sage outfit,
+round glasses and Alex-J name; revision 2 requires fresh approval; fullscreen Escape
+restores focus; malformed PNG rejected; sample upload recovers; operator token
+reveals three real jobs and Lock console removes the operator view.
+
+Final responsive checks: storefront, upload, and model preview at widths
+320, 390, 768, 1280, 1440. No horizontal page overflow in any final check.
+Measurements: evidence/screenshots/responsive-checks.json.
+Actual screenshots: evidence/screenshots/*.jpg.
+
+Verification limits:
+Playwright regression tests were authored and typechecked, not executed.
+Playwright screenshot baselines are not established.
+Docker unavailable; container recipe not exercised.
+No slicer, physical sample, commercial master, real photo appearance inference,
+production deployment, Shopify checkout, or fulfillment was tested or enabled.

@@ -1,0 +1,340 @@
+{
+  "$defs": {
+    "Anchors": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "const": "ANCHOR_LEFT",
+          "title": "Left",
+          "type": "string"
+        },
+        "right": {
+          "const": "ANCHOR_RIGHT",
+          "title": "Right",
+          "type": "string"
+        }
+      },
+      "required": [
+        "left",
+        "right"
+      ],
+      "title": "Anchors",
+      "type": "object"
+    },
+    "AssetSlots": {
+      "additionalProperties": false,
+      "properties": {
+        "hair_style_asset_id": {
+          "items": {
+            "enum": [
+              "short",
+              "long",
+              "bun"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Hair Style Asset Id",
+          "type": "array"
+        },
+        "facial_hair_id": {
+          "items": {
+            "enum": [
+              "none",
+              "beard"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Facial Hair Id",
+          "type": "array"
+        },
+        "glasses_asset_id": {
+          "items": {
+            "enum": [
+              "none",
+              "round"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Glasses Asset Id",
+          "type": "array"
+        }
+      },
+      "required": [
+        "hair_style_asset_id",
+        "facial_hair_id",
+        "glasses_asset_id"
+      ],
+      "title": "AssetSlots",
+      "type": "object"
+    },
+    "EngravingConstraints": {
+      "additionalProperties": false,
+      "properties": {
+        "max_characters": {
+          "const": 12,
+          "title": "Max Characters",
+          "type": "integer"
+        },
+        "pattern": {
+          "const": "^[A-Za-z -]{0,12}$",
+          "title": "Pattern",
+          "type": "string"
+        },
+        "max_width_scene_units": {
+          "exclusiveMinimum": 0,
+          "title": "Max Width Scene Units",
+          "type": "number"
+        },
+        "mode": {
+          "const": "raised_demo_label",
+          "title": "Mode",
+          "type": "string"
+        },
+        "manufacturing_relief_validated": {
+          "const": false,
+          "title": "Manufacturing Relief Validated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "max_characters",
+        "pattern",
+        "max_width_scene_units",
+        "mode",
+        "manufacturing_relief_validated"
+      ],
+      "title": "EngravingConstraints",
+      "type": "object"
+    },
+    "Materials": {
+      "additionalProperties": false,
+      "properties": {
+        "hair_color_id": {
+          "items": {
+            "enum": [
+              "chestnut",
+              "black",
+              "blonde",
+              "silver"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Hair Color Id",
+          "type": "array"
+        },
+        "skin_material_id": {
+          "items": {
+            "enum": [
+              "warm",
+              "light",
+              "deep"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Skin Material Id",
+          "type": "array"
+        },
+        "outfit_palette_id": {
+          "items": {
+            "enum": [
+              "cream",
+              "blue",
+              "rose",
+              "sage"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Outfit Palette Id",
+          "type": "array"
+        }
+      },
+      "required": [
+        "hair_color_id",
+        "skin_material_id",
+        "outfit_palette_id"
+      ],
+      "title": "Materials",
+      "type": "object"
+    },
+    "ValidationRules": {
+      "additionalProperties": false,
+      "properties": {
+        "locked_geometry_tolerance": {
+          "const": 0,
+          "title": "Locked Geometry Tolerance",
+          "type": "integer"
+        },
+        "require_finite_vertices": {
+          "const": true,
+          "title": "Require Finite Vertices",
+          "type": "boolean"
+        },
+        "require_closed_component_edges": {
+          "const": true,
+          "title": "Require Closed Component Edges",
+          "type": "boolean"
+        },
+        "join_clearance_validated": {
+          "const": false,
+          "title": "Join Clearance Validated",
+          "type": "boolean"
+        },
+        "intersections_validated": {
+          "const": false,
+          "title": "Intersections Validated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "locked_geometry_tolerance",
+        "require_finite_vertices",
+        "require_closed_component_edges",
+        "join_clearance_validated",
+        "intersections_validated"
+      ],
+      "title": "ValidationRules",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "design_id": {
+      "const": "better-together",
+      "title": "Design Id",
+      "type": "string"
+    },
+    "version": {
+      "const": "0.1.0-demo",
+      "title": "Version",
+      "type": "string"
+    },
+    "status": {
+      "const": "DEMO_NOT_PRINT_APPROVED",
+      "title": "Status",
+      "type": "string"
+    },
+    "master_blend_asset": {
+      "const": "assets/designs/better-together/0.1.0-demo/master.blend",
+      "title": "Master Blend Asset",
+      "type": "string"
+    },
+    "master_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Master Sha256",
+      "type": "string"
+    },
+    "character_slots": {
+      "items": {
+        "enum": [
+          "left",
+          "right"
+        ],
+        "type": "string"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Character Slots",
+      "type": "array"
+    },
+    "geometry_lock_objects": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 8,
+      "title": "Geometry Lock Objects",
+      "type": "array"
+    },
+    "allowed_asset_slots": {
+      "$ref": "#/$defs/AssetSlots"
+    },
+    "allowed_shape_keys": {
+      "additionalProperties": true,
+      "maxProperties": 0,
+      "title": "Allowed Shape Keys",
+      "type": "object"
+    },
+    "allowed_materials": {
+      "$ref": "#/$defs/Materials"
+    },
+    "engraving_constraints": {
+      "$ref": "#/$defs/EngravingConstraints"
+    },
+    "attachment_anchors": {
+      "$ref": "#/$defs/Anchors"
+    },
+    "assembly_part_ids": {
+      "items": {
+        "enum": [
+          "ASSEMBLY_LEFT",
+          "ASSEMBLY_RIGHT"
+        ],
+        "type": "string"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Assembly Part Ids",
+      "type": "array"
+    },
+    "preview_cameras": {
+      "items": {
+        "enum": [
+          "three_quarter",
+          "front",
+          "side",
+          "back"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Preview Cameras",
+      "type": "array"
+    },
+    "export_units": {
+      "const": "DEMO_SCENE_UNITS_NOT_MANUFACTURING_SCALE",
+      "title": "Export Units",
+      "type": "string"
+    },
+    "print_profiles": {
+      "items": {},
+      "maxItems": 0,
+      "title": "Print Profiles",
+      "type": "array"
+    },
+    "validation_rules": {
+      "$ref": "#/$defs/ValidationRules"
+    },
+    "print_approved": {
+      "const": false,
+      "title": "Print Approved",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "design_id",
+    "version",
+    "status",
+    "master_blend_asset",
+    "master_sha256",
+    "character_slots",
+    "geometry_lock_objects",
+    "allowed_asset_slots",
+    "allowed_shape_keys",
+    "allowed_materials",
+    "engraving_constraints",
+    "attachment_anchors",
+    "assembly_part_ids",
+    "preview_cameras",
+    "export_units",
+    "print_profiles",
+    "validation_rules",
+    "print_approved"
+  ],
+  "title": "DemoManifest",
+  "type": "object"
+}

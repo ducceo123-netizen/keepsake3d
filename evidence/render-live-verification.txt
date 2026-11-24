@@ -1,0 +1,14 @@
+Health passed: {"status": "ok", "mode": "public-demo", "storage": "ephemeral", "appearance_provider": "mock-defaults-v1", "generation_available": true, "production_enabled": false}
+Static routes and private-path isolation passed.
+Synthetic photo and owner authorization passed.
+Build state: MODEL_BUILDING
+Build state: MODEL_RENDERING
+Build state: QA_RUNNING
+Build state: PREVIEW_READY
+Build state: MODEL_BUILDING
+Build state: MODEL_RENDERING
+Build state: QA_RUNNING
+Build state: PREVIEW_READY
+Two real revisions, artifact hashes, approval and stale-approval rejection passed.
+Disposable verification session deleted.
+Deployment smoke checks passed.

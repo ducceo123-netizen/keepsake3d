@@ -117,3 +117,19 @@ No commercial master, physical print, engineered connector tolerance, verified e
 The final source was also exercised using `bash scripts/setup.sh` (exit 0; npm installed 73 packages from the lockfile) and `bash scripts/dev.sh`. The combined launcher started both services successfully. The storefront returned HTTP 200 and the proxied health endpoint reported `status: ok`, `mode: local-demo`, `appearance_provider: mock-defaults-v1`, and `production_enabled: false`. The development processes were stopped after verification. Restart with `bash scripts/dev.sh` when opening the local application.
 
 Raw final build/setup output is retained in `evidence/build-output.txt` and `evidence/setup-output.txt`.
+
+## Render deployment — current evidence
+
+This section supersedes earlier local-only statements about deployment and the Docker image. Render reports **Live** at [https://keepsake3d-demo.onrender.com](https://keepsake3d-demo.onrender.com), using public source commit `ee604afa958a3ad281bb22a5ce56c34b072330de` from [GitHub](https://github.com/ducceo123-netizen/keepsake3d).
+
+- Service: `srv-dc2pe6uk1f9s738nh7r0`
+- Blueprint: `exs-dc2pc2mk1f9s738nb4k0`
+- Deploy: `dep-dc2pe7mk1f9s738nh9v0`
+- Free compute in Singapore; ephemeral storage; no paid disk.
+- The actual Linux image build completed a Blender smoke build to `PREVIEW_READY` in 8.9 seconds. This measures Render's build environment, not steady-state free-instance performance.
+- The hosted homepage and studio opened without JavaScript errors.
+- A separate hosted browser session completed synthetic photo upload, actual generation, interactive Three.js display, front camera selection, full-screen preview and Escape focus restoration, then saved preview approval. Browser error/warning logs were empty. Local screenshots are retained as `evidence/screenshots/render-live-storefront.jpg` and `render-live-3d-preview.jpg`; screenshots are excluded from the public repository.
+- The public repository was anonymously accessible after the user's requested visibility change. Credentials and private runtime data are not tracked.
+- The hosted synthetic lifecycle check completed with exit code 0: healthy public-demo API, static routes/private-path isolation, owner authorization, two real Blender revisions reaching `PREVIEW_READY`, artifact SHA256 verification, approval/correction, stale approval rejected with HTTP 409, and session deletion. [Actual hosted verification log](../evidence/render-live-verification.txt).
+
+The legacy local Compose configuration was aligned with the current image's port, Blender path and writable temporary-data directory, then parsed as YAML. Compose itself remains unexecuted. Full deployment settings and repeatable checks are in [DEPLOY_RENDER.md](DEPLOY_RENDER.md).

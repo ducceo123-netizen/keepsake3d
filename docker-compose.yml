@@ -1,4 +1,4 @@
-# Optional container development recipe. Docker was unavailable during local QA.
+# Optional local development recipe. Render built the Docker image; Compose is unverified.
 # No database/queue services are implied: this first slice uses private SQLite.
 services:
   api:
@@ -8,15 +8,14 @@ services:
     ports:
       - "127.0.0.1:8000:8000"
     environment:
-      KEEPSAKE_DATA_DIR: /app/.data/private
+      PORT: "8000"
+      KEEPSAKE_DATA_DIR: /tmp/keepsake-data
+      KEEPSAKE_STORAGE_MODE: ephemeral
       KEEPSAKE_RETENTION_HOURS: ${KEEPSAKE_RETENTION_HOURS:-24}
       KEEPSAKE_ALLOWED_ORIGIN: http://localhost:3000
       KEEPSAKE_OPERATOR_TOKEN: ${KEEPSAKE_OPERATOR_TOKEN:-}
-      # Optional Linux Blender must be supplied in a derived image or mount.
-      # A macOS Blender binary cannot execute inside this Linux container.
-      BLENDER_BIN: ${CONTAINER_BLENDER_BIN:-}
-    volumes:
-      - private-data:/app/.data
+      # The image bundles Linux Blender; override only with a compatible binary.
+      BLENDER_BIN: ${CONTAINER_BLENDER_BIN:-/opt/blender/blender}
     restart: "no"
   web:
     image: node:24-bookworm-slim
@@ -36,6 +35,5 @@ services:
       - api
     restart: "no"
 volumes:
-  private-data:
   web-dependencies:
   web-build:

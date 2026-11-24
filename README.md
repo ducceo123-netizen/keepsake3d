@@ -1,12 +1,20 @@
 # Keepsake 3D — Better Together
 
-A local photo-to-3D engineering demo built from the supplied Keepsake3D handoff. The storefront uses the supplied concept art and shared Soft Keepsake Editorial design system. The working path is private image upload (or synthetic fixture), deterministic **mock** appearance parameters, a procedural Blender model, genuine GLB/STL/PNG artifacts, geometry diagnostics and revision-bound customer preview approval.
+A photo-to-3D engineering demo built from the supplied Keepsake3D handoff. The storefront uses the supplied concept art and shared Soft Keepsake Editorial design system. The working path is private image upload (or synthetic fixture), deterministic **mock** appearance parameters, a procedural Blender model, genuine GLB/STL/PNG artifacts, geometry diagnostics and revision-bound customer preview approval.
 
 The concept image is not the generated mesh. The procedural couple is a test asset, not the commercial Better Together product. No exact likeness, engineered connector, physical sample, price, delivery promise or production approval is represented. Checkout and supplier fulfillment are not enabled.
 
+## Live demo and source
+
+Open [Keepsake 3D on Render](https://keepsake3d-demo.onrender.com) or browse the [public GitHub repository](https://github.com/ducceo123-netizen/keepsake3d).
+
+Render reports the free Singapore deployment **Live**, built from commit `ee604afa958a3ad281bb22a5ce56c34b072330de`. The Linux image build completed an actual Blender smoke build; the hosted homepage and studio opened without JavaScript errors. The hosted lifecycle check passed two real Blender revisions, artifact hashes, owner authorization, preview approval, stale-approval rejection and session cleanup. [Live verification log](evidence/render-live-verification.txt).
+
+The hosted browser workflow also passed actual generation, interactive 3D/full-screen controls and preview approval without browser errors. This free demo uses temporary storage: sleeping, restarting or redeploying the service can clear sessions and files. Appearance analysis is mocked and checkout is disabled. Use **Try a sample photo** to explore it. See [deployment details and verification](docs/DEPLOY_RENDER.md).
+
 ## Run locally
 
-For Render, use the free single-container Blueprint in [render.yaml](render.yaml). The Docker image serves the exported interface and private API together and installs a pinned Linux Blender. See [Render deployment](docs/DEPLOY_RENDER.md) for the temporary-storage limits and deployment verification.
+The same source runs locally with the commands below. The Render [Blueprint](render.yaml) builds a single container that serves the static interface and API together and includes pinned Linux Blender.
 
 Requirements: Node.js 22+ (24 recommended), Python 3.11+ (3.14 used during development), and Blender 4.5 LTS for actual model generation. Python and Node dependencies are pinned by the checked-in requirements and npm lockfile. No paid keys or cloud account are required.
 
@@ -63,7 +71,7 @@ The build emits the model, geometry-only STL candidate, rendered PNG, `provenanc
 
 ## Checks and evidence
 
-The final combined API/pipeline run passed **35 tests**, including two real Blender revisions. TypeScript, design governance and the Next.js 16.4.6 production build passed. Live CUA browser QA verified upload, generation, approval, corrections, model controls and operations; storefront/upload/preview had no horizontal overflow at 320, 390, 768, 1280 and 1440 pixels.
+The original local combined API/pipeline run passed **35 tests**, including two real Blender revisions. TypeScript, design governance and the Next.js 16.4.6 production build passed. Live CUA browser QA verified upload, generation, approval, corrections, model controls and operations; storefront/upload/preview had no horizontal overflow at 320, 390, 768, 1280 and 1440 pixels.
 
 ```bash
 bash scripts/test.sh
@@ -72,7 +80,7 @@ KEEPSAKE_RUN_BLENDER_TESTS=1 .venv/bin/python -m pytest tests/api tests/pipeline
 npm run build
 ```
 
-See [the verification ledger and acceptance matrix](docs/VERIFICATION.md) for exact results, limitations, artifact hashes and inspected screenshots. The [rendered model](evidence/demo-build/preview.png), [GLB](evidence/demo-build/model.glb), [STL candidate](evidence/demo-build/model.stl), [provenance](evidence/demo-build/provenance.json) and [QA report](evidence/demo-build/qa.json) are included.
+See [the verification ledger and acceptance matrix](docs/VERIFICATION.md) for exact results, limitations, artifact hashes and inspected screenshots. The public source includes the low-resolution fixture’s [rendered model](evidence/render-budget-build/preview.png), [GLB](evidence/render-budget-build/model.glb), [STL candidate](evidence/render-budget-build/model.stl), [provenance](evidence/render-budget-build/provenance.json) and [QA report](evidence/render-budget-build/qa.json).
 
 The 23 Playwright definitions are authored and TypeScript checked, **not executed**. Their screenshot baselines have not been generated or reviewed. Start with the functional subset, which does not require baselines:
 
@@ -91,7 +99,7 @@ Inspect and correct every candidate before retaining it as a baseline; an agent 
 
 ## Optional container recipe
 
-`docker-compose.yml` provides an optional API/web development layout using private SQLite storage. Docker was unavailable in the implementation environment, so this recipe is **unverified**. The API image does not bundle Blender. Model generation requires a compatible Linux Blender executable plus its dependencies in a derived image or mounted tool directory, configured through `CONTAINER_BLENDER_BIN`; a host macOS app cannot execute in that container. Use the verified native run path above for the initial demo.
+Render successfully built the single-service Docker image, including its Linux Blender export check. The optional `docker-compose.yml` provides a separate local web/API development layout using that image; its configuration was updated and YAML-checked, but Compose itself has **not** been run. Its API uses temporary `/tmp/keepsake-data` storage. Use the native commands above for the locally verified startup path.
 
 ## Architecture and project layout
 
@@ -106,7 +114,6 @@ Inspect and correct every candidate before retaining it as a baseline; an agent 
 | `packages/schemas` | Strict appearance/design validation contracts |
 | `assets/designs` | Versioned demo manifest, parameters and master |
 | `docs/adr` | Decisions and scoped deviations from the suggested stack |
-| `docs/handoff` | Original text specifications retained as reference material |
 
 The local demo uses SQLite, private filesystem storage and a bounded background executor. It does not run Postgres/Supabase or Redis/Celery. See [ADR 0001](docs/adr/0001-local-vertical-slice.md) for why and for deployment implications. Shared semantic CSS and Radix primitives implement the brand without a Tailwind/shadcn layer; see [ADR 0004](docs/adr/0004-shared-ui-primitives.md).
 
@@ -124,6 +131,6 @@ Set an independent, long random `KEEPSAKE_OPERATOR_TOKEN` in `.env` to enable th
 - Durable production queue, isolated render workers, account authentication, managed storage and scheduled deletion.
 - Separately authorized Shopify integration, payment verification, production approval and supplier workflow.
 
-No production service or store was deployed by this local build. See [development notes](docs/DEVELOPMENT.md) and [model provenance decision](docs/adr/0002-model-provenance.md).
+The engineering demo is deployed on Render. Commercial manufacturing, Shopify checkout and supplier fulfillment remain disabled. See [development notes](docs/DEVELOPMENT.md) and [model provenance decision](docs/adr/0002-model-provenance.md).
 
 On macOS, `Start Keepsake3D.command` is a convenience launcher for the same setup/dev commands. The verification server was stopped after testing; start the local app when you want to use it.

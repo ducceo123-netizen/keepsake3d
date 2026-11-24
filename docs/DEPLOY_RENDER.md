@@ -2,13 +2,28 @@
 
 This configuration deploys one Docker web service: a Next.js static export is built into the image and served by FastAPI, alongside the existing procedural Blender worker. The browser and API share one origin. There is no Node.js server, second service, database service or paid disk in the running deployment.
 
-The included `render.yaml` explicitly selects `plan: free` in Singapore and disables automatic deploys. It is deployment configuration, not proof of a live or successfully verified deployment. Confirm the actual Render deploy status and run the checks below before reporting success.
+## Current deployment
+
+| Item | Verified value |
+| --- | --- |
+| App | [keepsake3d-demo.onrender.com](https://keepsake3d-demo.onrender.com) |
+| Source | [Public GitHub repository](https://github.com/ducceo123-netizen/keepsake3d) |
+| Render status | **Live** |
+| Source commit | `ee604afa958a3ad281bb22a5ce56c34b072330de` |
+| Service | `srv-dc2pe6uk1f9s738nh7r0` |
+| Blueprint | `exs-dc2pc2mk1f9s738nb4k0` |
+| Deploy | `dep-dc2pe7mk1f9s738nh9v0` |
+| Compute / region | Free / Singapore |
+
+The Linux image build reached `PREVIEW_READY` with real Blender outputs in 8.9 seconds. That is a build-environment measurement, not a free-instance performance guarantee. The live homepage and studio loaded without JavaScript errors. The hosted lifecycle check completed successfully: healthy public-demo API, static routes and private-path isolation, owner-only synthetic photo access, two real Blender revisions, artifact SHA256 checks, preview approval, stale-approval rejection and disposable-session deletion. [Actual verification output](../evidence/render-live-verification.txt).
+
+The repository was made public at the user's explicit request and its anonymous accessibility was verified. Runtime credentials, private sessions and uploaded images are excluded. The Blueprint selects `plan: free`, has no persistent disk and disables automatic deploys.
 
 GitHub Actions is not enabled in this repository. The authenticated GitHub connection can publish source but lacks the separate `workflow` scope. A ready workflow template is retained at `docs/ci/github-actions-checks.yml`; local checks and the Docker image's real Blender build check remain available without expanding that connection's permissions.
 
-## Deploy from the private source repository
+## Redeploy from the public source repository
 
-Connect Render to the Git provider account that owns this repository. In the Render dashboard, use **New → Blueprint**, choose the repository and branch, and select the root `render.yaml`. Review the service definition, including the explicitly free compute plan, then deploy. Render can manage the declared Docker service from this Blueprint. See [Render Blueprints](https://render.com/docs/infrastructure-as-code) and the [Blueprint reference](https://render.com/docs/blueprint-spec).
+The active deployment was created through **New → Blueprint → Public Git Repository**. Paste `https://github.com/ducceo123-netizen/keepsake3d`, click **Continue**, use branch `main` and the root `render.yaml`, then review the free service and deploy. This public-repository flow does not require linking the repository owner’s GitHub account to Render. See [Render Blueprints](https://render.com/docs/infrastructure-as-code) and the [Blueprint reference](https://render.com/docs/blueprint-spec).
 
 If creating a service directly through the dashboard or API instead of a Blueprint, mirror these values:
 
@@ -27,7 +42,7 @@ If creating a service directly through the dashboard or API instead of a Bluepri
 
 The container must listen on `0.0.0.0:$PORT`; this Blueprint sets port 10000. Use the checked-in Docker startup path, with a single Uvicorn process. Render exposes one public HTTP port and terminates HTTPS at its load balancer. [Web service documentation](https://render.com/docs/web-services)
 
-Keep the source repository private. A public Git URL is an alternative source path when a repository is intentionally public; it does not provide provider-authenticated automatic deploys. For an owned repository, Render recommends its linked Git-provider path. A prebuilt container is another option: Render accepts reachable public images or supported private registries, and requires **Linux/amd64** images, with compressed size at most 10 GB. Image tags do not trigger automatic redeploys; use a specific digest and deploy it deliberately. [Git source options](https://render.com/docs/web-services), [prebuilt-image requirements](https://render.com/docs/deploying-an-image)
+This repository is intentionally public. The Public Git Repository deployment path is also available, but does not provide provider-authenticated automatic deploys. A prebuilt container is another option: Render accepts reachable public images or supported private registries, and requires **Linux/amd64** images, with compressed size at most 10 GB. Image tags do not trigger automatic redeploys; use a specific digest and deploy it deliberately. [Git source options](https://render.com/docs/web-services), [prebuilt-image requirements](https://render.com/docs/deploying-an-image)
 
 Do not copy `.env`, `.data`, local session tokens, the macOS Blender application, Python virtual environments or Node dependencies into the source repository or Docker build context. The Dockerfile builds its own dependencies and downloads the compatible Linux renderer.
 
@@ -66,9 +81,9 @@ This is a disposable demonstration. Use the synthetic fixture for deployment che
 
 One render thread, one active build, reduced image resolution and disabled denoising lower resource demand. A local macOS arm64 measurement of the low-resolution pipeline took 14.16 seconds with peak worker-plus-Blender descendant RSS of 157.45 MiB; this excludes the API process. The measurement is recorded in [resource-measurement.json](../evidence/render-budget-build/resource-measurement.json). These observations do **not** establish that Blender will fit within 512 MB on Render. Linux peak RSS and CPU throttling must be measured from the actual deployment; macOS render logs are not equivalent. A killed or timed-out worker must surface an actionable failure, not a fabricated preview. The app's CPU rendering can still take minutes on a 0.1-CPU instance.
 
-## Verify the live service
+## Repeat the live verification
 
-After Render reports a successful deploy:
+For a new deploy, complete these checks in addition to the observed results above:
 
 1. Request `/api/v1/health`; confirm the deployment/storage modes and disabled production behavior.
 2. Open `/`, `/studio`, `/design-system` and `/admin` directly, then reload each path to test static routing.
@@ -78,15 +93,15 @@ After Render reports a successful deploy:
 6. Inspect Render logs for out-of-memory exits, renderer errors and timeouts. A healthy HTTP endpoint alone does not prove Blender completed.
 7. Check the hosted disclosure that sessions are ephemeral. Recheck mobile layout after static export.
 
-This guide does not assert these hosted checks have passed. Record the live URL, deploy ID, source commit and observed results after they have actually completed.
+The static/API lifecycle checks listed under Current deployment passed. Repeat them after code or infrastructure changes; a new deploy should have its own evidence.
 
 Run the repeatable synthetic lifecycle check against your deployment:
 
 ```bash
-python3 scripts/smoke-deployment.py https://YOUR-SERVICE.onrender.com --generate
+python3 scripts/smoke-deployment.py https://keepsake3d-demo.onrender.com --generate
 ```
 
-It tests static routes, private-path isolation, owner authorization, two actual Blender revisions, artifact hashes, approval and stale-approval rejection, then deletes its disposable session. It never prints the session token. The same single-service path passed locally on macOS before deployment; that is not a hosted Linux verification.
+It tests static routes, private-path isolation, owner authorization, two actual Blender revisions, artifact hashes, approval and stale-approval rejection, then deletes its disposable session. It never prints the session token. This command passed against the live Render service with exit code 0; its output is linked above.
 
 ## Optional upgrade for durable demo sessions
 

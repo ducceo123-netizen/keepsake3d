@@ -1,0 +1,27 @@
+{
+  "service_id": "srv-dc2pe6uk1f9s738nh7r0",
+  "deploy_id": "dep-dc3aibflot8c739k18ng",
+  "source_commit": "7ff9d7f57afaf73459ae98e62ea159c406dfc118",
+  "dashboard_status": "Deploy succeeded | Live",
+  "started_at": "2026-11-25T09:23:57Z",
+  "deploy_duration_seconds": 117,
+  "observed_at": "2026-11-25T09:28:38.854590+00:00",
+  "linux_image_blender_smoke": "PREVIEW_READY",
+  "linux_image_blender_step_seconds": 8.8,
+  "url": "https://keepsake3d-demo.onrender.com",
+  "health": {
+    "status": "ok",
+    "mode": "public-demo",
+    "storage": "ephemeral",
+    "design_version": "0.2.0-demo",
+    "schema_version": "2.0",
+    "appearance_provider": "browser-mediapipe-v1",
+    "generation_available": true,
+    "production_enabled": false
+  },
+  "public_worker_and_model_routes": 200,
+  "private_cache_control": "no-store",
+  "public_vision_cache_control": "public, no-cache",
+  "source_of_deploy_status": "Authenticated Render Dashboard visible deployment details",
+  "live_photo_lifecycle": "passed; see hosted-photo-lifecycle-verification.json"
+}

@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "verified_at": "2026-11-25T09:30:45.935Z",
+  "base_url": "https://keepsake3d-demo.onrender.com",
+  "source": "browser-mediapipe-v1",
+  "first_revision": 1,
+  "second_revision": 2,
+  "first_submit_to_ready_ms": 68449,
+  "second_submit_to_ready_ms": 81661,
+  "first_checksum": "88908a61a28560f5978a3cdfd3d55a5a89b1fd0688f8cbcd101ab2729784702e",
+  "second_checksum": "c603218fa69b1da015072d6710e3f2f9134b08740cdb740ea0616efb7543a4fa",
+  "glb_sha256": "7a688798358513189d8350b5d10a59494f4eb8ab30b3c3e03a3ac8b715e53ff8",
+  "second_glb_sha256": "fdb6f320a0d150e5393d8c50954c1043a7068a7b55cc3957ff868076b922f07d",
+  "second_left_details": {
+    "name": "Mira",
+    "hair_style": "curly_long",
+    "facial_hair": "beard",
+    "glasses": "rectangular"
+  },
+  "photo_morphs_retained_after_correction": true,
+  "stale_approval_status": 409,
+  "private_session_deleted": true,
+  "responsive_widths": [
+    320,
+    390
+  ],
+  "browserErrors": []
+}

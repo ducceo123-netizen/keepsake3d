@@ -20,6 +20,14 @@ The 512px/8-sample/thread-1 macOS measurement peaked at **281.73 MiB** for neutr
 
 See [the implementation and its limitations](PHOTO_PERSONALIZATION.md). These checks establish functioning photo-dependent customization and file provenance, not exact likeness, cross-demographic accuracy, production printability or all-browser support. Chromium was used for the automated runtime checks. Hair/accessory choices are reviewed manually; color suggestions can be wrong under difficult lighting/occlusion.
 
+## Hosted release — 2026-11-25
+
+Render deployment `dep-dc3aibflot8c739k18ng` of commit `7ff9d7f57afaf73459ae98e62ea159c406dfc118` reached **Deploy succeeded | Live** in 1m57s. Its Linux image build completed a real Blender export in 8.8s. Public health reported design 0.2.0-demo, schema 2.0 and browser-mediapipe-v1; static studio, module worker and pinned model routes returned HTTP200 with the intended CSP and cache controls. [Release evidence](../evidence/render-photo-release.json).
+
+The hosted real-photo lifecycle then passed on its first attempt: **68.449 seconds** from initial submit to preview, **81.661 seconds** for the richer second revision with curly-long hair, beard and rectangular glasses. Both GLB headers/hashes were verified; photo-derived face morphs were retained and the other character stayed unchanged. Stale approval returned HTTP409. The test session and photos were deleted and returned HTTP404 afterward. There were no browser page errors; actual 320/390 px mobile analysis/viewer screenshots and the second-revision desktop screenshot were inspected. [Hosted verification evidence](../evidence/hosted-photo-lifecycle-verification.json). These are observed test timings, not an SLA or Linux peak-memory measurement.
+
+The later verification-only commit records tests/docs/evidence; the deployed application code remains commit `7ff9d7f`.
+
 ## Historical version 0.1 verification
 
 Verified on 2026-11-24. This distinguishes executed checks, inspected live UI evidence, authored tests and remaining production gates.

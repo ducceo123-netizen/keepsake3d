@@ -8,11 +8,16 @@ The existing free service serves a Next.js static export, FastAPI and one bounde
 | Source | https://github.com/ducceo123-netizen/keepsake3d |
 | Service | `srv-dc2pe6uk1f9s738nh7r0` |
 | Blueprint | `exs-dc2pc2mk1f9s738nb4k0` |
+| Current release | **Live**, design `0.2.0-demo`, schema `2.0` |
+| Deployed source | `7ff9d7f57afaf73459ae98e62ea159c406dfc118` |
+| Deploy ID | `dep-dc3aibflot8c739k18ng` |
 | Plan / region | Free / Singapore |
 | Dockerfile / context | `apps/api/Dockerfile` / repository root |
 | HTTP health check | `/api/v1/health` |
 | Auto-deploy | Off; public Git URL uses manual deployment |
 | Storage | Ephemeral `/tmp/keepsake-data`; no paid disk |
+
+The hosted photo workflow passed two actual model revisions, including richer hair/beard/glasses, both GLB checksums, approval/correction, stale-approval rejection and test-session deletion. Observed submit-to-ready times were 68.4s and 81.7s. [Hosted verification](../evidence/hosted-photo-lifecycle-verification.json).
 
 The source repository is public at the user's request. The Render Git source was connected using **Public Git Repository**, without requiring the browser account to own the GitHub repository. Keep that existing service; do not create a duplicate Blueprint for each release.
 

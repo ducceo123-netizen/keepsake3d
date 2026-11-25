@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-25",
+  "source_commit": "995eb220936021e5073c7394e25a16912c1e3277",
+  "service_id": "srv-dc2pe6uk1f9s738nh7r0",
+  "deploy_id": "dep-dc3bbbqjnfac73a9468g",
+  "deploy_status": "live",
+  "url": "https://keepsake3d-demo.onrender.com/studio/",
+  "health_status": "ok",
+  "verification": {
+    "static_build": "passed",
+    "typecheck": "passed",
+    "design_check": "passed",
+    "hosted_browser_tests": {"passed": 7, "duration_seconds": 27.7},
+    "real_inference": "Existing photo assignment and two cancellation tests use real browser models; session HTTP persistence is stubbed.",
+    "quality_states": "Four explicit worker fixtures cover all rejected faces, one usable face, no detected faces and the three-photo limit. These fixtures test UI recovery, not inference accuracy.",
+    "geometry_generation": "Unchanged; no new Blender generation test for this UI-only release."
+  },
+  "behavior": "Rejected faces remain visible as unavailable options. With no usable faces, selectors explain why they are disabled. Recovery focuses the upload input or an enabled removal control at the photo limit.",
+  "limitation": "Automatic face proportion quality thresholds are unchanged. Sideways reference photos can still require separate frontal portraits."
+}

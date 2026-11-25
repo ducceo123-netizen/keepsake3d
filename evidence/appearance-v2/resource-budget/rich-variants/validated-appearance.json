@@ -1,0 +1,14 @@
+{
+  "analysis_version": "1.0",
+  "assignments_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "consent_policy": "technical-fixture-v1",
+  "external_transfer": false,
+  "manual_overrides_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "observations_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "photo_sha256": [],
+  "profile_id": "3b94fc6e7c9f414b8fdcb15baaeb588b",
+  "profile_revision": 1,
+  "profile_sha256": "8fab3f9551bf2058892365e30be20d1bb24995ba48aa30e30d9513701a57bb08",
+  "reviewed": true,
+  "source": "technical-fixture"
+}

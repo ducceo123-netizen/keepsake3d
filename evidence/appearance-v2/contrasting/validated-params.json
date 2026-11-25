@@ -1,0 +1,57 @@
+{
+  "characters": {
+    "left": {
+      "engraving_text": "Alex",
+      "face_morphs": {
+        "brow_arch": 0.0,
+        "brow_thickness": 0.0,
+        "cheek_fullness": 0.0,
+        "chin_length": -0.3,
+        "eye_size": 0.7,
+        "eye_spacing": 0.6,
+        "face_height": -0.55,
+        "face_width": 0.7,
+        "jaw_width": 0.65,
+        "mouth_width": 0.6,
+        "nose_projection": 0.0,
+        "nose_width": 0.65,
+        "smile": 0.5
+      },
+      "facial_hair_id": "none",
+      "glasses_asset_id": "round",
+      "hair_color_id": "auburn",
+      "hair_style_asset_id": "curly_short",
+      "outfit_palette_id": "sage",
+      "pants_palette_id": "black",
+      "shoes_palette_id": "white",
+      "skin_material_id": "light"
+    },
+    "right": {
+      "engraving_text": "Jamie",
+      "face_morphs": {
+        "brow_arch": 0.0,
+        "brow_thickness": 0.0,
+        "cheek_fullness": 0.0,
+        "chin_length": 0.6,
+        "eye_size": -0.4,
+        "eye_spacing": -0.6,
+        "face_height": 0.7,
+        "face_width": -0.7,
+        "jaw_width": -0.65,
+        "mouth_width": -0.5,
+        "nose_projection": 0.0,
+        "nose_width": -0.6,
+        "smile": -0.5
+      },
+      "facial_hair_id": "moustache",
+      "glasses_asset_id": "rectangular",
+      "hair_color_id": "brown",
+      "hair_style_asset_id": "buzz",
+      "outfit_palette_id": "red",
+      "pants_palette_id": "gray",
+      "shoes_palette_id": "white",
+      "skin_material_id": "tan"
+    }
+  },
+  "schema_version": "2.0"
+}

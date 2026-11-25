@@ -21,8 +21,10 @@ from pathlib import Path
 
 from fastapi import HTTPException
 from PIL import Image, ImageDraw, ImageOps, UnidentifiedImageError
-from packages.schemas.models import Parameters, DemoManifest, assert_transition
-from workers.appearance.mock import extract
+from packages.schemas.models import Parameters, DemoManifest, AppearanceProfileInput, assert_transition
+from packages.schemas.constants import DESIGN_ID, DESIGN_VERSION
+from workers.appearance.profiles import merge_parameters, merge_overrides, changed_overrides, describe_fields, provenance_metadata, public_summary
+from workers.appearance.mock import extract as extract_technical_fixture
 
 ROOT = Path(__file__).resolve().parents[2]
 MAX_BYTES = 10 * 1024 * 1024
@@ -89,6 +91,9 @@ class Service:
         self.db.row_factory = sqlite3.Row
         self.db.execute('PRAGMA foreign_keys=ON')
         self.db.executescript((ROOT / 'migrations/001_local.sql').read_text())
+        self.db.executescript((Path(__file__).parent/'migrations/002_appearance_profiles.sql').read_text())
+        if 'appearance_profile_id' not in {row['name'] for row in self.db.execute('PRAGMA table_info(build_jobs)')}:
+            self.db.execute('ALTER TABLE build_jobs ADD COLUMN appearance_profile_id TEXT REFERENCES appearance_profiles(id) ON DELETE SET NULL')
         self.db.commit()
         (self.root/'keepsake.sqlite3').chmod(0o600)
         self.pool = ThreadPoolExecutor(max_workers=self.build_workers, thread_name_prefix='keepsake-build')
@@ -257,7 +262,7 @@ class Service:
             self.event(sid,'PHOTO_STORED',{'photo_id':pid,'synthetic':synthetic,'metadata_stripped':True})
             self.db.commit()
             self.transition(sid,'PHOTO_UPLOADED')
-        return {'id':pid,'width':width,'height':height,'synthetic':synthetic,'url':f'/api/v1/sessions/{sid}/photos/{pid}'}
+        return {'id':pid,'width':width,'height':height,'synthetic':synthetic,'sha256':digest(encoded),'url':f'/api/v1/sessions/{sid}/photos/{pid}'}
 
     def fixture(self,sid):
         image=Image.new('RGB',(640,480),(250,246,240))
@@ -286,10 +291,82 @@ class Service:
             if self.db.execute('SELECT COUNT(*) FROM photos WHERE session_id=?',(sid,)).fetchone()[0]==0:
                 self.transition(sid,'CREATED')
 
-    def start(self,sid,names,key,corrections=None):
+    def _validate_assignments(self,sid,assignments):
+        for assignment in assignments.values():
+            photo=self.db.execute('SELECT * FROM photos WHERE id=? AND session_id=?',(assignment['photo_id'],sid)).fetchone()
+            if not photo or not hmac.compare_digest(photo['sha256'],assignment['photo_sha256']):
+                raise HTTPException(422,'The selected photo is missing, changed, or belongs to a different session. Analyze the current photo again.')
+            if not Path(photo['private_path']).is_file() or digest(Path(photo['private_path']).read_bytes())!=photo['sha256']:
+                raise HTTPException(409,'The stored photo changed. Upload and analyze it again.')
+            if assignment['box'][2]*photo['width']<24 or assignment['box'][3]*photo['height']<24:
+                raise HTTPException(422,'The selected face is too small. Use a clearer, closer photo.')
+
+    def _store_profile(self,sid,payload,parent_id=None):
+        payload=describe_fields(payload)
+        input_sha=digest(canonical({'parent_id':parent_id,'payload':payload}).encode())
+        existing=self.db.execute('SELECT payload_json FROM appearance_profiles WHERE session_id=? AND input_sha256=?',(sid,input_sha)).fetchone()
+        if existing:
+            return json.loads(existing['payload_json'])
+        count=self.db.execute('SELECT COUNT(*) FROM appearance_profiles WHERE session_id=?',(sid,)).fetchone()[0]
+        if count>=32:
+            raise HTTPException(429,'This session has reached its appearance review limit. Start a new session.')
+        revision=self.db.execute('SELECT COALESCE(MAX(revision),0)+1 FROM appearance_profiles WHERE session_id=?',(sid,)).fetchone()[0]
+        profile={'id':uuid.uuid4().hex,'revision':revision,'parent_id':parent_id,'created_at':now(),**payload}
+        profile['sha256']=digest(canonical(profile).encode())
+        self.db.execute('INSERT INTO appearance_profiles VALUES(?,?,?,?,?,?,?,?)',(profile['id'],sid,revision,parent_id,input_sha,profile['sha256'],canonical(profile),profile['created_at']))
+        self.event(sid,'APPEARANCE_PROFILE_SAVED',{'profile_id':profile['id'],'profile_revision':revision,'source':profile['source'],'external_transfer':False})
+        self.db.commit()
+        return profile
+
+    def _get_profile(self,sid,profile_id,expected_sha=None):
+        row=self.db.execute('SELECT payload_json,profile_sha256 FROM appearance_profiles WHERE id=? AND session_id=?',(profile_id,sid)).fetchone()
+        if not row:
+            raise HTTPException(404,'Appearance profile not found in this session.')
+        if expected_sha and not hmac.compare_digest(expected_sha,row['profile_sha256']):
+            raise HTTPException(409,'The appearance profile changed. Review it again before generation.')
+        profile=json.loads(row['payload_json'])
+        if profile.get('sha256')!=row['profile_sha256'] or digest(canonical({key:value for key,value in profile.items() if key!='sha256'}).encode())!=row['profile_sha256']:
+            raise HTTPException(409,'The stored appearance profile failed its integrity check. Analyze the photos again.')
+        return profile
+
+    def save_appearance_profile(self,sid,body):
+        payload=AppearanceProfileInput.model_validate(body).model_dump(exclude_none=True)
+        with self.lock:
+            session=self.get(sid)
+            normalized=describe_fields({**payload,'consent_policy':'browser-local-v1','external_transfer':False})
+            fingerprint=digest(canonical({'parent_id':None,'payload':normalized}).encode())
+            previous=self.db.execute('SELECT id FROM appearance_profiles WHERE session_id=? AND input_sha256=?',(sid,fingerprint)).fetchone()
+            if previous:
+                self._validate_assignments(sid,normalized['assignments'])
+                return self._get_profile(sid,previous['id'])
+            if not session or session['state'] not in {'PHOTO_UPLOADED','FAILED','PREVIEW_READY','CUSTOMER_APPROVED','MANUAL_REVIEW_REQUIRED'}:
+                raise HTTPException(409,'Wait for the current operation before reviewing another appearance.')
+            self._validate_assignments(sid,payload['assignments'])
+            params=payload['parameters']
+            if merge_parameters(params,payload['manual_overrides'])!=params:
+                raise HTTPException(422,'Manual overrides must match the reviewed parameters.')
+            payload.update({'consent_policy':'browser-local-v1','external_transfer':False})
+            profile=self._store_profile(sid,payload)
+            self.db.execute('UPDATE sessions SET consent_at=COALESCE(consent_at,?) WHERE id=?',(now(),sid))
+            self.db.commit()
+            return profile
+
+    def appearance_profile(self,sid,profile_id):
+        with self.lock:
+            return self._get_profile(sid,profile_id)
+
+    def _derived_profile(self,sid,profile,params,overrides):
+        if profile['parameters']==params:
+            return profile
+        payload={key:value for key,value in profile.items() if key not in {'id','revision','sha256','parent_id','created_at'}}
+        payload['parameters']=params
+        payload['manual_overrides']=merge_overrides(profile.get('manual_overrides',{}),changed_overrides(profile['parameters'],overrides))
+        return self._store_profile(sid,payload,parent_id=profile['id'])
+
+    def start(self,sid,names,key,corrections=None,profile_id=None,profile_sha256=None,mode='photo'):
         if not key or not 8<=len(key)<=128 or not key.isascii():
             raise HTTPException(422,'Provide an Idempotency-Key of 8–128 ASCII characters.')
-        fingerprint=digest(canonical({'names':names,'corrections':corrections}).encode())
+        fingerprint=digest(canonical({'names':names,'corrections':corrections,'profile_id':profile_id,'profile_sha256':profile_sha256,'mode':mode}).encode())
         with self.lock:
             previous=self.db.execute('SELECT * FROM build_jobs WHERE session_id=? AND idempotency_key=?',(sid,key)).fetchone()
             if previous:
@@ -299,45 +376,63 @@ class Service:
             row=self.get(sid)
             if not row:
                 raise HTTPException(404,'Session not found.')
-            allowed={'PREVIEW_READY','CUSTOMER_APPROVED','FAILED','MANUAL_REVIEW_REQUIRED'} if corrections is not None else {'PHOTO_UPLOADED','FAILED'}
+            if row['design_version']!=DESIGN_VERSION:
+                raise HTTPException(409,'Start a new session for the current version of this design.')
+            allowed={'PHOTO_UPLOADED','PREVIEW_READY','CUSTOMER_APPROVED','FAILED','MANUAL_REVIEW_REQUIRED'}
             if row['state'] not in allowed:
-                raise HTTPException(409,'This session is already processing or ready. Use corrections to make a new revision.')
-            if self.db.execute('SELECT COUNT(*) FROM photos WHERE session_id=?',(sid,)).fetchone()[0]<1:
-                raise HTTPException(422,'Add at least one photo or use the synthetic demo fixture.')
+                raise HTTPException(409,'This session is already processing. Wait for the current preview.')
+            photos=list(self.db.execute('SELECT * FROM photos WHERE session_id=?',(sid,)))
+            if not photos:
+                raise HTTPException(422,'Add at least one photo and analyze both selected people.')
+            if corrections is not None:
+                previous_appearance=json.loads(row['appearance_json']) if row['appearance_json'] else {}
+                if not row['params_json'] or not previous_appearance.get('profile_id'):
+                    raise HTTPException(409,'No reviewed appearance is available for correction.')
+                profile=self._get_profile(sid,previous_appearance['profile_id'])
+                self._validate_assignments(sid,profile.get('assignments',{}))
+                params=merge_parameters(json.loads(row['params_json']),corrections)
+                profile=self._derived_profile(sid,profile,params,corrections)
+            elif mode=='technical-fixture':
+                if not all(photo['synthetic'] for photo in photos):
+                    raise HTTPException(422,'Technical fixture mode accepts only the explicitly generated synthetic fixture, never uploaded photos.')
+                params,_=extract_technical_fixture(names)
+                params=params.model_dump()
+                profile=self._store_profile(sid,{'source':'technical-fixture','analysis_version':'1.0','reviewed':True,'consent':True,'consent_policy':'technical-fixture-v1','external_transfer':False,'assignments':{},'observations':{},'manual_overrides':{},'parameters':params})
+            else:
+                if not profile_id or not profile_sha256:
+                    raise HTTPException(422,'Analyze and review both people before generating your model. Photo mode never falls back to demo defaults.')
+                profile=self._get_profile(sid,profile_id,profile_sha256)
+                if profile['source']!='browser-mediapipe-v1':
+                    raise HTTPException(422,'Photo mode requires a reviewed browser analysis profile.')
+                self._validate_assignments(sid,profile['assignments'])
+                params=profile['parameters']
+                if names is not None:
+                    name_changes={'characters':{'left':{'engraving_text':names[0].strip()},'right':{'engraving_text':names[1].strip()}}}
+                    named=merge_parameters(params,name_changes)
+                    profile=self._derived_profile(sid,profile,named,name_changes)
+                    params=named
+            appearance=public_summary(profile)
             attempts=self.db.execute('SELECT COUNT(*) FROM build_jobs WHERE session_id=?',(sid,)).fetchone()[0]
             if attempts>=12:
                 raise HTTPException(429,'This demo session has reached its 12-build limit. Start a new session.')
             self.check_storage(64*1024*1024*self.max_pending)
             if not self.capacity.acquire(blocking=False):
-                raise HTTPException(503,'The local workshop is busy. Please try again shortly.',headers={'Retry-After':'10'})
+                raise HTTPException(503,'The workshop is busy. Please try again shortly.',headers={'Retry-After':'10'})
             try:
                 self.rate_limit('global:build',self.max_builds_hour,3600)
-                if corrections is not None:
-                    if not row['params_json']:
-                        raise HTTPException(409,'No previous model parameters are available.')
-                    raw=json.loads(row['params_json'])
-                    for slot,changes in corrections['characters'].items():
-                        if changes:
-                            raw['characters'][slot].update(changes)
-                    params=Parameters.model_validate(raw)
-                    appearance=json.loads(row['appearance_json'])
-                else:
-                    params,appearance=extract(names)
                 job=uuid.uuid4().hex
-                retry_same=row['state']=='FAILED' and row['params_json']==canonical(params.model_dump())
+                previous_profile=(json.loads(row['appearance_json']) if row['appearance_json'] else {}).get('profile_sha256')
+                retry_same=row['state']=='FAILED' and row['params_json']==canonical(params) and previous_profile==profile['sha256']
                 revision=row['revision'] if retry_same else row['revision']+1
                 attempt=self.db.execute('SELECT COUNT(*) FROM build_jobs WHERE session_id=? AND revision=?',(sid,revision)).fetchone()[0]+1
                 if attempt>3:
                     raise HTTPException(429,'This revision has reached its three-attempt limit. Change a supported detail or start a new session.')
-                self.db.execute('INSERT INTO build_jobs(id,session_id,revision,state,input_hash,idempotency_key,attempts,created_at) VALUES(?,?,?,?,?,?,?,?)',(job,sid,revision,row['state'],fingerprint,key,attempt,now()))
-                self.db.execute('UPDATE sessions SET revision=?,job_id=?,params_json=?,appearance_json=?,consent_at=COALESCE(consent_at,?),checksum=NULL,error_json=NULL WHERE id=?',(revision,job,canonical(params.model_dump()),canonical(appearance),now(),sid))
-                self.event(sid,'CONSENT_RECORDED' if corrections is None else 'CORRECTION_REQUESTED',{'revision':revision,'policy':'local-demo-v1','external_transfer':False})
+                self.db.execute('INSERT INTO build_jobs(id,session_id,revision,state,input_hash,idempotency_key,attempts,created_at,appearance_profile_id) VALUES(?,?,?,?,?,?,?,?,?)',(job,sid,revision,row['state'],fingerprint,key,attempt,now(),profile['id']))
+                self.db.execute('UPDATE sessions SET revision=?,job_id=?,params_json=?,appearance_json=?,consent_at=COALESCE(consent_at,?),checksum=NULL,error_json=NULL WHERE id=?',(revision,job,canonical(params),canonical(appearance),now(),sid))
+                self.event(sid,'CONSENT_RECORDED' if corrections is None else 'CORRECTION_REQUESTED',{'revision':revision,'policy':profile['consent_policy'],'external_transfer':False,'profile_id':profile['id']})
                 self.db.commit()
-                if corrections is None:
-                    self.transition(sid,'PHOTO_VALIDATING')
-                else:
-                    self.transition(sid,'PARAMETERS_READY')
-                self.pool.submit(self._build,sid,job,revision,params.model_dump(),corrections is not None)
+                self.transition(sid,'PARAMETERS_READY',{'source':profile['source'],'browser_reviewed':profile['reviewed']})
+                self.pool.submit(self._build,sid,job,revision,params,provenance_metadata(profile))
             except Exception:
                 self.capacity.release()
                 raise
@@ -352,7 +447,7 @@ class Service:
         for state in stages[current+1:stages.index(target)+1]:
             self.transition(sid,state)
 
-    def _build(self,sid,job,revision,params,is_correction):
+    def _build(self,sid,job,revision,params,appearance_metadata):
         folder=self.root/sid/'jobs'/job
         acquired_memory=False
         try:
@@ -361,14 +456,13 @@ class Service:
                     if self.stop.is_set() or not self.get(sid):
                         raise RuntimeError('SESSION_REMOVED')
                 acquired_memory=True
-            if not is_correction:
-                self.transition(sid,'AI_ANALYZING')
-                self.transition(sid,'PARAMETERS_READY',{'provider':'mock-defaults-v1'})
             folder.mkdir(mode=0o700,parents=True,exist_ok=True)
             source=folder/'params.json'
             source.write_text(canonical(params))
+            appearance_path=folder/'appearance.json'
+            appearance_path.write_text(canonical(appearance_metadata))
             self.transition(sid,'MODEL_BUILDING')
-            command=[sys.executable,str(ROOT/'workers/blender/run.py'),'--params',str(source),'--output',str(folder),'--revision',str(revision)]
+            command=[sys.executable,str(ROOT/'workers/blender/run.py'),'--params',str(source),'--output',str(folder),'--revision',str(revision),'--appearance',str(appearance_path)]
             with (folder/'worker.log').open('w') as logs:
                 process=subprocess.Popen(command,cwd=ROOT,stdout=logs,stderr=subprocess.STDOUT,start_new_session=True)
                 with self.lock:
@@ -396,7 +490,7 @@ class Service:
                         raise RuntimeError('BUILD_TIMEOUT')
                     raise RuntimeError('BUILD_FAILED')
             self._advance(sid,'QA_RUNNING')
-            self._accept_artifacts(sid,job,revision,folder,params)
+            self._accept_artifacts(sid,job,revision,folder,params,appearance_metadata)
         except Exception as exc:
             code=str(exc) if str(exc) in {'BUILD_TIMEOUT','BLENDER_NOT_FOUND','BUILD_FAILED','PROVENANCE_MISMATCH','QA_FAILED'} else 'BUILD_FAILED'
             messages={
@@ -424,19 +518,20 @@ class Service:
                 shutil.rmtree(self.root/sid,ignore_errors=True)
             self.capacity.release()
 
-    def _accept_artifacts(self,sid,job,revision,folder,params):
+    def _accept_artifacts(self,sid,job,revision,folder,params,appearance_metadata=None):
         provenance=json.loads((folder/'provenance.json').read_text())
         qa=json.loads((folder/'qa.json').read_text())
-        manifest=DemoManifest.model_validate_json((ROOT/'assets/designs/better-together/0.1.0-demo/manifest.json').read_text()).model_dump()
+        manifest=DemoManifest.model_validate_json((ROOT/f'assets/designs/{DESIGN_ID}/{DESIGN_VERSION}/manifest.json').read_text()).model_dump()
         params_sha=digest(canonical(params).encode())
         if any((
             provenance.get('model_revision') != revision,
-            provenance.get('design_id') != 'better-together',
-            provenance.get('design_version') != '0.1.0-demo',
+            provenance.get('design_id') != DESIGN_ID,
+            provenance.get('design_version') != DESIGN_VERSION,
             provenance.get('params_sha256') != params_sha,
             provenance.get('master_sha256') != manifest['master_sha256'],
             provenance.get('same_scene_export') is not True,
             provenance.get('status') != 'DEMO_NOT_PRINT_APPROVED',
+            appearance_metadata is not None and provenance.get('appearance_profile')!=appearance_metadata,
         )):
             raise RuntimeError('PROVENANCE_MISMATCH')
         master=(ROOT/manifest['master_blend_asset']).resolve()
@@ -475,7 +570,7 @@ class Service:
                 path=folder/name
                 sha=digest(path.read_bytes())
                 path.chmod(0o600)
-                self.db.execute('INSERT INTO artifacts VALUES(?,?,?,?,?,?,?)',(uuid.uuid4().hex,job,kind,str(path),sha,revision,canonical({'master_sha256':provenance.get('master_sha256'),'params_sha256':provenance.get('params_sha256'),'engine_version':provenance.get('engine_version'),'design_version':'0.1.0-demo','production_approved':False})))
+                self.db.execute('INSERT INTO artifacts VALUES(?,?,?,?,?,?,?)',(uuid.uuid4().hex,job,kind,str(path),sha,revision,canonical({'master_sha256':provenance.get('master_sha256'),'params_sha256':provenance.get('params_sha256'),'engine_version':provenance.get('engine_version'),'design_version':DESIGN_VERSION,'production_approved':False})))
             self.db.execute('INSERT OR REPLACE INTO qa_reports VALUES(?,?)',(job,canonical(qa)))
             self.db.execute('UPDATE sessions SET checksum=? WHERE id=?',(checksum,sid))
             self.db.execute('UPDATE build_jobs SET finished_at=? WHERE id=?',(now(),job))
@@ -487,7 +582,7 @@ class Service:
             row=self.get(sid)
             if not row:
                 raise HTTPException(404,'Session not found.')
-            photos=[{'id':p['id'],'width':p['width'],'height':p['height'],'synthetic':bool(p['synthetic']),'url':f'/api/v1/sessions/{sid}/photos/{p["id"]}'} for p in self.db.execute('SELECT * FROM photos WHERE session_id=? ORDER BY created_at',(sid,))]
+            photos=[{'id':p['id'],'width':p['width'],'height':p['height'],'synthetic':bool(p['synthetic']),'sha256':p['sha256'],'url':f'/api/v1/sessions/{sid}/photos/{p["id"]}'} for p in self.db.execute('SELECT * FROM photos WHERE session_id=? ORDER BY created_at',(sid,))]
             artifacts=[{'id':a['id'],'kind':a['kind'],'sha256':a['sha256'],'revision':a['revision'],'metadata':json.loads(a['metadata_json']),'url':f'/api/v1/sessions/{sid}/artifacts/{a["id"]}'} for a in self.db.execute('SELECT * FROM artifacts WHERE job_id=?',(row['job_id'],))]
             qa=self.db.execute('SELECT report_json FROM qa_reports WHERE job_id=?',(row['job_id'],)).fetchone()
             history=[{'state':e['action'],'at':e['created_at'],'detail':json.loads(e['detail_json'])} for e in self.db.execute('SELECT * FROM audit_events WHERE session_id=? ORDER BY id',(sid,))]

@@ -1,0 +1,1399 @@
+{
+  "result": "DEMO_GEOMETRY_CHECKED",
+  "passed": true,
+  "print_approved": false,
+  "geometry": {
+    "passed": true,
+    "locked_geometry_unchanged": true,
+    "attachment_anchors_unchanged": true,
+    "feature_envelopes_passed": true,
+    "feature_envelopes": [
+      {
+        "object": "BROW_left_0",
+        "passed": true,
+        "min": [
+          -1.010441,
+          -0.467258,
+          2.14864
+        ],
+        "max": [
+          -0.886178,
+          -0.400511,
+          2.206206
+        ]
+      },
+      {
+        "object": "BROW_left_1",
+        "passed": true,
+        "min": [
+          -0.653769,
+          -0.467174,
+          2.148711
+        ],
+        "max": [
+          -0.529551,
+          -0.400551,
+          2.206125
+        ]
+      },
+      {
+        "object": "BROW_right_0",
+        "passed": true,
+        "min": [
+          0.529559,
+          -0.467258,
+          2.14864
+        ],
+        "max": [
+          0.653822,
+          -0.400511,
+          2.206206
+        ]
+      },
+      {
+        "object": "BROW_right_1",
+        "passed": true,
+        "min": [
+          0.886231,
+          -0.467174,
+          2.148711
+        ],
+        "max": [
+          1.010449,
+          -0.400551,
+          2.206125
+        ]
+      },
+      {
+        "object": "EAR_left_0",
+        "passed": true,
+        "min": [
+          -1.355,
+          -0.09,
+          1.83
+        ],
+        "max": [
+          -1.175,
+          0.06,
+          2.1
+        ]
+      },
+      {
+        "object": "EAR_left_1",
+        "passed": true,
+        "min": [
+          -0.365,
+          -0.09,
+          1.83
+        ],
+        "max": [
+          -0.185,
+          0.06,
+          2.1
+        ]
+      },
+      {
+        "object": "EAR_right_0",
+        "passed": true,
+        "min": [
+          0.185,
+          -0.09,
+          1.83
+        ],
+        "max": [
+          0.365,
+          0.06,
+          2.1
+        ]
+      },
+      {
+        "object": "EAR_right_1",
+        "passed": true,
+        "min": [
+          1.175,
+          -0.09,
+          1.83
+        ],
+        "max": [
+          1.355,
+          0.06,
+          2.1
+        ]
+      },
+      {
+        "object": "EYE_GLINT_left_0",
+        "passed": true,
+        "min": [
+          -0.9605,
+          -0.468355,
+          2.058
+        ],
+        "max": [
+          -0.9485,
+          -0.462355,
+          2.072
+        ]
+      },
+      {
+        "object": "EYE_GLINT_left_1",
+        "passed": true,
+        "min": [
+          -0.6035,
+          -0.468355,
+          2.058
+        ],
+        "max": [
+          -0.5915,
+          -0.462355,
+          2.072
+        ]
+      },
+      {
+        "object": "EYE_GLINT_right_0",
+        "passed": true,
+        "min": [
+          0.5795,
+          -0.468355,
+          2.058
+        ],
+        "max": [
+          0.5915,
+          -0.462355,
+          2.072
+        ]
+      },
+      {
+        "object": "EYE_GLINT_right_1",
+        "passed": true,
+        "min": [
+          0.9365,
+          -0.468355,
+          2.058
+        ],
+        "max": [
+          0.9485,
+          -0.462355,
+          2.072
+        ]
+      },
+      {
+        "object": "EYE_IRIS_left_0",
+        "passed": true,
+        "min": [
+          -0.9795,
+          -0.465355,
+          2.028
+        ],
+        "max": [
+          -0.9175,
+          -0.453355,
+          2.084
+        ]
+      },
+      {
+        "object": "EYE_IRIS_left_1",
+        "passed": true,
+        "min": [
+          -0.6225,
+          -0.465355,
+          2.028
+        ],
+        "max": [
+          -0.5605,
+          -0.453355,
+          2.084
+        ]
+      },
+      {
+        "object": "EYE_IRIS_right_0",
+        "passed": true,
+        "min": [
+          0.5605,
+          -0.465355,
+          2.028
+        ],
+        "max": [
+          0.6225,
+          -0.453355,
+          2.084
+        ]
+      },
+      {
+        "object": "EYE_IRIS_right_1",
+        "passed": true,
+        "min": [
+          0.9175,
+          -0.465355,
+          2.028
+        ],
+        "max": [
+          0.9795,
+          -0.453355,
+          2.084
+        ]
+      },
+      {
+        "object": "EYE_WHITE_left_0",
+        "passed": true,
+        "min": [
+          -1.0085,
+          -0.459355,
+          2.019
+        ],
+        "max": [
+          -0.8885,
+          -0.431355,
+          2.093
+        ]
+      },
+      {
+        "object": "EYE_WHITE_left_1",
+        "passed": true,
+        "min": [
+          -0.6515,
+          -0.459355,
+          2.019
+        ],
+        "max": [
+          -0.5315,
+          -0.431355,
+          2.093
+        ]
+      },
+      {
+        "object": "EYE_WHITE_right_0",
+        "passed": true,
+        "min": [
+          0.5315,
+          -0.459355,
+          2.019
+        ],
+        "max": [
+          0.6515,
+          -0.431355,
+          2.093
+        ]
+      },
+      {
+        "object": "EYE_WHITE_right_1",
+        "passed": true,
+        "min": [
+          0.8885,
+          -0.459355,
+          2.019
+        ],
+        "max": [
+          1.0085,
+          -0.431355,
+          2.093
+        ]
+      },
+      {
+        "object": "HAIR_BACK_left",
+        "passed": true,
+        "min": [
+          -1.24,
+          0.03,
+          1.47
+        ],
+        "max": [
+          -0.3,
+          0.53,
+          2.44
+        ]
+      },
+      {
+        "object": "HAIR_CAP_left",
+        "passed": true,
+        "min": [
+          -1.274999,
+          -0.358,
+          2.175
+        ],
+        "max": [
+          -0.265,
+          0.517999,
+          2.585
+        ]
+      },
+      {
+        "object": "HAIR_CAP_right",
+        "passed": true,
+        "min": [
+          0.265,
+          -0.358,
+          2.175
+        ],
+        "max": [
+          1.275,
+          0.517999,
+          2.585
+        ]
+      },
+      {
+        "object": "HAIR_SIDE_left_-1",
+        "passed": true,
+        "min": [
+          -1.365,
+          -0.205,
+          1.47
+        ],
+        "max": [
+          -1.065,
+          0.295,
+          2.44
+        ]
+      },
+      {
+        "object": "HAIR_SIDE_left_1",
+        "passed": true,
+        "min": [
+          -0.475,
+          -0.205,
+          1.47
+        ],
+        "max": [
+          -0.175,
+          0.295,
+          2.44
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_left_0",
+        "passed": true,
+        "min": [
+          -1.228163,
+          -0.455,
+          2.335586
+        ],
+        "max": [
+          -0.951837,
+          -0.115,
+          2.569414
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_left_1",
+        "passed": true,
+        "min": [
+          -1.068163,
+          -0.455,
+          2.321836
+        ],
+        "max": [
+          -0.791837,
+          -0.115,
+          2.555664
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_left_2",
+        "passed": true,
+        "min": [
+          -0.908163,
+          -0.455,
+          2.308086
+        ],
+        "max": [
+          -0.631837,
+          -0.115,
+          2.541914
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_left_3",
+        "passed": true,
+        "min": [
+          -0.748163,
+          -0.455,
+          2.294336
+        ],
+        "max": [
+          -0.471837,
+          -0.115,
+          2.528164
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_left_4",
+        "passed": true,
+        "min": [
+          -0.588163,
+          -0.455,
+          2.280586
+        ],
+        "max": [
+          -0.311837,
+          -0.115,
+          2.514414
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_right_0",
+        "passed": true,
+        "min": [
+          0.311837,
+          -0.455,
+          2.335586
+        ],
+        "max": [
+          0.588163,
+          -0.115,
+          2.569414
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_right_1",
+        "passed": true,
+        "min": [
+          0.471837,
+          -0.455,
+          2.321836
+        ],
+        "max": [
+          0.748163,
+          -0.115,
+          2.555664
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_right_2",
+        "passed": true,
+        "min": [
+          0.631837,
+          -0.455,
+          2.308086
+        ],
+        "max": [
+          0.908163,
+          -0.115,
+          2.541914
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_right_3",
+        "passed": true,
+        "min": [
+          0.791837,
+          -0.455,
+          2.294336
+        ],
+        "max": [
+          1.068163,
+          -0.115,
+          2.528164
+        ]
+      },
+      {
+        "object": "HAIR_SWEEP_right_4",
+        "passed": true,
+        "min": [
+          0.951837,
+          -0.455,
+          2.280586
+        ],
+        "max": [
+          1.228163,
+          -0.115,
+          2.514414
+        ]
+      },
+      {
+        "object": "HEAD_LEFT",
+        "passed": true,
+        "min": [
+          -1.28,
+          -0.475,
+          1.44
+        ],
+        "max": [
+          -0.26,
+          0.445,
+          2.54
+        ]
+      },
+      {
+        "object": "HEAD_RIGHT",
+        "passed": true,
+        "min": [
+          0.259999,
+          -0.475,
+          1.44
+        ],
+        "max": [
+          1.28,
+          0.445,
+          2.54
+        ]
+      },
+      {
+        "object": "LIP_left",
+        "passed": true,
+        "min": [
+          -0.899346,
+          -0.492026,
+          1.837391
+        ],
+        "max": [
+          -0.640654,
+          -0.457206,
+          1.898239
+        ]
+      },
+      {
+        "object": "LIP_right",
+        "passed": true,
+        "min": [
+          0.640654,
+          -0.492026,
+          1.837391
+        ],
+        "max": [
+          0.899346,
+          -0.457206,
+          1.898239
+        ]
+      },
+      {
+        "object": "MOUTH_left",
+        "passed": true,
+        "min": [
+          -0.895617,
+          -0.483051,
+          1.838004
+        ],
+        "max": [
+          -0.644383,
+          -0.46352,
+          1.885403
+        ]
+      },
+      {
+        "object": "MOUTH_right",
+        "passed": true,
+        "min": [
+          0.644383,
+          -0.483051,
+          1.838004
+        ],
+        "max": [
+          0.895617,
+          -0.46352,
+          1.885403
+        ]
+      },
+      {
+        "object": "NOSE_BRIDGE_left",
+        "passed": true,
+        "min": [
+          -0.811,
+          -0.570401,
+          1.906727
+        ],
+        "max": [
+          -0.729,
+          -0.465819,
+          2.084273
+        ]
+      },
+      {
+        "object": "NOSE_BRIDGE_right",
+        "passed": true,
+        "min": [
+          0.729,
+          -0.570401,
+          1.906727
+        ],
+        "max": [
+          0.811,
+          -0.465819,
+          2.084273
+        ]
+      },
+      {
+        "object": "NOSE_TIP_left",
+        "passed": true,
+        "min": [
+          -0.845,
+          -0.60092,
+          1.88575
+        ],
+        "max": [
+          -0.695,
+          -0.46092,
+          1.98975
+        ]
+      },
+      {
+        "object": "NOSE_TIP_right",
+        "passed": true,
+        "min": [
+          0.695,
+          -0.60092,
+          1.88575
+        ],
+        "max": [
+          0.845,
+          -0.46092,
+          1.98975
+        ]
+      },
+      {
+        "object": "NOSE_WING_left_0",
+        "passed": true,
+        "min": [
+          -0.857,
+          -0.56092,
+          1.89875
+        ],
+        "max": [
+          -0.793,
+          -0.47492,
+          1.94875
+        ]
+      },
+      {
+        "object": "NOSE_WING_left_1",
+        "passed": true,
+        "min": [
+          -0.747,
+          -0.56092,
+          1.89875
+        ],
+        "max": [
+          -0.683,
+          -0.47492,
+          1.94875
+        ]
+      },
+      {
+        "object": "NOSE_WING_right_0",
+        "passed": true,
+        "min": [
+          0.683,
+          -0.56092,
+          1.89875
+        ],
+        "max": [
+          0.747,
+          -0.47492,
+          1.94875
+        ]
+      },
+      {
+        "object": "NOSE_WING_right_1",
+        "passed": true,
+        "min": [
+          0.793,
+          -0.56092,
+          1.89875
+        ],
+        "max": [
+          0.857,
+          -0.47492,
+          1.94875
+        ]
+      }
+    ],
+    "head_morphs_baked": true,
+    "finite_vertices": true,
+    "closed_components": true,
+    "component_count": 75,
+    "dimensions_scene_units": [
+      4.504,
+      4.04728,
+      2.585
+    ],
+    "units": "unscaled demo units",
+    "objects": [
+      {
+        "object": "ARM_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03475781
+      },
+      {
+        "object": "ARM_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03475781
+      },
+      {
+        "object": "ARM_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03475781
+      },
+      {
+        "object": "ARM_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03475781
+      },
+      {
+        "object": "BODY_LEFT",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.42438473
+      },
+      {
+        "object": "BODY_RIGHT",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.42438473
+      },
+      {
+        "object": "BROW_left_0",
+        "vertices": 130,
+        "faces": 136,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 9.575e-05
+      },
+      {
+        "object": "BROW_left_1",
+        "vertices": 130,
+        "faces": 136,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 9.575e-05
+      },
+      {
+        "object": "BROW_right_0",
+        "vertices": 130,
+        "faces": 136,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 9.575e-05
+      },
+      {
+        "object": "BROW_right_1",
+        "vertices": 130,
+        "faces": 136,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 9.575e-05
+      },
+      {
+        "object": "EAR_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00373733
+      },
+      {
+        "object": "EAR_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00373733
+      },
+      {
+        "object": "EAR_right_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00373733
+      },
+      {
+        "object": "EAR_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00373733
+      },
+      {
+        "object": "EYE_GLINT_left_0",
+        "vertices": 86,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.8e-07
+      },
+      {
+        "object": "EYE_GLINT_left_1",
+        "vertices": 86,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.8e-07
+      },
+      {
+        "object": "EYE_GLINT_right_0",
+        "vertices": 86,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.8e-07
+      },
+      {
+        "object": "EYE_GLINT_right_1",
+        "vertices": 86,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.8e-07
+      },
+      {
+        "object": "EYE_IRIS_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 2.136e-05
+      },
+      {
+        "object": "EYE_IRIS_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 2.136e-05
+      },
+      {
+        "object": "EYE_IRIS_right_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 2.136e-05
+      },
+      {
+        "object": "EYE_IRIS_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 2.136e-05
+      },
+      {
+        "object": "EYE_WHITE_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00012747
+      },
+      {
+        "object": "EYE_WHITE_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00012747
+      },
+      {
+        "object": "EYE_WHITE_right_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00012747
+      },
+      {
+        "object": "EYE_WHITE_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00012747
+      },
+      {
+        "object": "HAIR_BACK_left",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.2357176
+      },
+      {
+        "object": "HAIR_CAP_left",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.18755633
+      },
+      {
+        "object": "HAIR_CAP_right",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.18755633
+      },
+      {
+        "object": "HAIR_SIDE_left_-1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.07459272
+      },
+      {
+        "object": "HAIR_SIDE_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.07459272
+      },
+      {
+        "object": "HAIR_SWEEP_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAIR_SWEEP_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAIR_SWEEP_left_2",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAIR_SWEEP_left_3",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAIR_SWEEP_left_4",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAIR_SWEEP_right_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAIR_SWEEP_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAIR_SWEEP_right_2",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAIR_SWEEP_right_3",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAIR_SWEEP_right_4",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01122531
+      },
+      {
+        "object": "HAND_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01209869
+      },
+      {
+        "object": "HAND_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01209869
+      },
+      {
+        "object": "HAND_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01209869
+      },
+      {
+        "object": "HAND_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01209869
+      },
+      {
+        "object": "HEAD_LEFT",
+        "vertices": 1490,
+        "faces": 1536,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.53764056
+      },
+      {
+        "object": "HEAD_RIGHT",
+        "vertices": 1490,
+        "faces": 1536,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.53764056
+      },
+      {
+        "object": "HEART_BASE_LEFT",
+        "vertices": 768,
+        "faces": 857,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 1.79194385
+      },
+      {
+        "object": "HEART_BASE_RIGHT",
+        "vertices": 768,
+        "faces": 857,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 1.75184618
+      },
+      {
+        "object": "LIP_left",
+        "vertices": 250,
+        "faces": 256,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00014891
+      },
+      {
+        "object": "LIP_right",
+        "vertices": 250,
+        "faces": 256,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00014891
+      },
+      {
+        "object": "MOUTH_left",
+        "vertices": 250,
+        "faces": 256,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 3.209e-05
+      },
+      {
+        "object": "MOUTH_right",
+        "vertices": 250,
+        "faces": 256,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 3.209e-05
+      },
+      {
+        "object": "NAME_left",
+        "vertices": 1512,
+        "faces": 1630,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00013922
+      },
+      {
+        "object": "NAME_right",
+        "vertices": 5676,
+        "faces": 6133,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00016627
+      },
+      {
+        "object": "NOSE_BRIDGE_left",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00065182
+      },
+      {
+        "object": "NOSE_BRIDGE_right",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00065182
+      },
+      {
+        "object": "NOSE_TIP_left",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00111966
+      },
+      {
+        "object": "NOSE_TIP_right",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00111966
+      },
+      {
+        "object": "NOSE_WING_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00014109
+      },
+      {
+        "object": "NOSE_WING_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00014109
+      },
+      {
+        "object": "NOSE_WING_right_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00014109
+      },
+      {
+        "object": "NOSE_WING_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00014109
+      },
+      {
+        "object": "SHIN_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03546537
+      },
+      {
+        "object": "SHIN_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03546537
+      },
+      {
+        "object": "SHIN_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03546537
+      },
+      {
+        "object": "SHIN_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03546537
+      },
+      {
+        "object": "SHOE_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03065001
+      },
+      {
+        "object": "SHOE_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03065001
+      },
+      {
+        "object": "SHOE_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03065001
+      },
+      {
+        "object": "SHOE_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03065001
+      },
+      {
+        "object": "THIGH_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.08781218
+      },
+      {
+        "object": "THIGH_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.08781218
+      },
+      {
+        "object": "THIGH_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.08781218
+      },
+      {
+        "object": "THIGH_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.08781218
+      }
+    ]
+  },
+  "slicer": {
+    "state": "NOT_RUN",
+    "reason": "No validated print profile or target machine supplied"
+  },
+  "physical_validation": {
+    "state": "NOT_APPROVED"
+  },
+  "limitations": [
+    "Overlapping mannequin components are not a fused production mesh.",
+    "Connector fit and wall thickness have not been engineered or physically tested.",
+    "Names are raised demonstration labels, not manufacturing-approved engraving.",
+    "STL contains geometry only; GLB materials do not transfer to STL."
+  ]
+}

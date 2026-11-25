@@ -1,5 +1,27 @@
 # Verification ledger
 
+## Photo personalization release — 2026-11-25
+
+This release replaces the original fixed appearance path. Historical checks below describe version 0.1 and do not establish photo interpretation.
+
+Executed for version 0.2 before deployment:
+
+- Actual pinned CPU MediaPipe models in a module Web Worker: two different public-domain portraits produce different bounded face parameters; a blank image produces no candidates; background/color perturbation checks, main-thread responsiveness and zero external requests passed. All 22 browser/renderer color swatches match. [Recorded evidence](../evidence/vision-browser-verification.json).
+- **85 API/pipeline tests passed** in 18.93 seconds, including opt-in actual Blender builds, strict profiles, ownership, correction preservation, provenance, exported geometry equivalence and schema bounds. One upstream Starlette/httpx deprecation warning remains.
+- **59 actual Blender morph/asset stress cases passed**, including all individual extremes and deterministic combined extremes.
+- Next.js static production export, TypeScript and shared design checks passed.
+- **19 functional browser tests passed** against the production-style static/API origin, including actual on-device analysis with explicitly stubbed HTTP persistence, assignment/review requirements, failure recovery, accessibility and responsive layout.
+- **Actual photo-to-Blender browser lifecycle passed** in 57.1 seconds: uploaded public-domain portraits, real CPU inference, reviewed profile, two real model revisions, GLB checksum verification, approval, correction, stale approval HTTP 409 and disposable-session deletion. No browser page errors; populated analysis and interactive viewer fit 320/390 px. [Evidence](../evidence/photo-lifecycle-verification.json).
+- The upgraded master reports the same 26 locked geometry fingerprints as version 0.1. Photo controls modify editable head/feature geometry only. [Upgrade report](../assets/designs/better-together/0.2.0-demo/master-upgrade-report.json).
+
+A final independent review identified cancellation gaps during photo loading and missing correction retry idempotency. Both were fixed; **8 targeted browser tests passed** in 12.9 seconds after the final static rebuild, including cancellation/consent revocation during delayed photo loading, successful real-inference retry, unchanged-correction prevention and lost-response idempotency.
+
+The 512px/8-sample/thread-1 macOS measurement peaked at **281.73 MiB** for neutral and **298.17 MiB** for richer variants (worker plus Blender, excluding API). This is higher than the old baseline and is not a Linux/Render memory guarantee. [Measurement](../evidence/appearance-v2/resource-budget/resource-measurement.json).
+
+See [the implementation and its limitations](PHOTO_PERSONALIZATION.md). These checks establish functioning photo-dependent customization and file provenance, not exact likeness, cross-demographic accuracy, production printability or all-browser support. Chromium was used for the automated runtime checks. Hair/accessory choices are reviewed manually; color suggestions can be wrong under difficult lighting/occlusion.
+
+## Historical version 0.1 verification
+
 Verified on 2026-11-24. This distinguishes executed checks, inspected live UI evidence, authored tests and remaining production gates.
 
 ## Executed automated checks

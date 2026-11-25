@@ -6,7 +6,7 @@ export function Header() {
       <div className="announcement">Made for the moments you want to keep.</div>
       <header className="site-header">
         <div className="header-inner">
-          <Link className="wordmark" href="/" aria-label="Keepsake 3D home">
+          <Link className="wordmark" href="/" aria-label="keepsake3D home">
             <Heart size={26} strokeWidth={1.4} />
             <span>
               keepsake<span className="wordmark-3d">3D</span>

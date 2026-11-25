@@ -1,5 +1,11 @@
 export type Session = { id: string; token: string; expires_at: string };
-export type Photo = { id: string; width: number; height: number; url: string };
+export type Photo = {
+  id: string;
+  width: number;
+  height: number;
+  url: string;
+  sha256: string;
+};
 export type Artifact = {
   kind: string;
   url: string;
@@ -14,6 +20,8 @@ export type Character = {
   glasses_asset_id: string;
   skin_material_id: string;
   outfit_palette_id: string;
+  pants_palette_id: string;
+  shoes_palette_id: string;
   engraving_text: string;
   face_morphs: Record<string, number>;
 };
@@ -64,10 +72,15 @@ export async function api<T>(
   }
   return response.status === 204 ? (undefined as T) : await response.json();
 }
-export async function privateBlob(url: string, session: Session) {
+export async function privateBlob(
+  url: string,
+  session: Session,
+  signal?: AbortSignal,
+) {
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${session.token}` },
     cache: "no-store",
+    signal,
   });
   if (!res.ok)
     throw new Error(
@@ -85,7 +98,7 @@ export const activeStates = new Set([
 ]);
 export const stateMessages: Record<string, string> = {
   PHOTO_VALIDATING: "Checking your photos",
-  AI_ANALYZING: "Preparing the sample appearance",
+  AI_ANALYZING: "Applying your reviewed photo measurements",
   PARAMETERS_READY: "Getting your model ready",
   MODEL_BUILDING: "Shaping your little keepsake",
   MODEL_RENDERING: "Finding its best angle",

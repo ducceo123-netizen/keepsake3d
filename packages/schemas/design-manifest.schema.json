@@ -29,7 +29,12 @@
             "enum": [
               "short",
               "long",
-              "bun"
+              "bun",
+              "bob",
+              "curly_short",
+              "curly_long",
+              "buzz",
+              "bald"
             ],
             "type": "string"
           },
@@ -41,6 +46,8 @@
           "items": {
             "enum": [
               "none",
+              "stubble",
+              "moustache",
               "beard"
             ],
             "type": "string"
@@ -53,7 +60,8 @@
           "items": {
             "enum": [
               "none",
-              "round"
+              "round",
+              "rectangular"
             ],
             "type": "string"
           },
@@ -118,7 +126,9 @@
               "chestnut",
               "black",
               "blonde",
-              "silver"
+              "silver",
+              "auburn",
+              "brown"
             ],
             "type": "string"
           },
@@ -129,8 +139,9 @@
         "skin_material_id": {
           "items": {
             "enum": [
-              "warm",
               "light",
+              "warm",
+              "tan",
               "deep"
             ],
             "type": "string"
@@ -145,21 +156,102 @@
               "cream",
               "blue",
               "rose",
-              "sage"
+              "sage",
+              "black",
+              "white",
+              "gray",
+              "red",
+              "brown",
+              "navy",
+              "yellow",
+              "purple"
             ],
             "type": "string"
           },
           "minItems": 1,
           "title": "Outfit Palette Id",
           "type": "array"
+        },
+        "pants_palette_id": {
+          "items": {
+            "enum": [
+              "cream",
+              "blue",
+              "rose",
+              "sage",
+              "black",
+              "white",
+              "gray",
+              "red",
+              "brown",
+              "navy",
+              "yellow",
+              "purple"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Pants Palette Id",
+          "type": "array"
+        },
+        "shoes_palette_id": {
+          "items": {
+            "enum": [
+              "cream",
+              "blue",
+              "rose",
+              "sage",
+              "black",
+              "white",
+              "gray",
+              "red",
+              "brown",
+              "navy",
+              "yellow",
+              "purple"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Shoes Palette Id",
+          "type": "array"
         }
       },
       "required": [
         "hair_color_id",
         "skin_material_id",
-        "outfit_palette_id"
+        "outfit_palette_id",
+        "pants_palette_id",
+        "shoes_palette_id"
       ],
       "title": "Materials",
+      "type": "object"
+    },
+    "MorphBounds": {
+      "additionalProperties": false,
+      "properties": {
+        "min": {
+          "const": -1.0,
+          "title": "Min",
+          "type": "number"
+        },
+        "max": {
+          "const": 1.0,
+          "title": "Max",
+          "type": "number"
+        },
+        "default": {
+          "const": 0.0,
+          "type": "number",
+          "title": "Default"
+        }
+      },
+      "required": [
+        "min",
+        "max",
+        "default"
+      ],
+      "title": "MorphBounds",
       "type": "object"
     },
     "ValidationRules": {
@@ -189,6 +281,16 @@
           "const": false,
           "title": "Intersections Validated",
           "type": "boolean"
+        },
+        "require_feature_envelopes": {
+          "default": true,
+          "title": "Require Feature Envelopes",
+          "type": "boolean"
+        },
+        "require_unchanged_anchors": {
+          "default": true,
+          "title": "Require Unchanged Anchors",
+          "type": "boolean"
         }
       },
       "required": [
@@ -210,7 +312,7 @@
       "type": "string"
     },
     "version": {
-      "const": "0.1.0-demo",
+      "const": "0.2.0-demo",
       "title": "Version",
       "type": "string"
     },
@@ -220,7 +322,7 @@
       "type": "string"
     },
     "master_blend_asset": {
-      "const": "assets/designs/better-together/0.1.0-demo/master.blend",
+      "const": "assets/designs/better-together/0.2.0-demo/master.blend",
       "title": "Master Blend Asset",
       "type": "string"
     },
@@ -254,8 +356,11 @@
       "$ref": "#/$defs/AssetSlots"
     },
     "allowed_shape_keys": {
-      "additionalProperties": true,
-      "maxProperties": 0,
+      "additionalProperties": {
+        "$ref": "#/$defs/MorphBounds"
+      },
+      "maxProperties": 13,
+      "minProperties": 13,
       "title": "Allowed Shape Keys",
       "type": "object"
     },

@@ -16,8 +16,11 @@ from mathutils import Vector
 from mathutils.geometry import tessellate_polygon
 
 ROOT=Path(__file__).resolve().parents[2]
-DESIGN=ROOT/'assets/designs/better-together/0.1.0-demo'
 sys.path.insert(0,str(ROOT))
+from packages.schemas.constants import DESIGN_ID, DESIGN_VERSION, FACE_MORPH_KEYS, HAIR_STYLES, HAIR_COLORS, SKIN_MATERIALS, CLOTHING_PALETTES, FACIAL_HAIR_STYLES, GLASSES_STYLES
+DESIGN=ROOT/'assets/designs'/DESIGN_ID/DESIGN_VERSION
+from workers.blender.customize import configure, create_editable_master
+from workers.blender.morphs import HEAD_KEYS, FACE_ENVELOPE
 from workers.qa.geometry import inspect_topology
 PALETTE={
  'base':(0.61,0.27,0.20,1),'warm':(0.66,0.37,0.23,1),'light':(0.87,0.62,0.44,1),'deep':(0.29,0.13,0.08,1),
@@ -80,114 +83,6 @@ def tube(name,coords,radius,mat,slot=None):
     weld(obj)
     return finish(obj,name,mat,False,slot,'face')
 
-def base_half(side):
-    # A visibly interlocking contour for the technical demo. Zero engineered clearance.
-    sign=1 if side=='right' else -1
-    points=[]
-    for i in range(65):
-        t=math.pi*i/64
-        x=16*math.sin(t)**3*.14
-        y=(13*math.cos(t)-5*math.cos(2*t)-2*math.cos(3*t)-math.cos(4*t)+4)*.14
-        points.append((sign*x,y))
-    if side=='right':
-        join=[(0,-.55)]+[(.20*math.cos(-math.pi/2+math.pi*i/24),-.35+.20*math.sin(-math.pi/2+math.pi*i/24)) for i in range(1,25)]+[(0,points[0][1])]
-    else:
-        join=[(0,-.55)]+[(.20*math.cos(-math.pi/2+math.pi*i/24),-.35+.20*math.sin(-math.pi/2+math.pi*i/24)) for i in range(1,25)]+[(0,points[0][1])]
-    points=points+join[:-1]
-    n=len(points)
-    verts=[(x+sign*.012,y,z) for z in (0,.32) for x,y in points]
-    # Tessellate concave n-gons, retaining every boundary vertex.
-    polygon=[Vector((x,y,0)) for x,y in points]
-    triangles=tessellate_polygon([polygon])
-    lookup={(round(v.x,8),round(v.y,8)):i for i,v in enumerate(polygon)}
-    faces=[]
-    for tri in triangles:
-        ids=tuple(v if isinstance(v,int) else lookup[(round(v.x,8),round(v.y,8))] for v in tri)
-        faces.append(tuple(reversed(ids)))
-        faces.append(tuple(i+n for i in ids))
-    for i in range(n):
-        j=(i+1)%n;faces.append((i,j,j+n,i+n))
-    mesh=bpy.data.meshes.new('HEART_BASE_'+side.upper());mesh.from_pydata(verts,[],faces);mesh.update()
-    obj=bpy.data.objects.new(mesh.name,mesh);bpy.context.collection.objects.link(obj)
-    bm=bmesh.new();bm.from_mesh(mesh);bmesh.ops.recalc_face_normals(bm,faces=list(bm.faces));bm.to_mesh(mesh);bm.free()
-    finish(obj,mesh.name,material('base',PALETTE['base']),True,side,'base')
-    bevel=obj.modifiers.new('Soft demo edges','BEVEL');bevel.width=.045;bevel.segments=3
-    bpy.context.view_layer.objects.active=obj;obj.select_set(True)
-    bpy.ops.object.modifier_apply(modifier=bevel.name);obj.select_set(False)
-    return obj
-
-def build_character(slot,x):
-    skin=material('SKIN_'+slot,PALETTE['warm'])
-    outfit=material('OUTFIT_'+slot,PALETTE['cream' if slot=='left' else 'blue'])
-    pants=material('PANTS_'+slot,PALETTE['pants'])
-    shoes=material('SHOES',PALETTE['shoe'])
-    # Seated proportions and hands are invariant under all customization parameters.
-    body=sphere('BODY_'+slot.upper(),(x,.05,1.05),(.45,.38,.60),outfit,True,slot,'body')
-    body.rotation_euler[1]=.06 if slot=='left' else -.06
-    for j,d in enumerate((-.22,.22)):
-        capsule(f'THIGH_{slot}_{j}',(x+d,.0,.63),(x+d,-.60,.61),.205,pants,True,slot,'legs')
-        capsule(f'SHIN_{slot}_{j}',(x+d,-.56,.62),(x+d,-.86,.44),.16,pants,True,slot,'legs')
-        sphere(f'SHOE_{slot}_{j}',(x+d,-1.02,.43),(.19,.30,.13),shoes,True,slot,'shoes')
-    for j,d in enumerate((-.43,.43)):
-        capsule(f'ARM_{slot}_{j}',(x+d,.02,1.37),(x+d*.85,-.36,.94),.14,outfit,True,slot,'arms')
-        sphere(f'HAND_{slot}_{j}',(x+d*.85,-.43,.86),(.15,.13,.15),skin,True,slot,'hands')
-    sphere('HEAD_'+slot.upper(),(x,-.015,1.99),(.51,.46,.55),skin,False,slot,'head')
-    for j,d in enumerate((-.49,.49)):
-        sphere(f'EAR_{slot}_{j}',(x+d,-.005,1.98),(.11,.085,.15),skin,False,slot,'head')
-    sphere('NOSE_'+slot.upper(),(x,-.455,1.94),(.075,.095,.072),skin,False,slot,'face')
-    eyes=material('EYES',PALETTE['eye'])
-    for j,d in enumerate((-.18,.18)):
-        sphere(f'EYE_{slot}_{j}',(x+d,-.435,2.045),(.031,.022,.042),eyes,False,slot,'face',24,16)
-    smile=[(x+.12*math.cos(t),-.464,1.88+.047*math.sin(t)) for t in [math.pi+math.pi*i/16 for i in range(17)]]
-    tube('SMILE_'+slot.upper(),smile,.012,eyes,slot)
-    anchor=bpy.data.objects.new('ANCHOR_'+slot.upper(),None);bpy.context.collection.objects.link(anchor)
-    anchor.location=(x,0,.32);anchor['locked']=True
-
-
-def hair(slot,x,style,color):
-    mat=material('HAIR_'+slot,PALETTE[color])
-    # Sculpted clumps remain bounded to the authored demo envelope.
-    sphere('HAIR_CAP_'+slot,(x,.06,2.36),(.50,.43,.24),mat,False,slot,'hair')
-    for i in range(7):
-        angle=math.pi*(.08+.84*i/6)
-        sx=x+.43*math.cos(angle)
-        sphere(f'FRINGE_{slot}_{i}',(sx,-.33,2.34+.09*math.sin(angle)),(.16,.18,.19),mat,False,slot,'hair',24,16)
-    if style in ('long','bun'):
-        for sign in (-1,1):
-            sphere(f'LOCK_{slot}_{sign}',(x+sign*.43,.10,1.91),(.16,.28,.48),mat,False,slot,'hair')
-    if style=='bun':
-        sphere('BUN_'+slot,(x-.20,.16,2.64),(.24,.23,.25),mat,False,slot,'hair')
-    if style=='long':
-        sphere('BACK_HAIR_'+slot,(x,.28,1.87),(.44,.20,.58),mat,False,slot,'hair')
-
-def configure(params):
-    for slot,char in params['characters'].items():
-        x=-.77 if slot=='left' else .77
-        material('SKIN_'+slot,PALETTE[char['skin_material_id']])
-        material('OUTFIT_'+slot,PALETTE[char['outfit_palette_id']])
-        for obj in list(bpy.data.objects):
-            if obj.get('character_slot')==slot and obj.get('category') in ('hair','beard','glasses','name'):
-                bpy.data.objects.remove(obj,do_unlink=True)
-        hair(slot,x,char['hair_style_asset_id'],char['hair_color_id'])
-        if char['facial_hair_id']=='beard':
-            mat=material('BEARD_'+slot,PALETTE[char['hair_color_id']])
-            sphere('BEARD_'+slot,(x,-.25,1.74),(.37,.23,.20),mat,False,slot,'beard')
-        if char['glasses_asset_id']=='round':
-            for j,d in enumerate((-.18,.18)):
-                coords=[(x+d+.125*math.cos(t),-.478,2.045+.115*math.sin(t)) for t in [math.tau*i/32 for i in range(33)]]
-                obj=tube(f'GLASSES_{slot}_{j}',coords,.012,material('EYES',PALETTE['eye']),slot);obj['category']='glasses'
-            obj=tube('BRIDGE_'+slot,[(x-.06,-.478,2.07),(x+.06,-.478,2.07)],.012,material('EYES',PALETTE['eye']),slot);obj['category']='glasses'
-        if char['engraving_text']:
-            curve=bpy.data.curves.new('NAME_'+slot,'FONT');curve.body=char['engraving_text'];curve.align_x='CENTER';curve.size=.145;curve.extrude=.006;curve.bevel_depth=.001
-            obj=bpy.data.objects.new('NAME_'+slot,curve);bpy.context.collection.objects.link(obj)
-            obj.location=(-.40 if slot=='left' else .40,-1.28,.33)
-            bpy.context.view_layer.objects.active=obj;obj.select_set(True);bpy.ops.object.convert(target='MESH');obj=bpy.context.object;obj.select_set(False)
-            weld(obj)
-            finish(obj,'NAME_'+slot,material('NAME',PALETTE['name']),False,slot,'name')
-            if obj.dimensions.x>.63:
-                obj.scale*=.63/obj.dimensions.x
-    bpy.context.view_layer.update()
-
 def fingerprint(obj):
     data={'name':obj.name,'matrix':[[round(v,8) for v in row] for row in obj.matrix_world]}
     if obj.type=='MESH':
@@ -201,34 +96,30 @@ def locks(names):
     return {name:fingerprint(bpy.data.objects[name]) for name in names}
 
 def create_master():
-    bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
-    for side in ('left','right'): base_half(side)
-    build_character('left',-.77);build_character('right',.77)
-    # Dedicated root empty objects make real assembled/separated viewing possible.
-    for slot in ('left','right'):
-        parent=bpy.data.objects.new('ASSEMBLY_'+slot.upper(),None);bpy.context.collection.objects.link(parent)
-        for obj in list(bpy.data.objects):
-            if obj.get('character_slot')==slot: obj.parent=parent
-    bpy.context.scene.unit_settings.system='NONE'
-    bpy.context.scene['design_id']='better-together';bpy.context.scene['version']='0.1.0-demo'
-    DESIGN.mkdir(parents=True,exist_ok=True)
-    path=DESIGN/'master.blend'
-    bpy.ops.wm.save_as_mainfile(filepath=str(path))
-    locked=sorted(obj.name for obj in bpy.data.objects if obj.get('locked'))
-    manifest={
-      'design_id':'better-together','version':'0.1.0-demo','status':'DEMO_NOT_PRINT_APPROVED',
-      'master_blend_asset':str(path.relative_to(ROOT)),'master_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
-      'character_slots':['left','right'],'geometry_lock_objects':locked,
-      'allowed_asset_slots':{'hair_style_asset_id':['short','long','bun'],'facial_hair_id':['none','beard'],'glasses_asset_id':['none','round']},
-      'allowed_shape_keys':{},'allowed_materials':{'hair_color_id':['chestnut','black','blonde','silver'],'skin_material_id':['warm','light','deep'],'outfit_palette_id':['cream','blue','rose','sage']},
-      'engraving_constraints':{'max_characters':12,'pattern':'^[A-Za-z -]{0,12}$','max_width_scene_units':.63,'mode':'raised_demo_label','manufacturing_relief_validated':False},
-      'attachment_anchors':{'left':'ANCHOR_LEFT','right':'ANCHOR_RIGHT'},'assembly_part_ids':['ASSEMBLY_LEFT','ASSEMBLY_RIGHT'],
-      'preview_cameras':['three_quarter','front','side','back'],'export_units':'DEMO_SCENE_UNITS_NOT_MANUFACTURING_SCALE','print_profiles':[],
-      'validation_rules':{'locked_geometry_tolerance':0,'require_finite_vertices':True,'require_closed_component_edges':True,'join_clearance_validated':False,'intersections_validated':False},
-      'print_approved':False,
-    }
+    source=ROOT/'assets/designs/better-together/0.1.0-demo'
+    old_manifest=json.loads((source/'manifest.json').read_text())
+    old_master=source/'master.blend'
+    source_hash=hashlib.sha256(old_master.read_bytes()).hexdigest()
+    if source_hash!=old_manifest['master_sha256']:raise ValueError('Legacy source master hash mismatch')
+    bpy.ops.wm.open_mainfile(filepath=str(old_master),load_ui=False)
+    before=locks(old_manifest['geometry_lock_objects'])
+    create_editable_master()
+    defaults=json.loads((DESIGN/'example-params.json').read_text())
+    configure(defaults,bake=False)
+    after=locks(old_manifest['geometry_lock_objects'])
+    if before!=after:raise ValueError('Master upgrade changed locked geometry')
+    bpy.context.scene['design_id']=DESIGN_ID;bpy.context.scene['version']=DESIGN_VERSION
+    path=DESIGN/'master.blend';bpy.ops.wm.save_as_mainfile(filepath=str(path))
+    manifest=dict(old_manifest)
+    manifest.update(version=DESIGN_VERSION,master_blend_asset=str(path.relative_to(ROOT)),master_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+    manifest['allowed_asset_slots']={'hair_style_asset_id':list(HAIR_STYLES),'facial_hair_id':list(FACIAL_HAIR_STYLES),'glasses_asset_id':list(GLASSES_STYLES)}
+    manifest['allowed_shape_keys']={key:{'min':-1.0,'max':1.0,'default':0.0} for key in FACE_MORPH_KEYS}
+    manifest['allowed_materials']={'hair_color_id':list(HAIR_COLORS),'skin_material_id':list(SKIN_MATERIALS),'outfit_palette_id':list(CLOTHING_PALETTES),'pants_palette_id':list(CLOTHING_PALETTES),'shoes_palette_id':list(CLOTHING_PALETTES)}
+    manifest['validation_rules'].update(require_feature_envelopes=True,require_unchanged_anchors=True)
     (DESIGN/'manifest.json').write_text(json.dumps(manifest,indent=2))
-    print('Created demo master',path)
+    report={'source_version':'0.1.0-demo','source_master_sha256':source_hash,'new_version':DESIGN_VERSION,'new_master_sha256':manifest['master_sha256'],'locked_geometry_unchanged':before==after,'locked_geometry_before':before,'locked_geometry_after':after,'stored_head_shape_keys':list(HEAD_KEYS),'surface_feature_controls':[k for k in FACE_MORPH_KEYS if k not in HEAD_KEYS],'feature_envelope_scene_units':FACE_ENVELOPE,'print_approved':False}
+    (DESIGN/'master-upgrade-report.json').write_text(json.dumps(report,indent=2))
+    print('Created versioned master with invariant locked geometry:',path)
 
 def progress(output,state): (output/'progress.json').write_text(json.dumps({'state':state}))
 
@@ -244,8 +135,18 @@ def qa_meshes(objects,before,after):
         checks.append({'object':obj.name,'vertices':len(obj.data.vertices),'faces':len(obj.data.polygons),'boundary_edges':boundary,'nonmanifold_edges':nonmanifold,'finite':finite,'volume_scene_units':round(volume,8)})
     verts=[obj.matrix_world@v.co for obj in objects for v in obj.data.vertices]
     dimensions=[round(max(v[i] for v in verts)-min(v[i] for v in verts),5) for i in range(3)]
-    passed=all(c['finite'] and c['nonmanifold_edges']==0 and c['volume_scene_units']>0 for c in checks) and before==after
-    return {'result':'DEMO_GEOMETRY_CHECKED' if passed else 'REVIEW_REQUIRED','passed':passed,'print_approved':False,'geometry':{'passed':passed,'locked_geometry_unchanged':before==after,'finite_vertices':all(c['finite'] for c in checks),'closed_components':all(c['nonmanifold_edges']==0 for c in checks),'component_count':len(checks),'dimensions_scene_units':dimensions,'units':'unscaled demo units','objects':checks},'slicer':{'state':'NOT_RUN','reason':'No validated print profile or target machine supplied'},'physical_validation':{'state':'NOT_APPROVED'},'limitations':['Overlapping mannequin components are not a fused production mesh.','Connector fit and wall thickness have not been engineered or physically tested.','Names are raised demonstration labels, not manufacturing-approved engraving.','STL contains geometry only; GLB materials do not transfer to STL.']}
+    envelopes=[]
+    for obj in objects:
+        if obj.get('locked') or obj.get('category')=='name':continue
+        slot=obj.get('character_slot');center=-.77 if slot=='left' else .77
+        points=[obj.matrix_world@v.co for v in obj.data.vertices]
+        low=[min(v[i] for v in points) for i in range(3)];high=[max(v[i] for v in points) for i in range(3)]
+        good=(low[0]>=center-FACE_ENVELOPE['x_radius'] and high[0]<=center+FACE_ENVELOPE['x_radius'] and low[1]>=FACE_ENVELOPE['y_min'] and high[1]<=FACE_ENVELOPE['y_max'] and low[2]>=FACE_ENVELOPE['z_min'] and high[2]<=FACE_ENVELOPE['z_max'])
+        envelopes.append({'object':obj.name,'passed':good,'min':[round(v,6) for v in low],'max':[round(v,6) for v in high]})
+    envelope_pass=all(item['passed'] for item in envelopes)
+    baked=all(bpy.data.objects['HEAD_'+slot].get('head_morphs_baked',False) and bpy.data.objects['HEAD_'+slot].data.shape_keys is None for slot in ('LEFT','RIGHT'))
+    passed=all(c['finite'] and c['nonmanifold_edges']==0 and c['volume_scene_units']>0 for c in checks) and before==after and envelope_pass and baked
+    return {'result':'DEMO_GEOMETRY_CHECKED' if passed else 'REVIEW_REQUIRED','passed':passed,'print_approved':False,'geometry':{'passed':passed,'locked_geometry_unchanged':before==after,'attachment_anchors_unchanged':all(before[name]==after[name] for name in ('ANCHOR_LEFT','ANCHOR_RIGHT')),'feature_envelopes_passed':envelope_pass,'feature_envelopes':envelopes,'head_morphs_baked':baked,'finite_vertices':all(c['finite'] for c in checks),'closed_components':all(c['nonmanifold_edges']==0 for c in checks),'component_count':len(checks),'dimensions_scene_units':dimensions,'units':'unscaled demo units','objects':checks},'slicer':{'state':'NOT_RUN','reason':'No validated print profile or target machine supplied'},'physical_validation':{'state':'NOT_APPROVED'},'limitations':['Overlapping mannequin components are not a fused production mesh.','Connector fit and wall thickness have not been engineered or physically tested.','Names are raised demonstration labels, not manufacturing-approved engraving.','STL contains geometry only; GLB materials do not transfer to STL.']}
 
 def export_stl(objects,path):
     triangles=[]
@@ -283,6 +184,7 @@ def build(args):
     progress(out,'MODEL_BUILDING')
     manifest=json.loads((DESIGN/'manifest.json').read_text());params=json.loads(Path(args.params).read_text())
     master=Path(args.master)
+    appearance=json.loads(Path(args.appearance).read_text()) if args.appearance else {'source':'manual-fixture','reviewed':False,'external_transfer':False}
     if hashlib.sha256(master.read_bytes()).hexdigest()!=manifest['master_sha256']: raise ValueError('Master hash mismatch')
     bpy.ops.wm.open_mainfile(filepath=str(master),load_ui=False)
     before=locks(manifest['geometry_lock_objects'])
@@ -298,14 +200,14 @@ def build(args):
     bpy.ops.object.select_all(action='DESELECT')
     for obj in objects: obj.select_set(True)
     for slot in ('LEFT','RIGHT'): bpy.data.objects['ASSEMBLY_'+slot].select_set(True)
-    bpy.ops.export_scene.gltf(filepath=str(out/'model.glb'),export_format='GLB',use_selection=True,export_yup=True,export_apply=True,export_extras=True,export_cameras=False,export_lights=False)
+    bpy.ops.export_scene.gltf(filepath=str(out/'model.glb'),export_format='GLB',use_selection=True,export_yup=True,export_apply=True,export_morph=False,export_extras=True,export_cameras=False,export_lights=False)
     export_stl(objects,out/'model.stl')
     progress(out,'MODEL_RENDERING');setup_render()
     bpy.context.scene.render.filepath=str(out/'preview.png');bpy.ops.render.render(write_still=True)
     progress(out,'QA_RUNNING')
     qa=qa_meshes(objects,before,after);(out/'qa.json').write_text(json.dumps(qa,indent=2))
     params_hash=hashlib.sha256(json.dumps(params,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-    provenance={'design_id':manifest['design_id'],'design_version':manifest['version'],'model_revision':args.revision,'params_sha256':params_hash,'master_sha256':manifest['master_sha256'],'engine_version':'Blender '+bpy.app.version_string,'pipeline_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'status':'DEMO_NOT_PRINT_APPROVED','appearance_provider':'deterministic_mock','locked_geometry_before':before,'locked_geometry_after':after,'same_scene_export':True,'render_settings':{'resolution':bpy.context.scene.render.resolution_x,'samples':bpy.context.scene.cycles.samples,'denoise':bpy.context.scene.cycles.use_denoising,'threads':bpy.context.scene.render.threads},'export_units':manifest['export_units'],'artifacts':[]}
+    provenance={'design_id':manifest['design_id'],'design_version':manifest['version'],'model_revision':args.revision,'params_sha256':params_hash,'master_sha256':manifest['master_sha256'],'engine_version':'Blender '+bpy.app.version_string,'pipeline_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'morph_recipe_sha256':hashlib.sha256(Path(__file__).with_name('customize.py').read_bytes()+Path(__file__).with_name('morphs.py').read_bytes()).hexdigest(),'palette_sha256':hashlib.sha256((DESIGN/'palette-swatches.json').read_bytes()).hexdigest(),'head_morphs_baked':True,'configured_geometry_sha256':hashlib.sha256(json.dumps({obj.name:fingerprint(obj) for obj in objects},sort_keys=True).encode()).hexdigest(),'status':'DEMO_NOT_PRINT_APPROVED','appearance_provider':appearance['source'],'appearance_profile':appearance,'locked_geometry_before':before,'locked_geometry_after':after,'same_scene_export':True,'render_settings':{'resolution':bpy.context.scene.render.resolution_x,'samples':bpy.context.scene.cycles.samples,'denoise':bpy.context.scene.cycles.use_denoising,'threads':bpy.context.scene.render.threads},'export_units':manifest['export_units'],'artifacts':[]}
     for filename,kind in [('model.glb','glb'),('model.stl','stl'),('preview.png','png'),('qa.json','qa')]:
         path=out/filename
         provenance['artifacts'].append({'kind':kind,'filename':filename,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'bytes':path.stat().st_size,'model_revision':args.revision,'params_sha256':params_hash,'master_sha256':manifest['master_sha256']})
@@ -314,7 +216,7 @@ def build(args):
     print('Build verified:',out)
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--create-master',action='store_true');parser.add_argument('--master');parser.add_argument('--params');parser.add_argument('--output');parser.add_argument('--revision',type=int,default=1)
+    parser=argparse.ArgumentParser();parser.add_argument('--create-master',action='store_true');parser.add_argument('--master');parser.add_argument('--params');parser.add_argument('--output');parser.add_argument('--revision',type=int,default=1);parser.add_argument('--appearance')
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
     if args.create_master:create_master()
     else:build(args)

@@ -10,7 +10,10 @@
     "build": "npm run build --workspace @keepsake/web",
     "typecheck": "npm run typecheck --workspace @keepsake/web",
     "check:design": "node scripts/check-design.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "prebuild": "node scripts/install-vision-assets.mjs",
+    "predev": "node scripts/install-vision-assets.mjs",
+    "test:vision": "node scripts/test-vision.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",

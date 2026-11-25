@@ -1,4 +1,4 @@
-"""Verify an owned deployment with a disposable synthetic session. No secrets logged."""
+"""Technical pipeline smoke only; does not verify photo appearance analysis. No secrets logged."""
 import argparse
 import hashlib
 import json
@@ -43,7 +43,9 @@ def main():
 
     health = request('/api/v1/health')
     assert health['status'] == 'ok' and health['production_enabled'] is False
+    assert health.get('appearance_provider') == 'browser-mediapipe-v1', 'Expected browser-local photo analysis configuration.'
     print('Health passed:', json.dumps(health), flush=True)
+    print('Scope: explicit technical fixture pipeline; browser photo analysis is tested separately.', flush=True)
     for path in ('/', '/studio/', '/design-system/', '/admin/'):
         assert b'<html' in request(path, raw=True)
     for path in ('/.env', '/.data/private/app.sqlite', '/api/v1/unknown-route'):
@@ -77,8 +79,9 @@ def main():
         print('Synthetic photo and owner authorization passed.', flush=True)
         if args.generate:
             assert health.get('generation_available', True), 'Blender is not available.'
-            request(prefix + '/submit', {'consent': True, 'names': ['Alex', 'Jamie']}, expected=202)
+            request(prefix + '/submit', {'consent': True, 'mode': 'technical-fixture', 'names': ['Alex', 'Jamie']}, expected=202)
             first = wait_ready()
+            assert first['appearance']['source'] == 'technical-fixture' and first['appearance']['is_mock'] is True
             for artifact in first['artifacts']:
                 blob = request(artifact['url'], raw=True)
                 assert hashlib.sha256(blob).hexdigest() == artifact['sha256'], artifact['kind']
@@ -88,6 +91,9 @@ def main():
             request(prefix + '/corrections', {'characters': {'left': {'outfit_palette_id': 'sage'}}}, expected=202)
             second = wait_ready()
             assert second['revision'] == first['revision'] + 1 and second['checksum'] != first['checksum']
+            for artifact in second['artifacts']:
+                blob = request(artifact['url'], raw=True)
+                assert hashlib.sha256(blob).hexdigest() == artifact['sha256'], artifact['kind']
             request(prefix + '/approve', approval, expected=409, raw=True)
             print('Two real revisions, artifact hashes, approval and stale-approval rejection passed.', flush=True)
     finally:

@@ -1,0 +1,541 @@
+{
+  "design_version": "0.2.0-demo",
+  "master_sha256": "da57274d9ea22cc36947089a523334b559c18a6b18e4495565c17b67242b7a6b",
+  "engine_version": "Blender 4.5.16 LTS",
+  "cases": 59,
+  "passed": true,
+  "results": [
+    {
+      "case": "neutral",
+      "passed": true,
+      "geometry_sha256": "45b5d997484a7b1f3be7de6822471648412c0dc19a9692cbaecdcdf48d5feff6",
+      "geometry_changed": false,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "face_width:-1",
+      "passed": true,
+      "geometry_sha256": "63ab6713ba9587c227418444c172fed8e0efd6504cb7de32573d708a340d7ce9",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "face_width:+1",
+      "passed": true,
+      "geometry_sha256": "e9eec776297ce3628abee4196b1f2924a6485775de09df1d0a2e455b02c609f5",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "face_height:-1",
+      "passed": true,
+      "geometry_sha256": "3fc04e72ffdd71b0d40b35ee912fd00d01a8f6155c7abbef492bbae83618e067",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "face_height:+1",
+      "passed": true,
+      "geometry_sha256": "57797596aeae640940fd41cb1c07c6bb569aa05e6cfe6c2ca32ff4796fd85fcf",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "jaw_width:-1",
+      "passed": true,
+      "geometry_sha256": "af9f3a3039c76ad38f4c29c0493d27f38cfce730c963863623f873472f90a76e",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "jaw_width:+1",
+      "passed": true,
+      "geometry_sha256": "1204eafd36560864645587043e22f7a1e4f1dfb13b9d9564aaae2481e846ea61",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "chin_length:-1",
+      "passed": true,
+      "geometry_sha256": "8382819b667f5f7c735555270499e683ab213f4f244b09b898861d1df66ff816",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "chin_length:+1",
+      "passed": true,
+      "geometry_sha256": "3d570952b5075d0a64b9f6cf9706014a147c5050bb011aaec9221ed0534c3051",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "cheek_fullness:-1",
+      "passed": true,
+      "geometry_sha256": "14fe890317529ed6b4edae6a4edb6988b132b92eb1893f13d023116b349aec2d",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "cheek_fullness:+1",
+      "passed": true,
+      "geometry_sha256": "c1501320ef76fee59665cf0f21c033bab398081f9e92c665b54be248877c82c7",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "eye_spacing:-1",
+      "passed": true,
+      "geometry_sha256": "0ff0f7e7e6b8298146ea9589cc09d95fcd31df78fe588f834ee7fa3a4aa96851",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "eye_spacing:+1",
+      "passed": true,
+      "geometry_sha256": "0d53dc0a9a5f653dcf788722dc333599d9108ccaa41fbb1fe824aa903feaadb6",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "eye_size:-1",
+      "passed": true,
+      "geometry_sha256": "9c4e1a1e29d8f6f5c25a197cd245bf2cc446d32492f286f455948715fc98af17",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "eye_size:+1",
+      "passed": true,
+      "geometry_sha256": "ac14cfd94ecc830157e91da77f02955c55f005fb5b155fb3a0952fc1791967ea",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "brow_thickness:-1",
+      "passed": true,
+      "geometry_sha256": "8ee984a777acdd2f063d0e07d89bc80c2587e23ea4228f70bfdb44d17524ea1e",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "brow_thickness:+1",
+      "passed": true,
+      "geometry_sha256": "1ad00730bb33e90fa6015452c8164d2a72823eebf59e4b980a844152d0027c9e",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "brow_arch:-1",
+      "passed": true,
+      "geometry_sha256": "50a965c05fe4f26bf0f2e0f5875516b86d99366bf2d73fed9af27da5d76d7911",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "brow_arch:+1",
+      "passed": true,
+      "geometry_sha256": "30e64efe845bb1368d5a66d5667a8d1e4b8bd20243700c6f820d8a6a39351ed5",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "nose_width:-1",
+      "passed": true,
+      "geometry_sha256": "016547fa1db26b64b78a9a0b8861af49e7f8ace3b1f9bcdca65254fb1b75508e",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "nose_width:+1",
+      "passed": true,
+      "geometry_sha256": "c93f3274b19cb6eed847802fcdf6039692b2eb1e5faad5cb51f54bb0981774f9",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "nose_projection:-1",
+      "passed": true,
+      "geometry_sha256": "e3fba721b5eb4e14c63d03eff98b2a7faafa03b9c1b941a6bf7abec87331afe4",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "nose_projection:+1",
+      "passed": true,
+      "geometry_sha256": "2102264b728c79450f2bb279b2edaa0b821009fd35e2bd8fe3e7e8a827ffb2f6",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "mouth_width:-1",
+      "passed": true,
+      "geometry_sha256": "c454c41c793befc3b616ab535018b65837b958504a3f9c01c95f050087a1fc25",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "mouth_width:+1",
+      "passed": true,
+      "geometry_sha256": "c51aeb7446b3c3a6e097666639341be6a5454b11e6db9c37558b4db5f70414f4",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "smile:-1",
+      "passed": true,
+      "geometry_sha256": "ee921c1dc948e35cb3dc840d52447667d36bfe3c50a28a6b963f9ae20a6b1995",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "smile:+1",
+      "passed": true,
+      "geometry_sha256": "a02ae79f895cc175e572c5c2a675b33ff37ab5c18ff6f31f92c2448ed3e3e5f2",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "hair:short",
+      "passed": true,
+      "geometry_sha256": "06413d5dcd2cfc7d407f3cb1a5d5266ba6e74396766ce59aa18ddd45e4149f5b",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "hair:long",
+      "passed": true,
+      "geometry_sha256": "2aa3eb342644d91a69f159ced9ea7386d3f24e7266830dbc6a7e598a448abb5d",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "hair:bun",
+      "passed": true,
+      "geometry_sha256": "8044587fd4c781fbcba9f95c6d4a198e0ad4865de9a61649ddd718b693e30266",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "hair:bob",
+      "passed": true,
+      "geometry_sha256": "45ebedda70699a81710b9675f8a7062337d4cefe882585aa2574a51eba776619",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "hair:curly_short",
+      "passed": true,
+      "geometry_sha256": "648f96930eb4b23926a8d26205b964d3d42191ea02bdda63a3d2723cb156232e",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "hair:curly_long",
+      "passed": true,
+      "geometry_sha256": "9ccf6ae8dae8e80ab853308a10f351cba50496a1a35d1613ac19375b57c14875",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "hair:buzz",
+      "passed": true,
+      "geometry_sha256": "b86a725b04a82831f59f1a576829e6797d0f03d9b600d56cb46deaa9345fbd72",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "hair:bald",
+      "passed": true,
+      "geometry_sha256": "5e720e758ec6e4dcb476e5c678c7d79939b072092a9a1e1d5ec2f6603011de83",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:none:none",
+      "passed": true,
+      "geometry_sha256": "221bbf488be46edffd81c16951fba50866f3b4af17ac78d763edd51544c2e00a",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:none:round",
+      "passed": true,
+      "geometry_sha256": "798dd60d1e937855f712d3cbea80bcd41c13aacd4e63f3f50694cce849a84347",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:none:rectangular",
+      "passed": true,
+      "geometry_sha256": "c8ac9d774a49b436951fb997e65ff8ee769490f054b9ca8fb96b6b38655f1628",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:stubble:none",
+      "passed": true,
+      "geometry_sha256": "98762330bd1bffa0911862cc823ce0ba18a518b551af33fc36cf719e98a03a01",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:stubble:round",
+      "passed": true,
+      "geometry_sha256": "4a5b5a699dc3a87b35d1f4d9f295dc34e3f883bdc5a0cb76b8085d7679cfbdff",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:stubble:rectangular",
+      "passed": true,
+      "geometry_sha256": "e621ac4ce64ba651446791a9d976ab19a625365279597035d382f455d6fa59e1",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:moustache:none",
+      "passed": true,
+      "geometry_sha256": "6a2b4648217611845bea7e94bc861dabf7933afa0894d894b5ea2333bda21724",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:moustache:round",
+      "passed": true,
+      "geometry_sha256": "723809813500efe80950bbd2feb77d32b06d6a1b607b33ff873d545fdf6ad516",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:moustache:rectangular",
+      "passed": true,
+      "geometry_sha256": "97fdc80ebfc198248898d8c4d90f3b8ac25a82b3ab12e651f2330c3bb59610ad",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:beard:none",
+      "passed": true,
+      "geometry_sha256": "02168c150a9aab7965d90b8fac4cf4d6dbc165a6aa729fb0ba35095a61afb541",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:beard:round",
+      "passed": true,
+      "geometry_sha256": "cb5e18fd3488f7fe6d91f024a77ab7bf56371cb16e1597774a980a9aeef97f89",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "accessories:beard:rectangular",
+      "passed": true,
+      "geometry_sha256": "2ca8ebe59692d9474effeb842268c64f506d23eb4b46b38d666d6d2b223246bf",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:0",
+      "passed": true,
+      "geometry_sha256": "59102c93dbc37ce577040b97a039d9b315c42709ae453680346234206c9ee830",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:1",
+      "passed": true,
+      "geometry_sha256": "7d6cbe0da77bd1b39938295be898647aa8245f7795838a1c911673c480bf6800",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:2",
+      "passed": true,
+      "geometry_sha256": "883714050a2de6b9849fd3a58017862f82638e4bc25cab639e8207e3d8806c75",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:3",
+      "passed": true,
+      "geometry_sha256": "8e6533affa0304bf9acb3d2d2ed6bbbc1d2d64b67170054d0f72597b4f1fd79f",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:4",
+      "passed": true,
+      "geometry_sha256": "f9a05887fb69511ce4209fc61ea53f5ec0889961de5ee91cf959ff63eea2674d",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:5",
+      "passed": true,
+      "geometry_sha256": "cb16635a4a3781ccf1a54265e928352cb4e4dae932cf1c5d60f4fa4e698960df",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:6",
+      "passed": true,
+      "geometry_sha256": "29198be3eb107a34ffda64977a35aa2beac5b8848c7f5e938462cca19ce7dca0",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:7",
+      "passed": true,
+      "geometry_sha256": "2a30f6d80fe2333f6e31d4d5197dbe390d93e78b6cb0dc81c991f004818376cc",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:8",
+      "passed": true,
+      "geometry_sha256": "d9ad06777edda3fac0ae61f09ec34a159b6dafc0c53e92e476afcd7f8a659fe5",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:9",
+      "passed": true,
+      "geometry_sha256": "7481f21beabb04c0f313afa05f527c5995ba368f089bd450bab72f54dd1d945b",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:10",
+      "passed": true,
+      "geometry_sha256": "8c6bb300625936b4b23ee49912607e31fc06fd21cf9b84d3ca74381e54b7ae19",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    },
+    {
+      "case": "combined:11",
+      "passed": true,
+      "geometry_sha256": "95d833bacc53b64d47555d91d2c811c08b460e85dae2539a288dab77ba0c9af9",
+      "geometry_changed": true,
+      "locked_geometry_unchanged": true,
+      "feature_envelopes_passed": true,
+      "head_morphs_baked": true
+    }
+  ],
+  "print_approved": false
+}

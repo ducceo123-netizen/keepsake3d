@@ -5,6 +5,7 @@ import time
 import pytest
 from fastapi.testclient import TestClient
 from apps.api.main import create_app
+from tests.api.profile_helpers import save_profile
 
 pytestmark=pytest.mark.skipif(os.environ.get('KEEPSAKE_RUN_BLENDER_TESTS')!='1',reason='Opt-in actual Blender integration; no mock artifacts')
 
@@ -14,7 +15,8 @@ def test_real_generation_approval_and_revision(tmp_path):
         sid=session['id']; headers={'Authorization':'Bearer '+session['token']}
         base=f'/api/v1/sessions/{sid}'
         assert client.post(base+'/fixture',headers=headers).status_code==201
-        submit=client.post(base+'/submit',headers={**headers,'Idempotency-Key':'real-build-1'},json={'consent':True,'names':['Ada','Sam']})
+        profile=save_profile(client,sid,headers)
+        submit=client.post(base+'/submit',headers={**headers,'Idempotency-Key':'real-build-1'},json={'consent':True,'names':['Ada','Sam'],'appearance_profile_id':profile['id'],'appearance_profile_sha256':profile['sha256']})
         assert submit.status_code==202,submit.text
         def wait_ready():
             for _ in range(1200):

@@ -8,6 +8,7 @@ COPY apps/web/package.json apps/web/package.json
 RUN npm ci --no-audit --no-fund
 COPY apps/web apps/web
 COPY packages packages
+COPY scripts scripts
 RUN npm run build
 
 FROM --platform=linux/amd64 python:3.14.3-slim-bookworm AS blender-download
@@ -54,7 +55,7 @@ USER keepsake:keepsake
 # Validate actual Linux GLB/STL/PNG generation during image build. This validates
 # binary dependencies and output provenance, not the live service's memory budget.
 RUN python workers/blender/run.py \
-      --params assets/designs/better-together/0.1.0-demo/example-params.json \
+      --params assets/designs/better-together/0.2.0-demo/example-params.json \
       --output /tmp/keepsake-image-build-check --revision 1 \
     && rm -rf /tmp/keepsake-image-build-check
 EXPOSE 10000

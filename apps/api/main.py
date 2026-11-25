@@ -12,8 +12,9 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 from fastapi.responses import FileResponse, JSONResponse
-from packages.schemas.models import Approval, Corrections, CreateSession, Submit, DemoManifest
+from packages.schemas.models import Approval, Corrections, CreateSession, Submit, DemoManifest, AppearanceProfileInput
 from .service import MAX_BYTES, ROOT, Service
+from packages.schemas.constants import DESIGN_ID, DESIGN_VERSION, PARAMS_SCHEMA_VERSION
 from workers.blender.run import find_blender, verify_manifest
 
 
@@ -103,9 +104,9 @@ def create_app(data_dir: Path | None = None):
         app.state.service=Service(data_dir)
         yield
         app.state.service.close()
-    app=FastAPI(title='Keepsake 3D demo API',version='0.1.0',lifespan=lifespan,
+    app=FastAPI(title='Keepsake3D API',version='0.2.0',lifespan=lifespan,
         docs_url='/docs' if docs_enabled else None,redoc_url=None,openapi_url='/openapi.json' if docs_enabled else None,
-        description='Private local sessions. Appearance analysis uses explicit mock defaults. Blender outputs are real procedural demo geometry; no production approval or commerce is enabled.')
+        description='Private sessions with reviewed browser-local photo measurements. Browser results are untrusted bounded customization input; no external AI receives photos. Blender produces versioned stylized demo geometry, not a production-approved product.')
     app.add_middleware(LimitBodyMiddleware)
     app.add_middleware(TrustedHostMiddleware,allowed_hosts=hosts)
     app.add_middleware(CORSMiddleware,allow_origins=origins,allow_methods=['GET','POST','DELETE','OPTIONS'],allow_headers=['Authorization','Content-Type','Idempotency-Key'],allow_credentials=False)
@@ -136,7 +137,7 @@ def create_app(data_dir: Path | None = None):
             finally:
                 if upload_slot:
                     request.app.state.service.upload_request_capacity.release()
-        response.headers['Cache-Control']='no-store'
+        response.headers['Cache-Control']='public, no-cache' if not is_api and request.url.path.startswith(('/vision/','/workers/')) else 'no-store'
         response.headers['X-Content-Type-Options']='nosniff'
         response.headers['Referrer-Policy']='no-referrer'
         response.headers['X-Frame-Options']='DENY'
@@ -146,7 +147,7 @@ def create_app(data_dir: Path | None = None):
         elif docs_enabled and request.url.path=='/docs':
             csp="default-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' https://fastapi.tiangolo.com; frame-ancestors 'none'"
         else:
-            csp="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' blob:; font-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+            csp="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' blob:; font-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
         response.headers['Content-Security-Policy']=csp
         if mode=='public-demo':
             response.headers['Strict-Transport-Security']='max-age=31536000'
@@ -165,18 +166,19 @@ def create_app(data_dir: Path | None = None):
             svc.db.execute('SELECT 1').fetchone()
         generation_available=False
         try:
-            verify_manifest(json.loads((ROOT/'assets/designs/better-together/0.1.0-demo/manifest.json').read_text()))
+            verify_manifest(json.loads((ROOT/f'assets/designs/{DESIGN_ID}/{DESIGN_VERSION}/manifest.json').read_text()))
             generation_available=find_blender() is not None
         except (OSError,ValueError,KeyError):
             pass
         return {'status':'ok','mode':mode,'storage':os.environ.get('KEEPSAKE_STORAGE_MODE','local'),
-            'appearance_provider':'mock-defaults-v1','generation_available':generation_available,'production_enabled':False}
+            'design_version':DESIGN_VERSION,'schema_version':PARAMS_SCHEMA_VERSION,
+            'appearance_provider':'browser-mediapipe-v1','generation_available':generation_available,'production_enabled':False}
 
     def design():
-        path=ROOT/'assets/designs/better-together/0.1.0-demo/manifest.json'
+        path=ROOT/f'assets/designs/{DESIGN_ID}/{DESIGN_VERSION}/manifest.json'
         if path.exists():
             return DemoManifest.model_validate_json(path.read_text()).model_dump()
-        return {'design_id':'better-together','version':'0.1.0-demo','status':'DEMO_NOT_PRINT_APPROVED','print_approved':False,'character_slots':['left','right'],'outputs':['glb','stl','png']}
+        return {'design_id':DESIGN_ID,'version':DESIGN_VERSION,'status':'DEMO_NOT_PRINT_APPROVED','print_approved':False,'character_slots':['left','right'],'outputs':['glb','stl','png']}
 
     @app.get('/api/v1/designs')
     def designs():
@@ -213,10 +215,19 @@ def create_app(data_dir: Path | None = None):
         path,media,_=owned(request,sid,authorization).file(sid,'photo',pid)
         return FileResponse(path,media_type=media,headers={'Content-Disposition':'inline'})
 
+    @app.post('/api/v1/sessions/{sid}/appearance-profile',status_code=201)
+    def save_appearance(sid:str,body:AppearanceProfileInput,request:Request,authorization:str|None=Header(None)):
+        svc=owned(request,sid,authorization);svc.rate_limit('appearance:'+sid,12)
+        return svc.save_appearance_profile(sid,body.model_dump(exclude_none=True))
+
+    @app.get('/api/v1/sessions/{sid}/appearance-profile/{profile_id}')
+    def get_appearance(sid:str,profile_id:str,request:Request,authorization:str|None=Header(None)):
+        return owned(request,sid,authorization).appearance_profile(sid,profile_id)
+
     @app.post('/api/v1/sessions/{sid}/submit',status_code=202)
     def submit(sid:str,body:Submit,request:Request,authorization:str|None=Header(None),idempotency_key:str|None=Header(None)):
         svc=owned(request,sid,authorization);svc.rate_limit('build:'+sid,8)
-        return svc.start(sid,body.names,idempotency_key)
+        return svc.start(sid,body.names,idempotency_key,profile_id=body.appearance_profile_id,profile_sha256=body.appearance_profile_sha256,mode=body.mode)
 
     @app.get('/api/v1/sessions/{sid}/status')
     @app.get('/api/v1/sessions/{sid}/preview')

@@ -14,7 +14,7 @@ test('keyboard upload reports an unsupported file and keeps generation disabled'
   const chooser = page.waitForEvent('filechooser');
   await page.keyboard.press('Enter');
   await (await chooser).setFiles({ name: 'unsupported.txt', mimeType: 'text/plain', buffer: Buffer.from('This is not a photo.') });
-  await expect(page.getByRole('alert')).toContainText('Please choose a JPEG, PNG, or WebP photo.');
+  await expect(page.getByRole('alert').filter({ hasText: 'Please choose a JPEG, PNG, or WebP photo.' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Create my 3D preview', exact: true })).toBeDisabled();
   await expect(page.getByLabel('Upload reference photos')).toHaveValue('');
   expect(sessionRequests).toBe(0);
@@ -25,13 +25,13 @@ test('a file larger than 10 MB has a useful error before network upload', async 
   await page.getByLabel('Upload reference photos').setInputFiles({
     name: 'oversized.png', mimeType: 'image/png', buffer: Buffer.alloc(10 * 1024 * 1024 + 1),
   });
-  await expect(page.getByRole('alert')).toContainText('Each photo needs to be 10 MB or smaller.');
+  await expect(page.getByRole('alert').filter({ hasText: 'Each photo needs to be 10 MB or smaller.' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Create my 3D preview', exact: true })).toBeDisabled();
 });
 
 test('name inputs accept the documented hyphen and reject unsupported characters', async ({ page }) => {
   await page.goto('/studio');
-  const name = page.getByLabel('First name', { exact: true });
+  const name = page.getByLabel('Left character name', { exact: true });
   await name.fill('Alex-Jamie');
   expect(await name.evaluate((element: HTMLInputElement) => element.validity.patternMismatch)).toBe(false);
   await name.fill('Alex123');

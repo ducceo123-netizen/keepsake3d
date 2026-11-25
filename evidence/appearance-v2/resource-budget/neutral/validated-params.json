@@ -1,0 +1,57 @@
+{
+  "characters": {
+    "left": {
+      "engraving_text": "Alex",
+      "face_morphs": {
+        "brow_arch": 0.0,
+        "brow_thickness": 0.0,
+        "cheek_fullness": 0.0,
+        "chin_length": 0.0,
+        "eye_size": 0.0,
+        "eye_spacing": 0.0,
+        "face_height": 0.0,
+        "face_width": 0.0,
+        "jaw_width": 0.0,
+        "mouth_width": 0.0,
+        "nose_projection": 0.0,
+        "nose_width": 0.0,
+        "smile": 0.0
+      },
+      "facial_hair_id": "none",
+      "glasses_asset_id": "none",
+      "hair_color_id": "chestnut",
+      "hair_style_asset_id": "long",
+      "outfit_palette_id": "cream",
+      "pants_palette_id": "blue",
+      "shoes_palette_id": "white",
+      "skin_material_id": "warm"
+    },
+    "right": {
+      "engraving_text": "Jamie",
+      "face_morphs": {
+        "brow_arch": 0.0,
+        "brow_thickness": 0.0,
+        "cheek_fullness": 0.0,
+        "chin_length": 0.0,
+        "eye_size": 0.0,
+        "eye_spacing": 0.0,
+        "face_height": 0.0,
+        "face_width": 0.0,
+        "jaw_width": 0.0,
+        "mouth_width": 0.0,
+        "nose_projection": 0.0,
+        "nose_width": 0.0,
+        "smile": 0.0
+      },
+      "facial_hair_id": "none",
+      "glasses_asset_id": "none",
+      "hair_color_id": "black",
+      "hair_style_asset_id": "short",
+      "outfit_palette_id": "navy",
+      "pants_palette_id": "brown",
+      "shoes_palette_id": "white",
+      "skin_material_id": "warm"
+    }
+  },
+  "schema_version": "2.0"
+}

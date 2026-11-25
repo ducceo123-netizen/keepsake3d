@@ -1,0 +1,352 @@
+{
+  "passed": true,
+  "verified_at": "2026-11-25T09:15:36.130Z",
+  "delegate": "CPU",
+  "worker": "module",
+  "paletteSwatchesChecked": 22,
+  "externalRequests": 0,
+  "engine": {
+    "type": "result",
+    "results": [
+      {
+        "id": "astronaut.png",
+        "faces": 1,
+        "landmarks": [
+          478
+        ],
+        "categories": [
+          0,
+          5,
+          1,
+          3,
+          4,
+          2
+        ]
+      },
+      {
+        "id": "grace_hopper.jpg",
+        "faces": 1,
+        "landmarks": [
+          478
+        ],
+        "categories": [
+          0,
+          5,
+          3,
+          1,
+          2,
+          4
+        ]
+      }
+    ]
+  },
+  "application": {
+    "baseline": {
+      "type": "result",
+      "faces": [
+        {
+          "params": {
+            "hair_style_asset_id": "short",
+            "hair_color_id": "brown",
+            "skin_material_id": "light",
+            "outfit_palette_id": "black",
+            "pants_palette_id": "navy",
+            "shoes_palette_id": "cream",
+            "facial_hair_id": "none",
+            "glasses_asset_id": "none",
+            "engraving_text": "",
+            "face_morphs": {
+              "face_width": 0.363,
+              "face_height": -0.303,
+              "jaw_width": 0.392,
+              "chin_length": 0.578,
+              "cheek_fullness": 0,
+              "eye_spacing": 0.209,
+              "eye_size": 0.011,
+              "brow_thickness": 0,
+              "brow_arch": 0,
+              "nose_width": 0.525,
+              "nose_projection": 0,
+              "mouth_width": 0.788,
+              "smile": 0.902
+            }
+          },
+          "bounds": {
+            "x": 0.35296088457107544,
+            "y": 0.14031043648719788,
+            "width": 0.17477375268936157,
+            "height": 0.2062108814716339
+          },
+          "measurements": {
+            "face_width_height": 0.845,
+            "jaw_width_ratio": 0.85,
+            "chin_ratio": 0.216,
+            "eye_spacing_ratio": 0.257,
+            "eye_width_ratio": 0.211,
+            "nose_width_ratio": 0.282,
+            "mouth_width_ratio": 0.475,
+            "face_pixels": 89,
+            "yaw_proxy": 0.009,
+            "roll_degrees": 3.062,
+            "hair_color_id_sample_count": 5456,
+            "skin_material_id_sample_count": 4617,
+            "outfit_palette_id_sample_count": 3051
+          },
+          "usable": true,
+          "warnings": [
+            "Choose hair style, facial hair, glasses, trousers and shoes yourself. Unseen depth uses the sculpted default."
+          ],
+          "observed_fields": [
+            "face_morphs.face_width",
+            "face_morphs.face_height",
+            "face_morphs.jaw_width",
+            "face_morphs.chin_length",
+            "face_morphs.eye_spacing",
+            "face_morphs.eye_size",
+            "face_morphs.nose_width",
+            "face_morphs.mouth_width",
+            "face_morphs.smile",
+            "hair_color_id",
+            "skin_material_id",
+            "outfit_palette_id"
+          ],
+          "id": "astronaut.png:0",
+          "photo_id": "astronaut.png",
+          "photo_sha256": "88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5",
+          "face_index": 0,
+          "face_count": 1,
+          "photo_number": 1
+        },
+        {
+          "params": {
+            "hair_style_asset_id": "short",
+            "hair_color_id": "chestnut",
+            "skin_material_id": "warm",
+            "outfit_palette_id": "black",
+            "pants_palette_id": "navy",
+            "shoes_palette_id": "cream",
+            "facial_hair_id": "none",
+            "glasses_asset_id": "none",
+            "engraving_text": "",
+            "face_morphs": {
+              "face_width": 0.662,
+              "face_height": -0.524,
+              "jaw_width": 0.155,
+              "chin_length": 0.687,
+              "cheek_fullness": 0,
+              "eye_spacing": 0.269,
+              "eye_size": -0.329,
+              "brow_thickness": 0,
+              "brow_arch": 0,
+              "nose_width": 0.263,
+              "nose_projection": 0,
+              "mouth_width": -0.042,
+              "smile": 0.002
+            }
+          },
+          "bounds": {
+            "x": 0.33265888690948486,
+            "y": 0.22181284427642822,
+            "width": 0.36106061935424805,
+            "height": 0.3354775905609131
+          },
+          "measurements": {
+            "face_width_height": 0.899,
+            "jaw_width_ratio": 0.808,
+            "chin_ratio": 0.225,
+            "eye_spacing_ratio": 0.262,
+            "eye_width_ratio": 0.189,
+            "nose_width_ratio": 0.261,
+            "mouth_width_ratio": 0.375,
+            "face_pixels": 180.083,
+            "yaw_proxy": 0.005,
+            "roll_degrees": 3.156,
+            "hair_color_id_sample_count": 83,
+            "skin_material_id_sample_count": 4934,
+            "outfit_palette_id_sample_count": 12383
+          },
+          "usable": true,
+          "warnings": [
+            "Choose hair style, facial hair, glasses, trousers and shoes yourself. Unseen depth uses the sculpted default."
+          ],
+          "observed_fields": [
+            "face_morphs.face_width",
+            "face_morphs.face_height",
+            "face_morphs.jaw_width",
+            "face_morphs.chin_length",
+            "face_morphs.eye_spacing",
+            "face_morphs.eye_size",
+            "face_morphs.nose_width",
+            "face_morphs.mouth_width",
+            "face_morphs.smile",
+            "hair_color_id",
+            "skin_material_id",
+            "outfit_palette_id"
+          ],
+          "id": "grace_hopper.jpg:0",
+          "photo_id": "grace_hopper.jpg",
+          "photo_sha256": "a8ca6d734765703b09728ab47fe59f473d93ae3967fc24c7c0288c3c7adb7130",
+          "face_index": 0,
+          "face_count": 1,
+          "photo_number": 2
+        }
+      ],
+      "warnings": [
+        "No clear face found in photo 3. Use a well-lit, front-facing portrait."
+      ]
+    },
+    "variants": {
+      "type": "result",
+      "faces": [
+        {
+          "params": {
+            "hair_style_asset_id": "short",
+            "hair_color_id": "brown",
+            "skin_material_id": "light",
+            "outfit_palette_id": "black",
+            "pants_palette_id": "navy",
+            "shoes_palette_id": "cream",
+            "facial_hair_id": "none",
+            "glasses_asset_id": "none",
+            "engraving_text": "",
+            "face_morphs": {
+              "face_width": 0.363,
+              "face_height": -0.303,
+              "jaw_width": 0.392,
+              "chin_length": 0.577,
+              "cheek_fullness": 0,
+              "eye_spacing": 0.209,
+              "eye_size": 0.011,
+              "brow_thickness": 0,
+              "brow_arch": 0,
+              "nose_width": 0.523,
+              "nose_projection": 0,
+              "mouth_width": 0.789,
+              "smile": 0.902
+            }
+          },
+          "bounds": {
+            "x": 0.35295993089675903,
+            "y": 0.1403070092201233,
+            "width": 0.1747472882270813,
+            "height": 0.20621463656425476
+          },
+          "measurements": {
+            "face_width_height": 0.845,
+            "jaw_width_ratio": 0.851,
+            "chin_ratio": 0.216,
+            "eye_spacing_ratio": 0.257,
+            "eye_width_ratio": 0.211,
+            "nose_width_ratio": 0.282,
+            "mouth_width_ratio": 0.475,
+            "face_pixels": 88.994,
+            "yaw_proxy": 0.009,
+            "roll_degrees": 3.062,
+            "hair_color_id_sample_count": 5456,
+            "skin_material_id_sample_count": 4617,
+            "outfit_palette_id_sample_count": 3086
+          },
+          "usable": true,
+          "warnings": [
+            "Choose hair style, facial hair, glasses, trousers and shoes yourself. Unseen depth uses the sculpted default."
+          ],
+          "observed_fields": [
+            "face_morphs.face_width",
+            "face_morphs.face_height",
+            "face_morphs.jaw_width",
+            "face_morphs.chin_length",
+            "face_morphs.eye_spacing",
+            "face_morphs.eye_size",
+            "face_morphs.nose_width",
+            "face_morphs.mouth_width",
+            "face_morphs.smile",
+            "hair_color_id",
+            "skin_material_id",
+            "outfit_palette_id"
+          ],
+          "id": "background:0",
+          "photo_id": "background",
+          "photo_sha256": "57651ea517ac07d054944756e024e4d02effd707277f9ea633b36e5adbc3a37d",
+          "face_index": 0,
+          "face_count": 1,
+          "photo_number": 1
+        },
+        {
+          "params": {
+            "hair_style_asset_id": "short",
+            "hair_color_id": "black",
+            "skin_material_id": "light",
+            "outfit_palette_id": "purple",
+            "pants_palette_id": "navy",
+            "shoes_palette_id": "cream",
+            "facial_hair_id": "none",
+            "glasses_asset_id": "none",
+            "engraving_text": "",
+            "face_morphs": {
+              "face_width": 0.381,
+              "face_height": -0.317,
+              "jaw_width": 0.364,
+              "chin_length": 0.472,
+              "cheek_fullness": 0,
+              "eye_spacing": 0.023,
+              "eye_size": -0.005,
+              "brow_thickness": 0,
+              "brow_arch": 0,
+              "nose_width": 0.444,
+              "nose_projection": 0,
+              "mouth_width": 0.959,
+              "smile": 0.93
+            }
+          },
+          "bounds": {
+            "x": 0.34984534978866577,
+            "y": 0.13838732242584229,
+            "width": 0.17847222089767456,
+            "height": 0.21141034364700317
+          },
+          "measurements": {
+            "face_width_height": 0.848,
+            "jaw_width_ratio": 0.846,
+            "chin_ratio": 0.208,
+            "eye_spacing_ratio": 0.242,
+            "eye_width_ratio": 0.21,
+            "nose_width_ratio": 0.276,
+            "mouth_width_ratio": 0.495,
+            "face_pixels": 91.279,
+            "yaw_proxy": 0.005,
+            "roll_degrees": 3.609,
+            "hair_color_id_sample_count": 5068,
+            "skin_material_id_sample_count": 4359,
+            "outfit_palette_id_sample_count": 7553
+          },
+          "usable": true,
+          "warnings": [
+            "Choose hair style, facial hair, glasses, trousers and shoes yourself. Unseen depth uses the sculpted default."
+          ],
+          "observed_fields": [
+            "face_morphs.face_width",
+            "face_morphs.face_height",
+            "face_morphs.jaw_width",
+            "face_morphs.chin_length",
+            "face_morphs.eye_spacing",
+            "face_morphs.eye_size",
+            "face_morphs.nose_width",
+            "face_morphs.mouth_width",
+            "face_morphs.smile",
+            "hair_color_id",
+            "skin_material_id",
+            "outfit_palette_id"
+          ],
+          "id": "color-swap:0",
+          "photo_id": "color-swap",
+          "photo_sha256": "5c00626f05d2d3004a7e2411af7936dadd09b995ab0a05f8a093245ceed3dd48",
+          "face_index": 0,
+          "face_count": 1,
+          "photo_number": 2
+        }
+      ],
+      "warnings": []
+    },
+    "mainThreadTicks": 79
+  }
+}

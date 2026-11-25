@@ -12,6 +12,8 @@ from pydantic import ValidationError
 from apps.api.main import create_app
 from apps.api.service import canonical, digest
 from packages.schemas.models import Parameters, assert_transition
+from packages.schemas.constants import DESIGN_ID, DESIGN_VERSION
+from tests.api.profile_helpers import save_profile
 
 @pytest.fixture
 def client(tmp_path):
@@ -43,7 +45,15 @@ def ready(client,sid,revision=1):
         svc.db.execute('UPDATE sessions SET checksum=? WHERE id=?',('a'*64,sid));svc.db.commit()
 
 def submit(client,sid,headers,names=None,key='test-build-1'):
-    return client.post(f'/api/v1/sessions/{sid}/submit',headers={**headers,'Idempotency-Key':key},json={'consent':True,'names':names or ['Ada','Sam']})
+    cache=getattr(client,'_reviewed_profiles',{})
+    if sid not in cache:
+        status=client.get(f'/api/v1/sessions/{sid}/status',headers=headers).json()
+        if not status['photos']:
+            return client.post(f'/api/v1/sessions/{sid}/submit',headers={**headers,'Idempotency-Key':key},json={'consent':True,'names':names or ['Ada','Sam']})
+        cache[sid]=save_profile(client,sid,headers)
+        client._reviewed_profiles=cache
+    profile=cache[sid]
+    return client.post(f'/api/v1/sessions/{sid}/submit',headers={**headers,'Idempotency-Key':key},json={'consent':True,'names':names or ['Ada','Sam'],'appearance_profile_id':profile['id'],'appearance_profile_sha256':profile['sha256']})
 
 def test_health_is_explicit_demo(client):
     response=client.get('/api/v1/health')
@@ -98,7 +108,7 @@ def test_exif_metadata_is_removed(client):
 
 def test_consent_photo_and_names_validation(client):
     sid,headers,_=new(client)
-    assert submit(client,sid,headers).status_code==409
+    assert submit(client,sid,headers).status_code==422
     fixture(client,sid,headers)
     for payload in [{'consent':False,'names':['Ada','Sam']},{'consent':True,'names':['../../bad','Sam']},{'consent':True,'names':['Ada','Sam'],'shell':'whoami'}]:
         assert client.post(f'/api/v1/sessions/{sid}/submit',headers={**headers,'Idempotency-Key':'invalid-1'},json=payload).status_code==422
@@ -143,7 +153,7 @@ def test_unsupported_parameters_fail_closed(client):
     for field in [{'geometry':'resize'},{'face_morphs':{'nose':9}},{'skin_material_id':'inferred-race'}]:
         assert client.post(f'/api/v1/sessions/{sid}/corrections',headers=headers,json={'characters':{'left':field}}).status_code==422
     with pytest.raises(ValidationError):
-        Parameters.model_validate({'characters':{'left':{'face_morphs':{'smile':0.5}},'right':{}}})
+        Parameters.model_validate({'characters':{'left':{'face_morphs':{'smile':2.0}},'right':{}}})
 
 def test_invalid_state_transition_disallowed():
     with pytest.raises(ValueError):
@@ -181,7 +191,7 @@ def test_creation_rate_limit(client):
 def test_strict_manifest_rejects_missing_locks():
     from packages.schemas.models import DemoManifest
     from apps.api.service import ROOT
-    data=json.loads((ROOT/'assets/designs/better-together/0.1.0-demo/manifest.json').read_text())
+    data=json.loads((ROOT/f'assets/designs/{DESIGN_ID}/{DESIGN_VERSION}/manifest.json').read_text())
     DemoManifest.model_validate(data)
     data['geometry_lock_objects'].remove('HEART_BASE_LEFT')
     with pytest.raises(ValidationError):
@@ -197,8 +207,8 @@ def test_provenance_tampering_and_absent_qa_do_not_pass(client,tmp_path):
     (folder/'preview.png').write_bytes(b'\x89PNG\r\n\x1a\n-not-a-real-image')
     qa={'result':'DEMO_GEOMETRY_CHECKED','print_approved':False}  # missing explicit pass must fail
     (folder/'qa.json').write_text(canonical(qa))
-    manifest=json.loads((ROOT/'assets/designs/better-together/0.1.0-demo/manifest.json').read_text())
-    provenance={'design_id':'better-together','design_version':'0.1.0-demo','model_revision':1,'master_sha256':manifest['master_sha256'],'params_sha256':digest(canonical(params).encode()),'same_scene_export':True,'status':'DEMO_NOT_PRINT_APPROVED'}
+    manifest=json.loads((ROOT/f'assets/designs/{DESIGN_ID}/{DESIGN_VERSION}/manifest.json').read_text())
+    provenance={'design_id':'better-together','design_version':DESIGN_VERSION,'model_revision':1,'master_sha256':manifest['master_sha256'],'params_sha256':digest(canonical(params).encode()),'same_scene_export':True,'status':'DEMO_NOT_PRINT_APPROVED'}
     provenance['artifacts']=[]
     for kind,name in [('glb','model.glb'),('stl','model.stl'),('png','preview.png'),('qa','qa.json')]:
         data=(folder/name).read_bytes()

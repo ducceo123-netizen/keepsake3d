@@ -1,0 +1,220 @@
+{
+  "design_id": "better-together",
+  "version": "0.2.0-demo",
+  "status": "DEMO_NOT_PRINT_APPROVED",
+  "master_blend_asset": "assets/designs/better-together/0.2.0-demo/master.blend",
+  "master_sha256": "da57274d9ea22cc36947089a523334b559c18a6b18e4495565c17b67242b7a6b",
+  "character_slots": [
+    "left",
+    "right"
+  ],
+  "geometry_lock_objects": [
+    "ANCHOR_LEFT",
+    "ANCHOR_RIGHT",
+    "ARM_left_0",
+    "ARM_left_1",
+    "ARM_right_0",
+    "ARM_right_1",
+    "BODY_LEFT",
+    "BODY_RIGHT",
+    "HAND_left_0",
+    "HAND_left_1",
+    "HAND_right_0",
+    "HAND_right_1",
+    "HEART_BASE_LEFT",
+    "HEART_BASE_RIGHT",
+    "SHIN_left_0",
+    "SHIN_left_1",
+    "SHIN_right_0",
+    "SHIN_right_1",
+    "SHOE_left_0",
+    "SHOE_left_1",
+    "SHOE_right_0",
+    "SHOE_right_1",
+    "THIGH_left_0",
+    "THIGH_left_1",
+    "THIGH_right_0",
+    "THIGH_right_1"
+  ],
+  "allowed_asset_slots": {
+    "hair_style_asset_id": [
+      "short",
+      "long",
+      "bun",
+      "bob",
+      "curly_short",
+      "curly_long",
+      "buzz",
+      "bald"
+    ],
+    "facial_hair_id": [
+      "none",
+      "stubble",
+      "moustache",
+      "beard"
+    ],
+    "glasses_asset_id": [
+      "none",
+      "round",
+      "rectangular"
+    ]
+  },
+  "allowed_shape_keys": {
+    "face_width": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "face_height": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "jaw_width": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "chin_length": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "cheek_fullness": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "eye_spacing": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "eye_size": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "brow_thickness": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "brow_arch": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "nose_width": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "nose_projection": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "mouth_width": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "smile": {
+      "min": -1.0,
+      "max": 1.0,
+      "default": 0.0
+    }
+  },
+  "allowed_materials": {
+    "hair_color_id": [
+      "chestnut",
+      "black",
+      "blonde",
+      "silver",
+      "auburn",
+      "brown"
+    ],
+    "skin_material_id": [
+      "light",
+      "warm",
+      "tan",
+      "deep"
+    ],
+    "outfit_palette_id": [
+      "cream",
+      "blue",
+      "rose",
+      "sage",
+      "black",
+      "white",
+      "gray",
+      "red",
+      "brown",
+      "navy",
+      "yellow",
+      "purple"
+    ],
+    "pants_palette_id": [
+      "cream",
+      "blue",
+      "rose",
+      "sage",
+      "black",
+      "white",
+      "gray",
+      "red",
+      "brown",
+      "navy",
+      "yellow",
+      "purple"
+    ],
+    "shoes_palette_id": [
+      "cream",
+      "blue",
+      "rose",
+      "sage",
+      "black",
+      "white",
+      "gray",
+      "red",
+      "brown",
+      "navy",
+      "yellow",
+      "purple"
+    ]
+  },
+  "engraving_constraints": {
+    "max_characters": 12,
+    "pattern": "^[A-Za-z -]{0,12}$",
+    "max_width_scene_units": 0.63,
+    "mode": "raised_demo_label",
+    "manufacturing_relief_validated": false
+  },
+  "attachment_anchors": {
+    "left": "ANCHOR_LEFT",
+    "right": "ANCHOR_RIGHT"
+  },
+  "assembly_part_ids": [
+    "ASSEMBLY_LEFT",
+    "ASSEMBLY_RIGHT"
+  ],
+  "preview_cameras": [
+    "three_quarter",
+    "front",
+    "side",
+    "back"
+  ],
+  "export_units": "DEMO_SCENE_UNITS_NOT_MANUFACTURING_SCALE",
+  "print_profiles": [],
+  "validation_rules": {
+    "locked_geometry_tolerance": 0,
+    "require_finite_vertices": true,
+    "require_closed_component_edges": true,
+    "join_clearance_validated": false,
+    "intersections_validated": false,
+    "require_feature_envelopes": true,
+    "require_unchanged_anchors": true
+  },
+  "print_approved": false
+}

@@ -1,0 +1,37 @@
+{
+  "platform": "macOS arm64; not Linux/Render",
+  "method": "Summed worker + Blender descendant RSS sampled every100ms; excludes API and browser; concurrent host work may affect elapsed time; shared pages may be counted twice",
+  "render_settings": {
+    "resolution": 512,
+    "samples": 8,
+    "denoise": false,
+    "threads": 1
+  },
+  "previous_version_neutral_peak_rss_mib": 157.45,
+  "results": [
+    {
+      "case": "neutral",
+      "elapsed_seconds": 6.05,
+      "exit_code": 0,
+      "peak_worker_rss_mib": 281.73,
+      "phase_peak_rss_mib": {
+        "STARTING": 195.55,
+        "MODEL_BUILDING": 262.02,
+        "MODEL_RENDERING": 281.73,
+        "QA_RUNNING": 270.28
+      }
+    },
+    {
+      "case": "rich-variants",
+      "elapsed_seconds": 7.95,
+      "exit_code": 0,
+      "peak_worker_rss_mib": 298.17,
+      "phase_peak_rss_mib": {
+        "STARTING": 182.55,
+        "MODEL_BUILDING": 228.34,
+        "MODEL_RENDERING": 287.67,
+        "QA_RUNNING": 298.17
+      }
+    }
+  ]
+}

@@ -14,15 +14,15 @@ import { StatusBadge } from "@design/primitives";
 const faqs = [
   [
     "Will my keepsake look exactly like my photos?",
-    "The goal is a stylized interpretation, rather than an exact likeness. This demo uses fixed sample appearance settings, not photo analysis. Its simple procedural model demonstrates the workflow; it does not reproduce the concept artwork.",
+    "The studio uses visible face proportions and suggested colors from your photos to shape a stylized figurine. You review who sits where, hair, glasses and colors before the build. The body and pose stay fixed. This beta does not guarantee an exact likeness or reproduce the concept artwork.",
   ],
   [
     "What kind of photos should I choose?",
-    "Choose 1–3 well-lit JPEG, PNG, or WebP photos with clear faces. Each file may be up to 10 MB. You can also explore the entire demo with our synthetic sample, without uploading anyone’s photo.",
+    "Choose 1–3 well-lit JPEG, PNG, or WebP photos with clear, upright, front-facing faces. Each file may be up to 10 MB. Include both people, together or in separate photos; you explicitly choose which face belongs on each side.",
   ],
   [
     "How are my photos used?",
-    "Uploads are stored privately on the server and are accessible only to your session. The demo sends no photos to an AI provider. Images expire within 24 hours, and you can delete your session and its files from the studio. On this temporary demo, a server restart may clear your session sooner.",
+    "Uploads are stored privately on the server and are accessible only to your session. Face measurements and color suggestions are computed in your browser; no photos go to an external AI provider. Images expire within 24 hours, and you can delete your session and its files from the studio. On this temporary demo, a server restart may clear your session sooner.",
   ],
   [
     "Can I order one yet?",
@@ -43,7 +43,7 @@ export default function Home() {
           <div className="product-copy">
             <div className="inline product-kicker">
               <span className="eyebrow">THE BETTER TOGETHER COLLECTION</span>
-              <StatusBadge>Studio demo</StatusBadge>
+              <StatusBadge>Photo studio · Beta</StatusBadge>
             </div>
             <h1>
               Two pieces.

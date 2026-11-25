@@ -6,6 +6,8 @@ from fastapi.testclient import TestClient
 from PIL import Image
 from apps.api.main import create_app
 from apps.api.service import Service
+from packages.schemas.constants import DESIGN_VERSION, PARAMS_SCHEMA_VERSION
+from tests.api.profile_helpers import save_profile
 
 @pytest.fixture
 def public_client(tmp_path,monkeypatch):
@@ -14,6 +16,9 @@ def public_client(tmp_path,monkeypatch):
     (web/'studio').mkdir();(web/'studio/index.html').write_text('<html>Studio</html>')
     (web/'.env').write_text('SHOULD_NEVER_BE_PUBLIC=secret')
     (web/'api').mkdir();(web/'api/secret.txt').write_text('not-an-api')
+    (web/'vision').mkdir();(web/'vision/model.task').write_bytes(b'public model')
+    (web/'vision/engine.wasm').write_bytes(b'wasm')
+    (web/'workers').mkdir();(web/'workers/appearance.js').write_text('export {};')
     monkeypatch.setenv('KEEPSAKE_DEPLOYMENT_MODE','public-demo')
     monkeypatch.setenv('KEEPSAKE_ALLOWED_ORIGIN','https://demo.example')
     monkeypatch.setenv('KEEPSAKE_STORAGE_MODE','ephemeral')
@@ -35,11 +40,29 @@ def test_static_export_and_api_remain_separate(public_client):
     assert health.status_code==200
     assert health.json()['mode']=='public-demo'
     assert health.json()['storage']=='ephemeral'
+    assert health.json()['design_version']==DESIGN_VERSION
+    assert health.json()['schema_version']==PARAMS_SCHEMA_VERSION
     assert isinstance(health.json()['generation_available'],bool)
     assert "default-src 'none'" in health.headers['content-security-policy']
     assert "script-src 'self' 'unsafe-inline'" in public_client.get('/').headers['content-security-policy']
     for path in ['/.env','/%2Eenv','/api/secret.txt','/docs','/openapi.json','/nonexistent']:
         assert public_client.get(path).status_code==404,path
+
+def test_public_vision_assets_revalidate_but_private_api_never_caches(public_client):
+    page=public_client.get('/')
+    assert "'wasm-unsafe-eval'" in page.headers['content-security-policy']
+    assert "worker-src 'self' blob:" in page.headers['content-security-policy']
+    for path in ['/vision/model.task','/workers/appearance.js']:
+        response=public_client.get(path)
+        assert response.status_code==200
+        assert response.headers['cache-control']=='public, no-cache'
+        again=public_client.get(path,headers={'If-None-Match':response.headers['etag']})
+        assert again.status_code==304
+    assert public_client.get('/vision/engine.wasm').headers['content-type']=='application/wasm'
+    sid,headers=create(public_client)
+    photo=public_client.post(f'/api/v1/sessions/{sid}/fixture',headers=headers).json()
+    for path in ['/api/v1/health',photo['url'],f'/api/v1/sessions/{sid}/status']:
+        assert public_client.get(path,headers=headers).headers['cache-control']=='no-store'
 
 def test_public_origin_host_and_security_headers(public_client):
     assert public_client.get('/',headers={'Host':'attacker.example'}).status_code==400
@@ -73,7 +96,8 @@ def test_global_build_cap_cannot_be_bypassed_by_new_session(public_client,monkey
     for n,expected in [(1,202),(2,429)]:
         sid,headers=create(public_client)
         assert public_client.post(f'/api/v1/sessions/{sid}/fixture',headers=headers).status_code==201
-        result=public_client.post(f'/api/v1/sessions/{sid}/submit',headers={**headers,'Idempotency-Key':f'public-build-{n}'},json={'consent':True})
+        profile=save_profile(public_client,sid,headers)
+        result=public_client.post(f'/api/v1/sessions/{sid}/submit',headers={**headers,'Idempotency-Key':f'public-build-{n}'},json={'consent':True,'appearance_profile_id':profile['id'],'appearance_profile_sha256':profile['sha256']})
         assert result.status_code==expected,result.text
 
 def test_public_image_decode_shares_worker_memory_budget(public_client):

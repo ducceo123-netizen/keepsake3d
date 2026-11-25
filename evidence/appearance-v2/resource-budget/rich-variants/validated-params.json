@@ -1,0 +1,57 @@
+{
+  "characters": {
+    "left": {
+      "engraving_text": "Alex",
+      "face_morphs": {
+        "brow_arch": 0.6,
+        "brow_thickness": 0.6,
+        "cheek_fullness": 0.6,
+        "chin_length": 0.6,
+        "eye_size": 0.6,
+        "eye_spacing": 0.6,
+        "face_height": 0.6,
+        "face_width": 0.6,
+        "jaw_width": 0.6,
+        "mouth_width": 0.6,
+        "nose_projection": 0.6,
+        "nose_width": 0.6,
+        "smile": 0.6
+      },
+      "facial_hair_id": "beard",
+      "glasses_asset_id": "rectangular",
+      "hair_color_id": "chestnut",
+      "hair_style_asset_id": "curly_long",
+      "outfit_palette_id": "cream",
+      "pants_palette_id": "blue",
+      "shoes_palette_id": "white",
+      "skin_material_id": "warm"
+    },
+    "right": {
+      "engraving_text": "Jamie",
+      "face_morphs": {
+        "brow_arch": 0.6,
+        "brow_thickness": 0.6,
+        "cheek_fullness": 0.6,
+        "chin_length": 0.6,
+        "eye_size": 0.6,
+        "eye_spacing": 0.6,
+        "face_height": 0.6,
+        "face_width": 0.6,
+        "jaw_width": 0.6,
+        "mouth_width": 0.6,
+        "nose_projection": 0.6,
+        "nose_width": 0.6,
+        "smile": 0.6
+      },
+      "facial_hair_id": "beard",
+      "glasses_asset_id": "rectangular",
+      "hair_color_id": "black",
+      "hair_style_asset_id": "curly_long",
+      "outfit_palette_id": "navy",
+      "pants_palette_id": "brown",
+      "shoes_palette_id": "white",
+      "skin_material_id": "warm"
+    }
+  },
+  "schema_version": "2.0"
+}

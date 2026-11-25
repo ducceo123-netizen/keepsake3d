@@ -9,7 +9,12 @@
               "enum": [
                 "short",
                 "long",
-                "bun"
+                "bun",
+                "bob",
+                "curly_short",
+                "curly_long",
+                "buzz",
+                "bald"
               ],
               "type": "string"
             },
@@ -27,7 +32,9 @@
                 "chestnut",
                 "black",
                 "blonde",
-                "silver"
+                "silver",
+                "auburn",
+                "brown"
               ],
               "type": "string"
             },
@@ -43,6 +50,8 @@
             {
               "enum": [
                 "none",
+                "stubble",
+                "moustache",
                 "beard"
               ],
               "type": "string"
@@ -59,7 +68,8 @@
             {
               "enum": [
                 "none",
-                "round"
+                "round",
+                "rectangular"
               ],
               "type": "string"
             },
@@ -74,8 +84,9 @@
           "anyOf": [
             {
               "enum": [
-                "warm",
                 "light",
+                "warm",
+                "tan",
                 "deep"
               ],
               "type": "string"
@@ -94,7 +105,15 @@
                 "cream",
                 "blue",
                 "rose",
-                "sage"
+                "sage",
+                "black",
+                "white",
+                "gray",
+                "red",
+                "brown",
+                "navy",
+                "yellow",
+                "purple"
               ],
               "type": "string"
             },
@@ -104,6 +123,69 @@
           ],
           "default": null,
           "title": "Outfit Palette Id"
+        },
+        "pants_palette_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "cream",
+                "blue",
+                "rose",
+                "sage",
+                "black",
+                "white",
+                "gray",
+                "red",
+                "brown",
+                "navy",
+                "yellow",
+                "purple"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pants Palette Id"
+        },
+        "shoes_palette_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "cream",
+                "blue",
+                "rose",
+                "sage",
+                "black",
+                "white",
+                "gray",
+                "red",
+                "brown",
+                "navy",
+                "yellow",
+                "purple"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Shoes Palette Id"
+        },
+        "face_morphs": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FaceMorphCorrections"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         },
         "engraving_text": {
           "anyOf": [
@@ -150,6 +232,195 @@
         }
       },
       "title": "CharacterCorrections",
+      "type": "object"
+    },
+    "FaceMorphCorrections": {
+      "additionalProperties": false,
+      "properties": {
+        "face_width": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Face Width"
+        },
+        "face_height": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Face Height"
+        },
+        "jaw_width": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Jaw Width"
+        },
+        "chin_length": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Chin Length"
+        },
+        "cheek_fullness": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cheek Fullness"
+        },
+        "eye_spacing": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eye Spacing"
+        },
+        "eye_size": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eye Size"
+        },
+        "brow_thickness": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Brow Thickness"
+        },
+        "brow_arch": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Brow Arch"
+        },
+        "nose_width": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nose Width"
+        },
+        "nose_projection": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nose Projection"
+        },
+        "mouth_width": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mouth Width"
+        },
+        "smile": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Smile"
+        }
+      },
+      "title": "FaceMorphCorrections",
       "type": "object"
     }
   },

@@ -1,0 +1,1997 @@
+{
+  "result": "DEMO_GEOMETRY_CHECKED",
+  "passed": true,
+  "print_approved": false,
+  "geometry": {
+    "passed": true,
+    "locked_geometry_unchanged": true,
+    "attachment_anchors_unchanged": true,
+    "feature_envelopes_passed": true,
+    "feature_envelopes": [
+      {
+        "object": "BROW_left_0",
+        "passed": true,
+        "min": [
+          -1.050496,
+          -0.461738,
+          2.100432
+        ],
+        "max": [
+          -0.918932,
+          -0.390409,
+          2.156612
+        ]
+      },
+      {
+        "object": "BROW_left_1",
+        "passed": true,
+        "min": [
+          -0.621034,
+          -0.46181,
+          2.100497
+        ],
+        "max": [
+          -0.489509,
+          -0.390445,
+          2.15654
+        ]
+      },
+      {
+        "object": "BROW_right_0",
+        "passed": true,
+        "min": [
+          0.566229,
+          -0.47202,
+          2.21
+        ],
+        "max": [
+          0.683297,
+          -0.409542,
+          2.269325
+        ]
+      },
+      {
+        "object": "BROW_right_1",
+        "passed": true,
+        "min": [
+          0.856781,
+          -0.471931,
+          2.210077
+        ],
+        "max": [
+          0.973798,
+          -0.409585,
+          2.269234
+        ]
+      },
+      {
+        "object": "BUZZ_SCALP_right",
+        "passed": true,
+        "min": [
+          0.291247,
+          -0.461177,
+          1.987432
+        ],
+        "max": [
+          1.248753,
+          0.460222,
+          2.6484
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_0_0",
+        "passed": true,
+        "min": [
+          -0.69488,
+          -0.06,
+          2.3774
+        ],
+        "max": [
+          -0.45488,
+          0.18,
+          2.6074
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_0_1",
+        "passed": true,
+        "min": [
+          -0.768345,
+          0.045547,
+          2.3774
+        ],
+        "max": [
+          -0.528345,
+          0.285547,
+          2.6074
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_0_2",
+        "passed": true,
+        "min": [
+          -0.933418,
+          0.071615,
+          2.3774
+        ],
+        "max": [
+          -0.693418,
+          0.311615,
+          2.6074
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_0_3",
+        "passed": true,
+        "min": [
+          -1.065797,
+          -0.001426,
+          2.3774
+        ],
+        "max": [
+          -0.825797,
+          0.238574,
+          2.6074
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_0_4",
+        "passed": true,
+        "min": [
+          -1.065797,
+          -0.118574,
+          2.3774
+        ],
+        "max": [
+          -0.825797,
+          0.121426,
+          2.6074
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_0_5",
+        "passed": true,
+        "min": [
+          -0.933418,
+          -0.191615,
+          2.3774
+        ],
+        "max": [
+          -0.693418,
+          0.048385,
+          2.6074
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_0_6",
+        "passed": true,
+        "min": [
+          -0.768345,
+          -0.165547,
+          2.3774
+        ],
+        "max": [
+          -0.528345,
+          0.074453,
+          2.6074
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_1_0",
+        "passed": true,
+        "min": [
+          -0.5106,
+          -0.06,
+          2.3424
+        ],
+        "max": [
+          -0.2706,
+          0.18,
+          2.5724
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_1_1",
+        "passed": true,
+        "min": [
+          -0.599363,
+          0.108732,
+          2.3424
+        ],
+        "max": [
+          -0.359363,
+          0.348732,
+          2.5724
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_1_2",
+        "passed": true,
+        "min": [
+          -0.824118,
+          0.198512,
+          2.3424
+        ],
+        "max": [
+          -0.584118,
+          0.438512,
+          2.5724
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_1_3",
+        "passed": true,
+        "min": [
+          -1.0797,
+          0.167332,
+          2.3424
+        ],
+        "max": [
+          -0.8397,
+          0.407332,
+          2.5724
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_1_4",
+        "passed": true,
+        "min": [
+          -1.246519,
+          0.02978,
+          2.3424
+        ],
+        "max": [
+          -1.006519,
+          0.26978,
+          2.5724
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_1_5",
+        "passed": true,
+        "min": [
+          -1.246519,
+          -0.14978,
+          2.3424
+        ],
+        "max": [
+          -1.006519,
+          0.09022,
+          2.5724
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_1_6",
+        "passed": true,
+        "min": [
+          -1.0797,
+          -0.287332,
+          2.3424
+        ],
+        "max": [
+          -0.8397,
+          -0.047332,
+          2.5724
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_1_7",
+        "passed": true,
+        "min": [
+          -0.824118,
+          -0.318512,
+          2.3424
+        ],
+        "max": [
+          -0.584118,
+          -0.078512,
+          2.5724
+        ]
+      },
+      {
+        "object": "CURL_CROWN_left_1_8",
+        "passed": true,
+        "min": [
+          -0.599363,
+          -0.228732,
+          2.3424
+        ],
+        "max": [
+          -0.359363,
+          0.011268,
+          2.5724
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_0",
+        "passed": true,
+        "min": [
+          -0.431488,
+          -0.435,
+          2.194264
+        ],
+        "max": [
+          -0.171488,
+          -0.145,
+          2.454264
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_1",
+        "passed": true,
+        "min": [
+          -0.473673,
+          -0.435,
+          2.217754
+        ],
+        "max": [
+          -0.213673,
+          -0.145,
+          2.477755
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_10",
+        "passed": true,
+        "min": [
+          -1.368512,
+          -0.435,
+          2.194264
+        ],
+        "max": [
+          -1.108512,
+          -0.145,
+          2.454264
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_2",
+        "passed": true,
+        "min": [
+          -0.548236,
+          -0.435,
+          2.23818
+        ],
+        "max": [
+          -0.288236,
+          -0.145,
+          2.49818
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_3",
+        "passed": true,
+        "min": [
+          -0.649513,
+          -0.435,
+          2.25399
+        ],
+        "max": [
+          -0.389513,
+          -0.145,
+          2.513989
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_4",
+        "passed": true,
+        "min": [
+          -0.769813,
+          -0.435,
+          2.263982
+        ],
+        "max": [
+          -0.509813,
+          -0.145,
+          2.523983
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_5",
+        "passed": true,
+        "min": [
+          -0.9,
+          -0.435,
+          2.2674
+        ],
+        "max": [
+          -0.64,
+          -0.145,
+          2.5274
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_6",
+        "passed": true,
+        "min": [
+          -1.030187,
+          -0.435,
+          2.263982
+        ],
+        "max": [
+          -0.770187,
+          -0.145,
+          2.523983
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_7",
+        "passed": true,
+        "min": [
+          -1.150487,
+          -0.435,
+          2.25399
+        ],
+        "max": [
+          -0.890487,
+          -0.145,
+          2.513989
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_8",
+        "passed": true,
+        "min": [
+          -1.251764,
+          -0.435,
+          2.23818
+        ],
+        "max": [
+          -0.991764,
+          -0.145,
+          2.49818
+        ]
+      },
+      {
+        "object": "CURL_TOP_left_9",
+        "passed": true,
+        "min": [
+          -1.326326,
+          -0.435,
+          2.217754
+        ],
+        "max": [
+          -1.066327,
+          -0.145,
+          2.477755
+        ]
+      },
+      {
+        "object": "EAR_left_0",
+        "passed": true,
+        "min": [
+          -1.401762,
+          -0.09,
+          1.79535
+        ],
+        "max": [
+          -1.221762,
+          0.06,
+          2.06535
+        ]
+      },
+      {
+        "object": "EAR_left_1",
+        "passed": true,
+        "min": [
+          -0.318238,
+          -0.09,
+          1.79535
+        ],
+        "max": [
+          -0.138238,
+          0.06,
+          2.06535
+        ]
+      },
+      {
+        "object": "EAR_right_0",
+        "passed": true,
+        "min": [
+          0.231762,
+          -0.09,
+          1.8741
+        ],
+        "max": [
+          0.411762,
+          0.06,
+          2.1441
+        ]
+      },
+      {
+        "object": "EAR_right_1",
+        "passed": true,
+        "min": [
+          1.128238,
+          -0.09,
+          1.8741
+        ],
+        "max": [
+          1.308238,
+          0.06,
+          2.1441
+        ]
+      },
+      {
+        "object": "EYE_GLINT_left_0",
+        "passed": true,
+        "min": [
+          -0.997079,
+          -0.461159,
+          2.017344
+        ],
+        "max": [
+          -0.985079,
+          -0.455159,
+          2.031344
+        ]
+      },
+      {
+        "object": "EYE_GLINT_left_1",
+        "passed": true,
+        "min": [
+          -0.566921,
+          -0.461159,
+          2.017344
+        ],
+        "max": [
+          -0.554921,
+          -0.455159,
+          2.031344
+        ]
+      },
+      {
+        "object": "EYE_GLINT_right_0",
+        "passed": true,
+        "min": [
+          0.612733,
+          -0.47469,
+          2.109744
+        ],
+        "max": [
+          0.624733,
+          -0.46869,
+          2.123744
+        ]
+      },
+      {
+        "object": "EYE_GLINT_right_1",
+        "passed": true,
+        "min": [
+          0.903267,
+          -0.47469,
+          2.109744
+        ],
+        "max": [
+          0.915267,
+          -0.46869,
+          2.123744
+        ]
+      },
+      {
+        "object": "EYE_IRIS_left_0",
+        "passed": true,
+        "min": [
+          -1.021938,
+          -0.458159,
+          1.982052
+        ],
+        "max": [
+          -0.94822,
+          -0.446159,
+          2.048636
+        ]
+      },
+      {
+        "object": "EYE_IRIS_left_1",
+        "passed": true,
+        "min": [
+          -0.59178,
+          -0.458159,
+          1.982052
+        ],
+        "max": [
+          -0.518062,
+          -0.446159,
+          2.048636
+        ]
+      },
+      {
+        "object": "EYE_IRIS_right_0",
+        "passed": true,
+        "min": [
+          0.597081,
+          -0.47169,
+          2.082768
+        ],
+        "max": [
+          0.652385,
+          -0.45969,
+          2.13272
+        ]
+      },
+      {
+        "object": "EYE_IRIS_right_1",
+        "passed": true,
+        "min": [
+          0.887616,
+          -0.47169,
+          2.082768
+        ],
+        "max": [
+          0.942919,
+          -0.45969,
+          2.13272
+        ]
+      },
+      {
+        "object": "EYE_WHITE_left_0",
+        "passed": true,
+        "min": [
+          -1.056419,
+          -0.452159,
+          1.971351
+        ],
+        "max": [
+          -0.913739,
+          -0.424159,
+          2.059337
+        ]
+      },
+      {
+        "object": "EYE_WHITE_left_1",
+        "passed": true,
+        "min": [
+          -0.626261,
+          -0.452159,
+          1.971351
+        ],
+        "max": [
+          -0.483581,
+          -0.424159,
+          2.059337
+        ]
+      },
+      {
+        "object": "EYE_WHITE_right_0",
+        "passed": true,
+        "min": [
+          0.571213,
+          -0.46569,
+          2.07474
+        ],
+        "max": [
+          0.678253,
+          -0.43769,
+          2.140748
+        ]
+      },
+      {
+        "object": "EYE_WHITE_right_1",
+        "passed": true,
+        "min": [
+          0.861748,
+          -0.46569,
+          2.07474
+        ],
+        "max": [
+          0.968787,
+          -0.43769,
+          2.140748
+        ]
+      },
+      {
+        "object": "GLASSES_ARM_left_-1",
+        "passed": true,
+        "min": [
+          -1.361481,
+          -0.442586,
+          2.021714
+        ],
+        "max": [
+          -1.103323,
+          -0.009738,
+          2.073904
+        ]
+      },
+      {
+        "object": "GLASSES_ARM_left_1",
+        "passed": true,
+        "min": [
+          -0.436677,
+          -0.442586,
+          2.021714
+        ],
+        "max": [
+          -0.178519,
+          -0.009738,
+          2.073904
+        ]
+      },
+      {
+        "object": "GLASSES_ARM_right_-1",
+        "passed": true,
+        "min": [
+          0.269544,
+          -0.468393,
+          2.066228
+        ],
+        "max": [
+          0.525418,
+          -0.009571,
+          2.12344
+        ]
+      },
+      {
+        "object": "GLASSES_ARM_right_1",
+        "passed": true,
+        "min": [
+          1.014582,
+          -0.468393,
+          2.066228
+        ],
+        "max": [
+          1.270456,
+          -0.009571,
+          2.12344
+        ]
+      },
+      {
+        "object": "GLASSES_BRIDGE_left",
+        "passed": true,
+        "min": [
+          -0.837251,
+          -0.550796,
+          2.019342
+        ],
+        "max": [
+          -0.702749,
+          -0.523468,
+          2.042168
+        ]
+      },
+      {
+        "object": "GLASSES_BRIDGE_right",
+        "passed": true,
+        "min": [
+          0.712865,
+          -0.550796,
+          2.114217
+        ],
+        "max": [
+          0.827135,
+          -0.523482,
+          2.137043
+        ]
+      },
+      {
+        "object": "GLASSES_left_0",
+        "passed": true,
+        "min": [
+          -1.122439,
+          -0.542208,
+          1.917764
+        ],
+        "max": [
+          -0.847676,
+          -0.423206,
+          2.112763
+        ]
+      },
+      {
+        "object": "GLASSES_left_1",
+        "passed": true,
+        "min": [
+          -0.692286,
+          -0.542477,
+          1.91763
+        ],
+        "max": [
+          -0.417519,
+          -0.423478,
+          2.112477
+        ]
+      },
+      {
+        "object": "GLASSES_right_0",
+        "passed": true,
+        "min": [
+          0.506826,
+          -0.548678,
+          1.996377
+        ],
+        "max": [
+          0.742607,
+          -0.443299,
+          2.218972
+        ]
+      },
+      {
+        "object": "GLASSES_right_1",
+        "passed": true,
+        "min": [
+          0.797172,
+          -0.548229,
+          1.996493
+        ],
+        "max": [
+          1.033364,
+          -0.443674,
+          2.218496
+        ]
+      },
+      {
+        "object": "HAIR_CAP_left",
+        "passed": true,
+        "min": [
+          -1.31742,
+          -0.358,
+          2.1024
+        ],
+        "max": [
+          -0.22258,
+          0.517999,
+          2.5124
+        ]
+      },
+      {
+        "object": "HEAD_LEFT",
+        "passed": true,
+        "min": [
+          -1.329313,
+          -0.475,
+          1.448576
+        ],
+        "max": [
+          -0.210687,
+          0.445,
+          2.4674
+        ]
+      },
+      {
+        "object": "HEAD_RIGHT",
+        "passed": true,
+        "min": [
+          0.305361,
+          -0.475,
+          1.422849
+        ],
+        "max": [
+          1.234638,
+          0.445,
+          2.6324
+        ]
+      },
+      {
+        "object": "LIP_left",
+        "passed": true,
+        "min": [
+          -0.937746,
+          -0.49202,
+          1.810238
+        ],
+        "max": [
+          -0.602254,
+          -0.454094,
+          1.882783
+        ]
+      },
+      {
+        "object": "LIP_right",
+        "passed": true,
+        "min": [
+          0.67266,
+          -0.492029,
+          1.871928
+        ],
+        "max": [
+          0.86734,
+          -0.458389,
+          1.919824
+        ]
+      },
+      {
+        "object": "MOUSTACHE_right_-1",
+        "passed": true,
+        "min": [
+          0.653679,
+          -0.519454,
+          1.89538
+        ],
+        "max": [
+          0.752348,
+          -0.454552,
+          1.957736
+        ]
+      },
+      {
+        "object": "MOUSTACHE_right_1",
+        "passed": true,
+        "min": [
+          0.787652,
+          -0.519454,
+          1.89538
+        ],
+        "max": [
+          0.886321,
+          -0.454552,
+          1.957736
+        ]
+      },
+      {
+        "object": "MOUTH_left",
+        "passed": true,
+        "min": [
+          -0.934196,
+          -0.483048,
+          1.811307
+        ],
+        "max": [
+          -0.605804,
+          -0.460536,
+          1.870441
+        ]
+      },
+      {
+        "object": "MOUTH_right",
+        "passed": true,
+        "min": [
+          0.676171,
+          -0.483052,
+          1.871971
+        ],
+        "max": [
+          0.863829,
+          -0.464546,
+          1.906182
+        ]
+      },
+      {
+        "object": "NOSE_BRIDGE_left",
+        "passed": true,
+        "min": [
+          -0.820327,
+          -0.570778,
+          1.873476
+        ],
+        "max": [
+          -0.719673,
+          -0.465442,
+          2.044198
+        ]
+      },
+      {
+        "object": "NOSE_BRIDGE_right",
+        "passed": true,
+        "min": [
+          0.73761,
+          -0.569952,
+          1.949107
+        ],
+        "max": [
+          0.80239,
+          -0.466268,
+          2.135217
+        ]
+      },
+      {
+        "object": "NOSE_TIP_left",
+        "passed": true,
+        "min": [
+          -0.862062,
+          -0.60092,
+          1.852898
+        ],
+        "max": [
+          -0.677938,
+          -0.46092,
+          1.956899
+        ]
+      },
+      {
+        "object": "NOSE_TIP_right",
+        "passed": true,
+        "min": [
+          0.71075,
+          -0.60092,
+          1.927561
+        ],
+        "max": [
+          0.82925,
+          -0.46092,
+          2.031561
+        ]
+      },
+      {
+        "object": "NOSE_WING_left_0",
+        "passed": true,
+        "min": [
+          -0.876792,
+          -0.56092,
+          1.865898
+        ],
+        "max": [
+          -0.798232,
+          -0.47492,
+          1.915898
+        ]
+      },
+      {
+        "object": "NOSE_WING_left_1",
+        "passed": true,
+        "min": [
+          -0.741768,
+          -0.56092,
+          1.865898
+        ],
+        "max": [
+          -0.663208,
+          -0.47492,
+          1.915898
+        ]
+      },
+      {
+        "object": "NOSE_WING_right_0",
+        "passed": true,
+        "min": [
+          0.70127,
+          -0.56092,
+          1.940561
+        ],
+        "max": [
+          0.75183,
+          -0.47492,
+          1.990561
+        ]
+      },
+      {
+        "object": "NOSE_WING_right_1",
+        "passed": true,
+        "min": [
+          0.78817,
+          -0.56092,
+          1.940561
+        ],
+        "max": [
+          0.83873,
+          -0.47492,
+          1.990561
+        ]
+      }
+    ],
+    "head_morphs_baked": true,
+    "finite_vertices": true,
+    "closed_components": true,
+    "component_count": 101,
+    "dimensions_scene_units": [
+      4.504,
+      4.04728,
+      2.6484
+    ],
+    "units": "unscaled demo units",
+    "objects": [
+      {
+        "object": "ARM_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03475781
+      },
+      {
+        "object": "ARM_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03475781
+      },
+      {
+        "object": "ARM_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03475781
+      },
+      {
+        "object": "ARM_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03475781
+      },
+      {
+        "object": "BODY_LEFT",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.42438473
+      },
+      {
+        "object": "BODY_RIGHT",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.42438473
+      },
+      {
+        "object": "BROW_left_0",
+        "vertices": 130,
+        "faces": 136,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00010062
+      },
+      {
+        "object": "BROW_left_1",
+        "vertices": 130,
+        "faces": 136,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00010062
+      },
+      {
+        "object": "BROW_right_0",
+        "vertices": 130,
+        "faces": 136,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 9.184e-05
+      },
+      {
+        "object": "BROW_right_1",
+        "vertices": 130,
+        "faces": 136,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 9.184e-05
+      },
+      {
+        "object": "BUZZ_SCALP_right",
+        "vertices": 962,
+        "faces": 1000,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.02802251
+      },
+      {
+        "object": "CURL_CROWN_left_0_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_0_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_0_2",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_0_3",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_0_4",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_0_5",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_0_6",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_1_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_1_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_1_2",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_1_3",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_1_4",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_1_5",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_1_6",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_1_7",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_CROWN_left_1_8",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00679178
+      },
+      {
+        "object": "CURL_TOP_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_10",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_2",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_3",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_4",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_5",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_6",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_7",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_8",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "CURL_TOP_left_9",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01005028
+      },
+      {
+        "object": "EAR_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00373733
+      },
+      {
+        "object": "EAR_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00373733
+      },
+      {
+        "object": "EAR_right_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00373733
+      },
+      {
+        "object": "EAR_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00373733
+      },
+      {
+        "object": "EYE_GLINT_left_0",
+        "vertices": 86,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.8e-07
+      },
+      {
+        "object": "EYE_GLINT_left_1",
+        "vertices": 86,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.8e-07
+      },
+      {
+        "object": "EYE_GLINT_right_0",
+        "vertices": 86,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.8e-07
+      },
+      {
+        "object": "EYE_GLINT_right_1",
+        "vertices": 86,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.8e-07
+      },
+      {
+        "object": "EYE_IRIS_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 3.02e-05
+      },
+      {
+        "object": "EYE_IRIS_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 3.02e-05
+      },
+      {
+        "object": "EYE_IRIS_right_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 1.7e-05
+      },
+      {
+        "object": "EYE_IRIS_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 1.7e-05
+      },
+      {
+        "object": "EYE_WHITE_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00018021
+      },
+      {
+        "object": "EYE_WHITE_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00018021
+      },
+      {
+        "object": "EYE_WHITE_right_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00010142
+      },
+      {
+        "object": "EYE_WHITE_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00010142
+      },
+      {
+        "object": "GLASSES_ARM_left_-1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00014946
+      },
+      {
+        "object": "GLASSES_ARM_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00014946
+      },
+      {
+        "object": "GLASSES_ARM_right_-1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00015589
+      },
+      {
+        "object": "GLASSES_ARM_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00015589
+      },
+      {
+        "object": "GLASSES_BRIDGE_left",
+        "vertices": 50,
+        "faces": 56,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 5.623e-05
+      },
+      {
+        "object": "GLASSES_BRIDGE_right",
+        "vertices": 50,
+        "faces": 56,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.754e-05
+      },
+      {
+        "object": "GLASSES_left_0",
+        "vertices": 480,
+        "faces": 480,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00034365
+      },
+      {
+        "object": "GLASSES_left_1",
+        "vertices": 480,
+        "faces": 480,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00034367
+      },
+      {
+        "object": "GLASSES_right_0",
+        "vertices": 480,
+        "faces": 480,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00036059
+      },
+      {
+        "object": "GLASSES_right_1",
+        "vertices": 480,
+        "faces": 480,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00036057
+      },
+      {
+        "object": "HAIR_CAP_left",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.20331107
+      },
+      {
+        "object": "HAND_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01209869
+      },
+      {
+        "object": "HAND_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01209869
+      },
+      {
+        "object": "HAND_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01209869
+      },
+      {
+        "object": "HAND_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.01209869
+      },
+      {
+        "object": "HEAD_LEFT",
+        "vertices": 1490,
+        "faces": 1536,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.55231927
+      },
+      {
+        "object": "HEAD_RIGHT",
+        "vertices": 1490,
+        "faces": 1536,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.52643027
+      },
+      {
+        "object": "HEART_BASE_LEFT",
+        "vertices": 768,
+        "faces": 857,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 1.79194385
+      },
+      {
+        "object": "HEART_BASE_RIGHT",
+        "vertices": 768,
+        "faces": 857,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 1.75184618
+      },
+      {
+        "object": "LIP_left",
+        "vertices": 250,
+        "faces": 256,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00019578
+      },
+      {
+        "object": "LIP_right",
+        "vertices": 250,
+        "faces": 256,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00010946
+      },
+      {
+        "object": "MOUSTACHE_right_-1",
+        "vertices": 90,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00016257
+      },
+      {
+        "object": "MOUSTACHE_right_1",
+        "vertices": 90,
+        "faces": 96,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00016257
+      },
+      {
+        "object": "MOUTH_left",
+        "vertices": 250,
+        "faces": 256,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 4.227e-05
+      },
+      {
+        "object": "MOUTH_right",
+        "vertices": 250,
+        "faces": 256,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 2.353e-05
+      },
+      {
+        "object": "NAME_left",
+        "vertices": 1512,
+        "faces": 1630,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00013922
+      },
+      {
+        "object": "NAME_right",
+        "vertices": 5676,
+        "faces": 6133,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00016627
+      },
+      {
+        "object": "NOSE_BRIDGE_left",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00063111
+      },
+      {
+        "object": "NOSE_BRIDGE_right",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00067847
+      },
+      {
+        "object": "NOSE_TIP_left",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00137438
+      },
+      {
+        "object": "NOSE_TIP_right",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00088453
+      },
+      {
+        "object": "NOSE_WING_left_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00017318
+      },
+      {
+        "object": "NOSE_WING_left_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00017318
+      },
+      {
+        "object": "NOSE_WING_right_0",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00011146
+      },
+      {
+        "object": "NOSE_WING_right_1",
+        "vertices": 362,
+        "faces": 384,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.00011146
+      },
+      {
+        "object": "SHIN_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03546537
+      },
+      {
+        "object": "SHIN_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03546537
+      },
+      {
+        "object": "SHIN_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03546537
+      },
+      {
+        "object": "SHIN_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03546537
+      },
+      {
+        "object": "SHOE_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03065001
+      },
+      {
+        "object": "SHOE_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03065001
+      },
+      {
+        "object": "SHOE_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03065001
+      },
+      {
+        "object": "SHOE_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.03065001
+      },
+      {
+        "object": "THIGH_left_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.08781218
+      },
+      {
+        "object": "THIGH_left_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.08781218
+      },
+      {
+        "object": "THIGH_right_0",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.08781218
+      },
+      {
+        "object": "THIGH_right_1",
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "volume_scene_units": 0.08781218
+      }
+    ]
+  },
+  "slicer": {
+    "state": "NOT_RUN",
+    "reason": "No validated print profile or target machine supplied"
+  },
+  "physical_validation": {
+    "state": "NOT_APPROVED"
+  },
+  "limitations": [
+    "Overlapping mannequin components are not a fused production mesh.",
+    "Connector fit and wall thickness have not been engineered or physically tested.",
+    "Names are raised demonstration labels, not manufacturing-approved engraving.",
+    "STL contains geometry only; GLB materials do not transfer to STL."
+  ]
+}

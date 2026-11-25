@@ -1,0 +1,6 @@
+{
+  "color_space": "sRGB",
+  "hair": {"chestnut":"#6E422B","black":"#28201D","blonde":"#C49B56","silver":"#AAA6A0","auburn":"#8D3F28","brown":"#856047"},
+  "skin": {"light":"#E0AC89","warm":"#BC805A","tan":"#A26844","deep":"#70452E"},
+  "clothing": {"cream":"#E8DFC9","blue":"#4C6F88","rose":"#B77077","sage":"#809579","black":"#282828","white":"#F1EEE8","gray":"#909090","red":"#B54942","brown":"#78513D","navy":"#263D56","yellow":"#D3AE4F","purple":"#806D98"}
+}

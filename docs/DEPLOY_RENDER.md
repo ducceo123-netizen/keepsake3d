@@ -1,112 +1,51 @@
-# Render deployment — free engineering demo
+# Render deployment
 
-This configuration deploys one Docker web service: a Next.js static export is built into the image and served by FastAPI, alongside the existing procedural Blender worker. The browser and API share one origin. There is no Node.js server, second service, database service or paid disk in the running deployment.
-
-## Current deployment
-
-| Item | Verified value |
-| --- | --- |
-| App | [keepsake3d-demo.onrender.com](https://keepsake3d-demo.onrender.com) |
-| Source | [Public GitHub repository](https://github.com/ducceo123-netizen/keepsake3d) |
-| Render status | **Live** |
-| Source commit | `ee604afa958a3ad281bb22a5ce56c34b072330de` |
-| Service | `srv-dc2pe6uk1f9s738nh7r0` |
-| Blueprint | `exs-dc2pc2mk1f9s738nb4k0` |
-| Deploy | `dep-dc2pe7mk1f9s738nh9v0` |
-| Compute / region | Free / Singapore |
-
-The Linux image build reached `PREVIEW_READY` with real Blender outputs in 8.9 seconds. That is a build-environment measurement, not a free-instance performance guarantee. The live homepage and studio loaded without JavaScript errors. The hosted lifecycle check completed successfully: healthy public-demo API, static routes and private-path isolation, owner-only synthetic photo access, two real Blender revisions, artifact SHA256 checks, preview approval, stale-approval rejection and disposable-session deletion. [Actual verification output](../evidence/render-live-verification.txt).
-
-The repository was made public at the user's explicit request and its anonymous accessibility was verified. Runtime credentials, private sessions and uploaded images are excluded. The Blueprint selects `plan: free`, has no persistent disk and disables automatic deploys.
-
-GitHub Actions is not enabled in this repository. The authenticated GitHub connection can publish source but lacks the separate `workflow` scope. A ready workflow template is retained at `docs/ci/github-actions-checks.yml`; local checks and the Docker image's real Blender build check remain available without expanding that connection's permissions.
-
-## Redeploy from the public source repository
-
-The active deployment was created through **New → Blueprint → Public Git Repository**. Paste `https://github.com/ducceo123-netizen/keepsake3d`, click **Continue**, use branch `main` and the root `render.yaml`, then review the free service and deploy. This public-repository flow does not require linking the repository owner’s GitHub account to Render. See [Render Blueprints](https://render.com/docs/infrastructure-as-code) and the [Blueprint reference](https://render.com/docs/blueprint-spec).
-
-If creating a service directly through the dashboard or API instead of a Blueprint, mirror these values:
+The existing free service serves a Next.js static export, FastAPI and one bounded CPU Blender executor in a single Docker container. Photo analysis runs on the customer's device, so no inference service or paid API key is required.
 
 | Setting | Value |
 | --- | --- |
-| Service type | Web service |
-| Runtime | Docker |
-| Compute plan | `free` |
-| Region | `singapore` |
-| Dockerfile | `./apps/api/Dockerfile` |
-| Build context | Repository root (`.`) |
-| Health check | `/api/v1/health` |
-| Environment | Copy the entries from `render.yaml` |
-| Persistent disk | None |
-| Automatic deploys | Off; deploy each reviewed source update deliberately |
+| App | https://keepsake3d-demo.onrender.com |
+| Source | https://github.com/ducceo123-netizen/keepsake3d |
+| Service | `srv-dc2pe6uk1f9s738nh7r0` |
+| Blueprint | `exs-dc2pc2mk1f9s738nb4k0` |
+| Plan / region | Free / Singapore |
+| Dockerfile / context | `apps/api/Dockerfile` / repository root |
+| HTTP health check | `/api/v1/health` |
+| Auto-deploy | Off; public Git URL uses manual deployment |
+| Storage | Ephemeral `/tmp/keepsake-data`; no paid disk |
 
-The container must listen on `0.0.0.0:$PORT`; this Blueprint sets port 10000. Use the checked-in Docker startup path, with a single Uvicorn process. Render exposes one public HTTP port and terminates HTTPS at its load balancer. [Web service documentation](https://render.com/docs/web-services)
+The source repository is public at the user's request. The Render Git source was connected using **Public Git Repository**, without requiring the browser account to own the GitHub repository. Keep that existing service; do not create a duplicate Blueprint for each release.
 
-This repository is intentionally public. The Public Git Repository deployment path is also available, but does not provide provider-authenticated automatic deploys. A prebuilt container is another option: Render accepts reachable public images or supported private registries, and requires **Linux/amd64** images, with compressed size at most 10 GB. Image tags do not trigger automatic redeploys; use a specific digest and deploy it deliberately. [Git source options](https://render.com/docs/web-services), [prebuilt-image requirements](https://render.com/docs/deploying-an-image)
+## Build and deploy
 
-Do not copy `.env`, `.data`, local session tokens, the macOS Blender application, Python virtual environments or Node dependencies into the source repository or Docker build context. The Dockerfile builds its own dependencies and downloads the compatible Linux renderer.
+1. Run the checks in [VERIFICATION.md](VERIFICATION.md), including actual browser inference and a real Blender lifecycle.
+2. Commit and push the reviewed source to `main`.
+3. In the service's **Deploys** page choose **Manual Deploy → Deploy latest commit**. Confirm that the new deploy references the intended commit.
+4. Follow that deploy through `live`, then test the hosted photo workflow. A successful trigger or HTTP health response alone does not prove 3D generation works.
 
-## Runtime settings
+The Docker build installs exact npm dependencies, downloads checksum-pinned official MediaPipe models/runtime, exports the static site and includes pinned Linux Blender 4.5.16. The image runs a genuine Blender export smoke test before publishing. The runtime is nonroot and serves one origin, with no Node server. WebAssembly execution is permitted by a narrow CSP directive; models and workers load only from the app's own origin. Public model assets are cached with revalidation; private API/photos/artifacts remain `no-store`.
 
-The Blueprint contains the agreed low-resource settings:
+## Runtime and limits
 
-| Variable | Value and purpose |
-| --- | --- |
-| `KEEPSAKE_WEB_DIR` | `/app/public`: immutable static frontend |
-| `KEEPSAKE_DATA_DIR` | `/tmp/keepsake-data`: temporary private database, photos and model outputs |
-| `KEEPSAKE_DEPLOYMENT_MODE` | `public-demo`: hosted-demo behavior |
-| `KEEPSAKE_STORAGE_MODE` | `ephemeral`: accurate storage messaging |
-| `KEEPSAKE_RETENTION_HOURS` | `24`: maximum configured session lifetime, not a durability guarantee |
-| `KEEPSAKE_BUILD_WORKERS` | `1`: one active model build |
-| `KEEPSAKE_MAX_PENDING_BUILDS` | `2`: total accepted slots including the running build |
-| `KEEPSAKE_BUILD_TIMEOUT_SECONDS` | `1000`: outer API job timeout |
-| `KEEPSAKE_MAX_STORAGE_MB` | `512`: private storage quota |
-| `KEEPSAKE_MAX_SESSIONS` | `100`: service session cap |
-| `KEEPSAKE_MAX_BUILDS_PER_HOUR` | `30`: service build-rate cap |
-| `BLENDER_THREADS` | `1` |
-| `BLENDER_RENDER_RESOLUTION` | `512` square render |
-| `BLENDER_RENDER_SAMPLES` | `8` |
-| `BLENDER_DENOISE` | `0`: disabled for the free demo |
-| `BLENDER_TIMEOUT_SECONDS` | `900`: renderer timeout, shorter than the outer job timeout |
+The checked-in `render.yaml` is the source of truth. It uses one active build, two total pending slots, one Blender thread, 512-pixel/8-sample CPU renders with denoising disabled, a 900-second Blender timeout and a 1000-second parent timeout. The API process must remain single-instance/single-worker because SQLite and the executor are local. Render's public hostname/origin are included explicitly; forwarded headers do not bypass per-socket limits.
 
-`KEEPSAKE_OPERATOR_TOKEN` is generated as a Render secret. Retrieve it through authorized Render environment settings when operator access is needed; do not place it in the repository, URL, frontend bundle or logs. Leaving this variable unconfigured disables operator access. The API derives its allowed public origin/host from Render's supplied URL/hostname when an explicit override is absent.
+`KEEPSAKE_OPERATOR_TOKEN` is a separate Render-generated secret. It is not needed for customer generation; do not expose it in client bundles, commands, logs or Git. No photo-provider key is needed.
 
-The lower render settings change image quality and timing. They do not authorize production or change the demo's locked geometry. Appearance extraction remains mocked. The GLB, STL and PNG still must share a configured scene and valid provenance.
+This free service sleeps when idle and has limited CPU/memory. Generation can take minutes. Every deploy or restart may remove photos, appearance profiles, generated files and approvals before the configured 24-hour expiry. Download wanted artifacts promptly. Persistent customer records, a durable queue, managed storage and production accounts require a separately planned infrastructure change. No paid resources are created by this release.
 
-## What the free deployment can and cannot preserve
+See Render's current [deploy lifecycle](https://render.com/docs/deploys), [health checks](https://render.com/docs/health-checks) and [free service limits](https://render.com/docs/free) before changing infrastructure.
 
-Render's free web-service compute is **0.1 CPU and 512 MB RAM**. It sleeps after 15 minutes without inbound traffic, can take about a minute to wake, and can restart at any time. Local SQLite records, uploads and generated files disappear on restart, redeploy or idle spin-down. Free services cannot attach persistent disks or provide shell/SSH access. Workspace usage includes 750 free instance hours per month; builds and bandwidth also count against workspace quotas, with documented billing or suspension behavior. [Free-service limits](https://render.com/docs/free), [compute plans](https://render.com/docs/compute-plans)
+## Verify a release
 
-This is a disposable demonstration. Use the synthetic fixture for deployment checks and download desired artifacts promptly. “Up to 24 hours” describes the configured deletion deadline; a Render restart may remove a session much sooner.
+- Confirm `/api/v1/health` reports the new design and `browser-mediapipe-v1`, with production disabled.
+- Open `/studio/`, upload two public-domain test portraits, analyze them in the actual browser, choose distinct faces and review the details.
+- Generate and download the real GLB/PNG/provenance, compare artifact checksums and profile binding, and inspect the model.
+- Approve, make a correction, regenerate, and verify stale approval is rejected.
+- Check invalid/no-face feedback, owner isolation, mobile layout and deletion of the disposable test session.
+- Inspect the specific deploy/runtime logs if generation fails or the service restarts.
 
-One render thread, one active build, reduced image resolution and disabled denoising lower resource demand. A local macOS arm64 measurement of the low-resolution pipeline took 14.16 seconds with peak worker-plus-Blender descendant RSS of 157.45 MiB; this excludes the API process. The measurement is recorded in [resource-measurement.json](../evidence/render-budget-build/resource-measurement.json). These observations do **not** establish that Blender will fit within 512 MB on Render. Linux peak RSS and CPU throttling must be measured from the actual deployment; macOS render logs are not equivalent. A killed or timed-out worker must surface an actionable failure, not a fabricated preview. The app's CPU rendering can still take minutes on a 0.1-CPU instance.
+`python3 scripts/smoke-deployment.py URL --generate` is only an explicit technical-fixture pipeline check. It does **not** replace the real-photo browser test.
 
-## Repeat the live verification
+Actual deployment evidence is recorded in [VERIFICATION.md](VERIFICATION.md). The historical 0.1 hosted log is retained in `evidence/render-live-verification.txt` and must not be mistaken for evidence of photo interpretation.
 
-For a new deploy, complete these checks in addition to the observed results above:
-
-1. Request `/api/v1/health`; confirm the deployment/storage modes and disabled production behavior.
-2. Open `/`, `/studio`, `/design-system` and `/admin` directly, then reload each path to test static routing.
-3. Use the synthetic photo, consent and names; generate a real preview, inspect it and download GLB/provenance. Confirm artifact hashes and the model revision.
-4. Approve the preview, make a supported correction and verify that the new revision requires a new approval.
-5. Check a rejected invalid image, owner-only access and session deletion. Confirm no public static path exposes private data.
-6. Inspect Render logs for out-of-memory exits, renderer errors and timeouts. A healthy HTTP endpoint alone does not prove Blender completed.
-7. Check the hosted disclosure that sessions are ephemeral. Recheck mobile layout after static export.
-
-The static/API lifecycle checks listed under Current deployment passed. Repeat them after code or infrastructure changes; a new deploy should have its own evidence.
-
-Run the repeatable synthetic lifecycle check against your deployment:
-
-```bash
-python3 scripts/smoke-deployment.py https://keepsake3d-demo.onrender.com --generate
-```
-
-It tests static routes, private-path isolation, owner authorization, two actual Blender revisions, artifact hashes, approval and stale-approval rejection, then deletes its disposable session. It never prints the session token. This command passed against the live Render service with exit code 0; its output is linked above.
-
-## Optional upgrade for durable demo sessions
-
-The prepared Blueprint does not purchase or create paid resources. If a durable demonstration is wanted later, a reasonable starting point to benchmark is the current **`1c-2g`** plan (1 CPU, 2 GB RAM), with one instance and a small persistent disk. This is an engineering recommendation, not a measured capacity guarantee. Current Render references list that compute size at $25/month and disks at $0.25/GB/month, so 1 GB would make the baseline approximately $25.25/month before other applicable usage. Recheck the account's quoted price before selecting it. [Current compute plans](https://render.com/docs/compute-plans), [Render hosting prices](https://render.com/hosting/docker), [storage pricing](https://render.com/pricing)
-
-For that optional topology, mount a disk at `/var/data` and set `KEEPSAKE_DATA_DIR=/var/data/keepsake`, update the storage-mode disclosure and ensure the nonroot container user can write the mount. The disk must be initialized at runtime: Render does not expose it during image builds or pre-deploy commands. A disk can belong to only one service instance, prevents horizontal scaling, and introduces a short interruption on deploy. Keep the API and its local Blender executor together; a separate worker cannot read this disk. A durable production architecture would instead migrate to a real queue, database and private object storage. [Persistent disk constraints](https://render.com/docs/disks)
-
-A split frontend/private-API topology is possible in a later revision. Services must be in the same region. Free web services can send private-network requests to paid services but cannot receive them; a private API requires paid compute. The current single-service static export avoids this wiring entirely. [Private networking](https://render.com/docs/private-network), [private services](https://render.com/docs/private-services)
+GitHub Actions is not enabled: the existing publishing token lacks `workflow` scope. The checked-in `docs/ci/github-actions-checks.yml` is a template, not a running check. Local verification and the Docker build smoke are the executed paths. The optional Compose recipe has not been exercised in this environment.

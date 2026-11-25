@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "verified_at": "2026-11-25T09:18:50.839Z",
+  "source": "browser-mediapipe-v1",
+  "first_revision": 1,
+  "second_revision": 2,
+  "first_checksum": "f9aec8a3e647950d6c257c4ce12005c85e6cfbe48b0b9bdc030c3e2a2752acc5",
+  "second_checksum": "b80e5f4cb9e9b4a9839c5e33735027009a268b478cfc0d492f75778ac5a2d015",
+  "glb_sha256": "71cd0b078761c6fc5b114d5bb4056b17e325dea30ec7ad55b0b99276ffa1b281",
+  "stale_approval_status": 409,
+  "private_session_deleted": true,
+  "responsive_widths": [
+    320,
+    390
+  ],
+  "browserErrors": []
+}

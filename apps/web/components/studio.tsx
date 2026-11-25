@@ -37,6 +37,9 @@ import {
   type Status,
 } from "@/lib/api";
 import PrivateImage from "./private-image";
+import PhotoAnalysis from "./photo-analysis";
+import AppearanceFields from "./appearance-fields";
+import { designVersion, type AppearanceDraft } from "@/lib/appearance";
 const ModelViewer = dynamic(() => import("./model-viewer"), {
   ssr: false,
   loading: () => (
@@ -45,24 +48,8 @@ const ModelViewer = dynamic(() => import("./model-viewer"), {
     </div>
   ),
 });
-const STORAGE = "keepsake-local-session-v1";
+const STORAGE = "keepsake-local-session-v2";
 const namePattern = "[A-Za-z \\x2d]{0,12}";
-const correctionOptions: Record<string, string[]> = {
-  hair_style_asset_id: ["short", "long", "bun"],
-  hair_color_id: ["chestnut", "black", "blonde", "silver"],
-  skin_material_id: ["warm", "light", "deep"],
-  outfit_palette_id: ["cream", "blue", "rose", "sage"],
-  facial_hair_id: ["none", "beard"],
-  glasses_asset_id: ["none", "round"],
-};
-const correctionLabels: Record<string, string> = {
-  hair_style_asset_id: "Hair style",
-  hair_color_id: "Hair color",
-  skin_material_id: "Skin material",
-  outfit_palette_id: "Outfit color",
-  facial_hair_id: "Facial hair",
-  glasses_asset_id: "Glasses",
-};
 export default function Studio() {
   const [session, setSession] = useState<Session | null>(null),
     sessionRef = useRef<Session | null>(null),
@@ -80,6 +67,7 @@ export default function Studio() {
     [deleteOpen, setDeleteOpen] = useState(false),
     [dragging, setDragging] = useState(false),
     [pollVersion, setPollVersion] = useState(0);
+  const [appearance, setAppearance] = useState<AppearanceDraft | null>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
   const restoreFocus = (event: Event) => {
     if (returnFocus.current?.isConnected) {
@@ -89,8 +77,15 @@ export default function Studio() {
   };
   const input = useRef<HTMLInputElement>(null),
     retryKey = useRef<string | null>(null),
+    correctionAttempt = useRef<{ fingerprint: string; key: string } | null>(
+      null,
+    ),
     mounted = useRef(true);
+  useEffect(() => {
+    retryKey.current = null;
+  }, [appearance, names]);
   const saveSession = (s: Session | null) => {
+    correctionAttempt.current = null;
     sessionRef.current = s;
     setSession(s);
     if (s) sessionStorage.setItem(STORAGE, JSON.stringify(s));
@@ -155,7 +150,7 @@ export default function Studio() {
       method: "POST",
       body: JSON.stringify({
         design_id: "better-together",
-        design_version: "0.1.0-demo",
+        design_version: designVersion,
       }),
     });
     saveSession(s);
@@ -176,6 +171,7 @@ export default function Studio() {
   async function upload(files: FileList | File[] | null) {
     if (!files?.length) return;
     await action("upload", async () => {
+      setAppearance(null);
       if ((status?.photos.length || 0) + files.length > 3)
         throw new Error(
           "Choose up to 3 photos. Remove a photo first to replace it.",
@@ -199,42 +195,53 @@ export default function Studio() {
     });
     if (input.current) input.current.value = "";
   }
-  async function sample() {
-    await action("sample", async () => {
-      const s = await ensureSession();
-      await api(`/api/v1/sessions/${s.id}/fixture`, s, { method: "POST" });
-      await refresh(s);
-    });
-  }
   async function submit() {
-    if (!consent || !session || !status?.photos.length) return;
+    if (!consent || !session || !status?.photos.length || !appearance) return;
     await action("generate", async () => {
+      const profile = await api<{ id: string; sha256: string }>(
+        `/api/v1/sessions/${session.id}/appearance-profile`,
+        session,
+        { method: "POST", body: JSON.stringify(appearance) },
+      );
       const idempotency = retryKey.current || crypto.randomUUID();
       retryKey.current = idempotency;
       await api(`/api/v1/sessions/${session.id}/submit`, session, {
         method: "POST",
         headers: { "Idempotency-Key": idempotency },
-        body: JSON.stringify({ consent: true, names }),
+        body: JSON.stringify({
+          consent: true,
+          names,
+          appearance_profile_id: profile.id,
+          appearance_profile_sha256: profile.sha256,
+        }),
       });
-      retryKey.current = null;
       await refresh(session);
+      retryKey.current = null;
     });
+  }
+  async function sendCorrections(
+    characters: Record<string, Partial<Character>>,
+  ) {
+    if (!session || !status) return;
+    const body = JSON.stringify({ characters });
+    const fingerprint = JSON.stringify([session.id, status.revision, body]);
+    if (correctionAttempt.current?.fingerprint !== fingerprint)
+      correctionAttempt.current = { fingerprint, key: crypto.randomUUID() };
+    await api(`/api/v1/sessions/${session.id}/corrections`, session, {
+      method: "POST",
+      headers: { "Idempotency-Key": correctionAttempt.current.key },
+      body,
+    });
+    // Keep the same request key if either acceptance or status reconciliation
+    // loses its response. A retry recovers that build instead of enqueuing twice.
+    await refresh(session);
+    correctionAttempt.current = null;
   }
   async function retryBuild() {
     if (!session || !status?.params) return;
     await action("generate", async () => {
-      const characters = Object.fromEntries(
-        Object.entries(status.params!.characters).map(([slot, c]) => {
-          const { face_morphs, ...fields } = c;
-          return [slot, fields];
-        }),
-      );
-      await api(`/api/v1/sessions/${session.id}/corrections`, session, {
-        method: "POST",
-        headers: { "Idempotency-Key": crypto.randomUUID() },
-        body: JSON.stringify({ characters }),
-      });
-      await refresh(session);
+      const characters = status.params!.characters;
+      await sendCorrections(characters);
       setPollVersion((v) => v + 1);
     });
   }
@@ -252,21 +259,34 @@ export default function Studio() {
     });
   }
   async function applyCorrections() {
-    if (!session || !corrections) return;
+    if (!session || !corrections || !status?.params) return;
     await action("correct", async () => {
       const characters = Object.fromEntries(
-        Object.entries(corrections).map(([slot, c]) => {
-          const { face_morphs, ...fields } = c;
+        (["left", "right"] as const).map((slot) => {
+          const previous = status.params!.characters[slot],
+            next = corrections[slot];
+          const fields: Partial<Character> = Object.fromEntries(
+            Object.entries(next).filter(
+              ([key, value]) =>
+                key !== "face_morphs" &&
+                value !== previous[key as keyof Character],
+            ),
+          );
+          const morphs = Object.fromEntries(
+            Object.entries(next.face_morphs).filter(
+              ([key, value]) => value !== previous.face_morphs[key],
+            ),
+          );
+          if (Object.keys(morphs).length) fields.face_morphs = morphs;
           return [slot, fields];
         }),
       );
-      await api(`/api/v1/sessions/${session.id}/corrections`, session, {
-        method: "POST",
-        headers: { "Idempotency-Key": crypto.randomUUID() },
-        body: JSON.stringify({ characters }),
-      });
+      if (
+        Object.values(characters).some((fields) => Object.keys(fields).length)
+      )
+        await sendCorrections(characters);
       setCorrecting(false);
-      await refresh(session);
+      setAppearance(null);
     });
   }
   async function download(artifact: Artifact) {
@@ -291,6 +311,7 @@ export default function Studio() {
         });
       saveSession(null);
       setStatus(null);
+      setAppearance(null);
       setConsent(false);
       setNames(["", ""]);
       setDeleteOpen(false);
@@ -312,7 +333,7 @@ export default function Studio() {
         <Link className="back-link" href="/">
           The collection
         </Link>
-        <StatusBadge>Demo studio</StatusBadge>
+        <StatusBadge>Photo studio · Beta</StatusBadge>
       </div>
       <Stepper
         step={isApproved ? 2 : isReady || isRunning || isFailed ? 1 : 0}
@@ -443,6 +464,7 @@ export default function Studio() {
                       disabled={!!busy}
                       onClick={() =>
                         action("remove", async () => {
+                          setAppearance(null);
                           await api(
                             `/api/v1/sessions/${session.id}/photos/${p.id}`,
                             session,
@@ -462,56 +484,14 @@ export default function Studio() {
                 ))}
               </div>
             )}
-            <div className="sample-option">
-              <span>Just looking around?</span>
-              <BrandButton
-                variant="text"
-                loading={busy === "sample"}
-                disabled={!!busy || photoCount >= 3}
-                onClick={sample}
-              >
-                Try a sample photo
-              </BrandButton>
-            </div>
             <div className="private-note">
               <LockKeyhole size={16} />
               <p>
-                Private to this session. No photos are sent to an AI provider in
-                this demo. This temporary studio may clear your session when the
-                server restarts. Try a sample photo to explore it.
+                Private to this session. Photo analysis runs on your device;
+                photos are not sent to an external AI provider. This temporary
+                studio may clear your session when the server restarts.
               </p>
             </div>
-            <div className="panel-heading names-heading">
-              <span className="section-number">02</span>
-              <div>
-                <h2>A little personal touch</h2>
-                <p>Add your names, if you’d like.</p>
-              </div>
-              <span className="optional">Optional</span>
-            </div>
-            <div className="names-grid">
-              {["First name", "Second name"].map((label, i) => (
-                <label className="field" key={label}>
-                  {label}
-                  <input
-                    value={names[i]}
-                    onChange={(e) =>
-                      setNames((n) =>
-                        n.map((v, j) => (i === j ? e.target.value : v)),
-                      )
-                    }
-                    placeholder={i === 0 ? "e.g. Alex" : "e.g. Jamie"}
-                    maxLength={12}
-                    pattern={namePattern}
-                    title="Up to 12 letters, spaces, or hyphens"
-                  />
-                </label>
-              ))}
-            </div>
-            <p className="field-help">
-              Up to 12 letters, spaces, or hyphens. Demo names appear as raised
-              labels.
-            </p>
             <label className="consent">
               <input
                 type="checkbox"
@@ -519,15 +499,57 @@ export default function Studio() {
                 onChange={(e) => setConsent(e.target.checked)}
               />
               <span>
-                I have permission to use these photos for this demo. I agree to
-                private server storage until{" "}
+                I have permission to use these photos and agree to analysis on
+                this device and private server storage until{" "}
                 {session
                   ? new Date(session.expires_at).toLocaleString()
                   : "this session expires"}
-                , or earlier if I delete this session or the demo restarts. No
-                external image processing is used.
+                , or earlier if I delete this session or the server restarts.
               </span>
             </label>
+            {session && photoCount > 0 && (
+              <PhotoAnalysis
+                key={status!.photos.map((p) => p.id).join(":")}
+                photos={status!.photos}
+                session={session}
+                consent={consent}
+                disabled={!!busy}
+                onReady={setAppearance}
+              />
+            )}
+            <div className="panel-heading names-heading">
+              <span className="section-number">03</span>
+              <div>
+                <h2>A little personal touch</h2>
+                <p>Add your names, if you’d like.</p>
+              </div>
+              <span className="optional">Optional</span>
+            </div>
+            <div className="names-grid">
+              {["Left character name", "Right character name"].map(
+                (label, i) => (
+                  <label className="field" key={label}>
+                    {label}
+                    <input
+                      value={names[i]}
+                      onChange={(e) =>
+                        setNames((n) =>
+                          n.map((v, j) => (i === j ? e.target.value : v)),
+                        )
+                      }
+                      placeholder={i === 0 ? "e.g. Alex" : "e.g. Jamie"}
+                      maxLength={12}
+                      pattern={namePattern}
+                      title="Up to 12 letters, spaces, or hyphens"
+                    />
+                  </label>
+                ),
+              )}
+            </div>
+            <p className="field-help">
+              Up to 12 letters, spaces, or hyphens. Demo names appear as raised
+              labels.
+            </p>
             <BrandButton
               className="wide"
               loading={busy === "generate"}
@@ -535,6 +557,7 @@ export default function Studio() {
                 !!busy ||
                 !photoCount ||
                 !consent ||
+                !appearance ||
                 names.some((n) => !/^[A-Za-z -]{0,12}$/.test(n))
               }
               onClick={submit}
@@ -570,11 +593,12 @@ export default function Studio() {
               </p>
             </div>
             <div className="demo-note">
-              <strong>You’re exploring an early demo</strong>
+              <strong>A stylized keepsake, guided by your photos</strong>
               <p>
-                Appearance analysis uses sample settings. Your preview will be a
-                simple procedural model, not a likeness or the finished concept
-                shown above.
+                Face proportions and visible colors come from your selected
+                photos. You choose hair style and accessories. The sculpted body
+                and pose stay fixed; this beta does not promise an exact
+                likeness or reproduce the concept artwork.
               </p>
             </div>
           </aside>
@@ -583,11 +607,11 @@ export default function Studio() {
         <div className="processing-card">
           <GenerationStatus
             label={stateMessages[state] || "Creating your preview"}
-            detail="We’re building a simple demo model, rendering its image, and checking that the files belong to the same revision."
+            detail="We’re applying your reviewed face proportions and colors, then rendering and checking your model. This can take a few minutes."
           />
           <div className="processing-foot">
             <StatusBadge>Revision {status?.revision}</StatusBadge>
-            <span>Real model generation · Sample appearance</span>
+            <span>Photo proportions · Your reviewed details</span>
           </div>
         </div>
       ) : isFailed ? (
@@ -626,8 +650,9 @@ export default function Studio() {
                 />
               ))}
               <p>
-                Sample appearance settings are used in this demo. Your photo has
-                not been analyzed.
+                Built from the face proportions and colors of your selected
+                photos, with the details you reviewed. A stylized
+                interpretation.
               </p>
             </div>
             <details className="technical-details">
@@ -636,7 +661,7 @@ export default function Studio() {
               </summary>
               <div className="provenance-summary">
                 <p>
-                  <strong>Design:</strong> better-together · 0.1.0-demo
+                  <strong>Design:</strong> better-together · {designVersion}
                 </p>
                 <p>
                   <strong>Model revision:</strong> {status.revision}
@@ -707,7 +732,7 @@ export default function Studio() {
               </div>
               <div>
                 <dt>Model type</dt>
-                <dd>Procedural demo</dd>
+                <dd>Photo-personalized, stylized</dd>
               </div>
             </dl>
             {!isApproved ? (
@@ -798,37 +823,15 @@ export default function Studio() {
                       <legend>
                         {slot === "left" ? "Left character" : "Right character"}
                       </legend>
-                      {Object.entries(correctionOptions).map(
-                        ([key, options]) => (
-                          <label className="field" key={key}>
-                            {correctionLabels[key]}
-                            <select
-                              value={String(
-                                corrections[slot][key as keyof Character],
-                              )}
-                              onChange={(e) =>
-                                setCorrections((c) =>
-                                  c
-                                    ? {
-                                        ...c,
-                                        [slot]: {
-                                          ...c[slot],
-                                          [key]: e.target.value,
-                                        },
-                                      }
-                                    : c,
-                                )
-                              }
-                            >
-                              {options.map((o) => (
-                                <option value={o} key={o}>
-                                  {o.charAt(0).toUpperCase() + o.slice(1)}
-                                </option>
-                              ))}
-                            </select>
-                          </label>
-                        ),
-                      )}
+                      <AppearanceFields
+                        value={corrections[slot]}
+                        disabled={!!busy}
+                        onChange={(value) =>
+                          setCorrections((c) =>
+                            c ? { ...c, [slot]: value } : c,
+                          )
+                        }
+                      />
                       <label className="field">
                         Name
                         <input

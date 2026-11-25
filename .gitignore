@@ -19,6 +19,9 @@ test-results/
 work/
 *.tsbuildinfo
 docs/handoff/
+apps/web/public/vision/
+tests/vision/fixtures/*.png
+tests/vision/fixtures/*.jpg
 evidence/screenshots/
 evidence/demo-build/
 evidence/variant-build/

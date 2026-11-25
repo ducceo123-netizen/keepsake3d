@@ -1,6 +1,89 @@
 * {
   box-sizing: border-box;
 }
+.tripo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+.tripo-layout > * {
+  min-width: 0;
+}
+.tripo-preview {
+  padding: 1.5rem;
+  border: 1px solid var(--ks-border);
+  border-radius: var(--ks-radius-card);
+  background: var(--ks-surface);
+}
+.tripo-preview h2 {
+  margin: 0 0 1rem;
+}
+.tripo-empty {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  min-height: 300px;
+  padding: 2rem;
+  background: var(--ks-blush);
+  border-radius: var(--ks-radius-control);
+}
+.tripo-empty p {
+  max-width: 32ch;
+}
+.tripo-upload {
+  margin: 1rem 0;
+  position: relative;
+}
+.tripo-photos {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border: 0;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+.tripo-photos legend {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.tripo-photo {
+  width: 120px;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.tripo-photo img {
+  width: 120px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: var(--ks-radius-control);
+}
+.tripo-photo span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.tripo-plan {
+  border-top: 1px solid var(--ks-border);
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+.tripo-plan .consent {
+  margin: 1rem 0;
+}
+.tripo-session {
+  margin: 2rem 0;
+}
+@media (max-width: 800px) {
+  .tripo-layout {
+    grid-template-columns: 1fr;
+  }
+  .tripo-preview {
+    padding: 1rem;
+  }
+}
 .photo-analysis {
   margin-top: 2rem;
   padding-top: 2rem;

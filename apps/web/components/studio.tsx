@@ -336,6 +336,16 @@ export default function Studio() {
         </Link>
         <StatusBadge>Photo studio · Beta</StatusBadge>
       </div>
+      <div className="analysis-result">
+        <strong>Try photo-to-3D with Tripo</strong>
+        <p>
+          Create a complete model directly from one reference photo, without the
+          face-selection step.
+        </p>
+        <Link className="button button--secondary" href="/studio/tripo">
+          Open Tripo studio
+        </Link>
+      </div>
       <Stepper
         step={isApproved ? 2 : isReady || isRunning || isFailed ? 1 : 0}
       />

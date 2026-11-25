@@ -22,7 +22,7 @@ const faqs = [
   ],
   [
     "How are my photos used?",
-    "Uploads are stored privately on the server and are accessible only to your session. Face measurements and color suggestions are computed in your browser; no photos go to an external AI provider. Images expire within 24 hours, and you can delete your session and its files from the studio. On this temporary demo, a server restart may clear your session sooner.",
+    "Uploads are stored privately and are accessible only to your session. The sculpted preview analyzes photos in your browser. The separate Tripo studio sends your selected photo to Tripo only after you approve the transfer and generation cost. Local session files expire within 24 hours or can be deleted from the studio; deleting them does not cancel a Tripo task or guarantee provider-side deletion. On the temporary demo, a server restart may clear local files sooner.",
   ],
   [
     "Can I order one yet?",

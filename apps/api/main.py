@@ -16,6 +16,7 @@ from packages.schemas.models import Approval, Corrections, CreateSession, Submit
 from .service import MAX_BYTES, ROOT, Service
 from packages.schemas.constants import DESIGN_ID, DESIGN_VERSION, PARAMS_SCHEMA_VERSION
 from workers.blender.run import find_blender, verify_manifest
+from .tripo import TripoService, install_routes as install_tripo_routes
 
 
 class LimitBodyMiddleware:
@@ -102,11 +103,17 @@ def create_app(data_dir: Path | None = None):
     @asynccontextmanager
     async def lifespan(app):
         app.state.service=Service(data_dir)
-        yield
-        app.state.service.close()
+        try:
+            app.state.tripo=TripoService(app.state.service)
+            try:
+                yield
+            finally:
+                app.state.tripo.close()
+        finally:
+            app.state.service.close()
     app=FastAPI(title='Keepsake3D API',version='0.2.0',lifespan=lifespan,
         docs_url='/docs' if docs_enabled else None,redoc_url=None,openapi_url='/openapi.json' if docs_enabled else None,
-        description='Private sessions with reviewed browser-local photo measurements. Browser results are untrusted bounded customization input; no external AI receives photos. Blender produces versioned stylized demo geometry, not a production-approved product.')
+        description='Private sessions with reviewed browser-local measurements and an optional, separately consented Tripo image-generation workflow. Blender and Tripo outputs are digital previews, not production-approved products.')
     app.add_middleware(LimitBodyMiddleware)
     app.add_middleware(TrustedHostMiddleware,allowed_hosts=hosts)
     app.add_middleware(CORSMiddleware,allow_origins=origins,allow_methods=['GET','POST','DELETE','OPTIONS'],allow_headers=['Authorization','Content-Type','Idempotency-Key'],allow_credentials=False)
@@ -253,7 +260,9 @@ def create_app(data_dir: Path | None = None):
 
     @app.delete('/api/v1/sessions/{sid}',status_code=204)
     def delete(sid:str,request:Request,authorization:str|None=Header(None)):
-        owned(request,sid,authorization).delete(sid)
+        svc=owned(request,sid,authorization)
+        request.app.state.tripo.delete_session(sid)
+        svc.delete(sid)
         return Response(status_code=204)
 
     @app.get('/api/v1/admin/jobs')
@@ -266,6 +275,7 @@ def create_app(data_dir: Path | None = None):
         with svc.lock:
             rows=[dict(r) for r in svc.db.execute('SELECT id,session_id,revision,state,attempts,created_at,finished_at,error_code FROM build_jobs ORDER BY created_at DESC LIMIT 100')]
         return {'jobs':rows,'production_enabled':False}
+    install_tripo_routes(app)
     web_dir=os.environ.get('KEEPSAKE_WEB_DIR','')
     if web_dir:
         directory=Path(web_dir).resolve()

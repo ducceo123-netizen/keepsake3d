@@ -8,13 +8,25 @@ A photo-personalized, stylized couple figurine studio built from the supplied Ke
 
 The original demo used fixed appearance settings and did not interpret photos. The new customer flow uses actual MediaPipe face landmarks and segmentation in a CPU Web Worker. Bounded face proportions and suggested hair/skin/top colors affect the 3D scene. Hair style, facial hair, glasses and other clothing choices require review. Missing or unusable faces produce actionable feedback; there is no silent mock fallback.
 
-All models are pinned, verified and self-hosted. Photos never go to an external AI provider and no paid API key is needed. The server checks photo ownership/checksums and bounded parameters, and retains immutable appearance profiles tied to artifact provenance. Browser inference is customization input, not biometric authentication or independently verified server evidence.
+The sculpted preview's analysis models are pinned, verified and self-hosted. That flow sends no photos to an external AI provider and needs no paid API key. The server checks photo ownership/checksums and bounded parameters, and retains immutable appearance profiles tied to artifact provenance. Browser inference is customization input, not biometric authentication or independently verified server evidence.
 
 The result is a stylized interpretation with a fixed body, pose and puzzle base. It does not guarantee exact likeness or reproduce the concept illustration. The beta has no checkout or manufacturing approval. The current free Render service has temporary storage; restarting or redeploying may clear sessions and files before their 24-hour expiry.
 
 Read [photo personalization and its limits](docs/PHOTO_PERSONALIZATION.md), [API contract](docs/API.md), [verification](docs/VERIFICATION.md) and [Render deployment](docs/DEPLOY_RENDER.md).
 
 ## Run locally
+
+### Optional Tripo image-to-model studio
+
+`/studio/tripo/` is a separate, explicitly consented workflow: select one uploaded image, review a server-issued cost plan, approve transfer to Tripo and credit usage, then receive a private textured GLB. It bypasses the local face-selection gate. It does not promise the authored couple pose, puzzle base, engraving, independently editable characters, exact likeness or printability.
+
+The pinned H3.1 request (`v3.1-20260211`, standard texture, 50,000-face target) is estimated at 30 credits. There are no automatic paid retries. The server stores the submission boundary, remote task ID and a spend ledger; known tasks resume after restart, while an uncertain creation blocks another submission. Actual billed credits remain visible even when a returned model fails ingestion checks.
+
+Configure `TRIPO_API_KEY` and `TRIPO_GENERATION_CODE` only as backend secrets. The generation code authorizes customer credit use; it is not the API key. Local CLI login does not configure a hosted server. Public deployments additionally require persistent private session/photo storage (`KEEPSAKE_STORAGE_MODE=persistent`, `TRIPO_DURABLE_STATE=1`); `TRIPO_STATE_DIR` must live beneath `KEEPSAKE_DATA_DIR` on the persistent mount. The current Free Blueprint leaves Tripo generation disabled. [Prepared Render settings](deploy/tripo-render-settings.json) are a reviewable proposal, not an applied infrastructure change. Default limits are one remote job at a time and three requests per hour across sessions.
+
+No provider-generated asset has been verified for this integration yet: automated Tripo tests use explicit HTTP fixtures and spend no credits. Deleting a session removes local photos/models and retains a minimal billing record; it cannot guarantee cancellation or deletion at Tripo.
+
+### Development server
 
 Requires Node 24, Python 3.14 and Blender 4.5 LTS (the pinned renderer is 4.5.16). Dependencies are pinned in npm/Python locks. From this directory:
 

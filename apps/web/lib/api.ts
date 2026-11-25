@@ -43,6 +43,15 @@ export type Status = {
   expires_at?: string;
   appearance_profile?: unknown;
 };
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
 export async function api<T>(
   path: string,
   session?: Session | null,
@@ -68,7 +77,7 @@ export async function api<T>(
             ? data.detail.map((d: { msg: string }) => d.msg).join(" ")
             : message;
     } catch {}
-    throw new Error(message);
+    throw new ApiError(message, response.status);
   }
   return response.status === 204 ? (undefined as T) : await response.json();
 }

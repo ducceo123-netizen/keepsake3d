@@ -1,0 +1,31 @@
+{
+  "status": "prepared_not_applied",
+  "service_id": "srv-dc2pe6uk1f9s738nh7r0",
+  "workspace_id": "tea-dbmpmim1egvs73d9kcmg",
+  "service_name": "keepsake3d-demo",
+  "region": "singapore",
+  "plan": "0.5c-512mb",
+  "disk": {"name": "keepsake-private-data", "mountPath": "/var/data", "sizeGB": 1},
+  "environment": {
+    "KEEPSAKE_DATA_DIR": "/var/data/keepsake",
+    "KEEPSAKE_STORAGE_MODE": "persistent",
+    "TRIPO_STATE_DIR": "/var/data/keepsake/tripo-state",
+    "TRIPO_DURABLE_STATE": "1",
+    "TRIPO_MAX_JOBS_PER_HOUR": "3"
+  },
+  "secrets_to_set_directly_in_render": ["TRIPO_API_KEY", "TRIPO_GENERATION_CODE"],
+  "base_estimated_usd_per_month": 7.25,
+  "pricing_checked_on": "2026-11-25",
+  "pricing_source": "https://render.com/pricing",
+  "estimate_excludes": ["tax", "usage above included quotas", "Tripo generation credits"],
+  "generation": {"model": "v3.1-20260211", "estimated_credits_per_approved_model": 30, "automatic_paid_retry": false},
+  "deployment_notes": [
+    "Paid plan and disk require owner approval before application. Active render.yaml remains Free.",
+    "Update the existing Blueprint after approval; do not create a duplicate service.",
+    "Set secrets directly in Render. Do not copy the Tripo CLI credential from its local config.",
+    "Existing ephemeral sessions do not automatically migrate to the new disk; current uploaded references may need to be uploaded again.",
+    "A disk-backed service has one instance and a short interruption during deployment.",
+    "Verify runtime write permissions under /var/data for container UID 10001 and confirm provider config reports available before any paid generation.",
+    "Keep SQLite-native backups separately; a disk snapshot is not a substitute for a consistent database backup."
+  ]
+}

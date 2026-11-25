@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-25",
+  "scope": "Optional Tripo image-to-model workflow, separate from the authored Blender pipeline",
+  "python": {"passed": 163, "skipped": 1, "skip_reason": "Opt-in real Blender lifecycle not requested for this provider-only change"},
+  "browser": {"passed": 38, "skipped": 1, "duration_seconds": 57.2, "skip_reason": "Opt-in real API/Blender lifecycle"},
+  "build": "Static export, TypeScript, design governance and git diff checks passed",
+  "tripo_test_boundary": "Provider HTTP is mocked. Tests do not upload any image to Tripo, create a real task or spend credits. Tiny GLB and public-domain portrait fixtures are test-only.",
+  "covered": [
+    "Explicit transfer and cost acceptance, generation access code and quote expiry",
+    "Private normalized-photo ownership and immutable request snapshot",
+    "At-most-once submission after ambiguous outcomes and restart recovery for known tasks",
+    "Global paid-request limits and a spend ledger that survives session deletion",
+    "Actual terminal-task billing before model download or acceptance",
+    "Authenticated bounded GLB downloads, embedded resources and checksum verification",
+    "Deletion and expiration prevent late artifact recreation",
+    "Expired browser session recovery while network failures preserve paid-attempt locking",
+    "Existing face analysis, cancellation, upload and recovery flows"
+  ],
+  "cli": {"version": "0.7.2", "installed_with_user_approval": true, "authenticated": true, "observed_balance": 0, "observed_frozen_credits": 0},
+  "live_generation_verified": false,
+  "public_activation": "Awaiting owner approval for persistent hosting, server-side Tripo credentials and sufficient provider credits",
+  "active_render_blueprint": "Unchanged Free ephemeral service; provider generation fails closed"
+}

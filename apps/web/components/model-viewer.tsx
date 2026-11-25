@@ -52,7 +52,7 @@ function Scene({
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     } catch {
       onError(
-        "Interactive 3D is unavailable on this device. The model render is shown instead.",
+        "Interactive 3D is unavailable on this device. You can still download the model file.",
       );
       return;
     }
@@ -157,7 +157,7 @@ function Scene({
       () => {
         if (!disposed)
           onError(
-            "The interactive model could not be loaded. You can still review its rendered image and download the files.",
+            "The interactive model could not be loaded. You can retry the viewer or download the model file.",
           );
       },
     );
@@ -202,11 +202,13 @@ export default function ModelViewer({
   posterUrl,
   session,
   revision,
+  mode = "sculpted",
 }: {
   glbUrl?: string;
   posterUrl?: string;
   session: Session;
   revision: number;
+  mode?: "sculpted" | "tripo";
 }) {
   const returnFocus = useRef<HTMLElement | null>(null);
   const [retry, setRetry] = useState(0);
@@ -266,24 +268,28 @@ export default function ModelViewer({
         >
           <RotateCcw size={18} />
         </button>
-        <button
-          onClick={() => {
-            setSeparated((v) => !v);
-            setShowPoster(false);
-          }}
-          disabled={!ready}
-          aria-label="Show separated halves"
-          aria-pressed={separated}
-        >
-          <MoveHorizontal size={18} />
-        </button>
-        <button
-          onClick={() => setShowPoster((p) => !p)}
-          aria-label="Toggle rendered image"
-          aria-pressed={showPoster}
-        >
-          <ImageIcon size={18} />
-        </button>
+        {mode === "sculpted" && (
+          <button
+            onClick={() => {
+              setSeparated((v) => !v);
+              setShowPoster(false);
+            }}
+            disabled={!ready}
+            aria-label="Show separated halves"
+            aria-pressed={separated}
+          >
+            <MoveHorizontal size={18} />
+          </button>
+        )}
+        {posterUrl && (
+          <button
+            onClick={() => setShowPoster((p) => !p)}
+            aria-label="Toggle rendered image"
+            aria-pressed={showPoster}
+          >
+            <ImageIcon size={18} />
+          </button>
+        )}
       </div>
     </>
   );
@@ -298,7 +304,7 @@ export default function ModelViewer({
           <img
             className="model-poster"
             src={poster.url}
-            alt={`Rendered procedural demo model, revision ${revision}`}
+            alt={`Rendered ${mode === "tripo" ? "Tripo" : "procedural demo"} model, revision ${revision}`}
           />
         )}
         <div
@@ -330,7 +336,11 @@ export default function ModelViewer({
             Drag to rotate · use zoom controls
           </span>
           <span>
-            {separated ? "Separated · fit unverified" : "Procedural demo"}
+            {mode === "tripo"
+              ? "Tripo generated model"
+              : separated
+                ? "Separated · fit unverified"
+                : "Procedural demo"}
           </span>
         </div>
       </div>

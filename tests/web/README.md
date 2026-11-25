@@ -78,7 +78,7 @@ KEEPSAKE_WEB_LIFECYCLE_TIMEOUT_MS=900000 \
   npm run test:e2e -- tests/web/blender-lifecycle.spec.ts --workers=1
 ```
 
-This command performs real uploads and builds on the named deployment, so run it only against the app instance being verified. The generated report records the base URL. Deadline settings are test patience, not a generation-time promise.
+This command performs real uploads and builds on the named deployment, so run it only against the app instance being verified. The generated report records the base URL; hosted reports/screenshots use a `hosted-` filename prefix to preserve local evidence. Deadline settings are test patience, not a generation-time promise.
 
 The existing Python integration test is another independently runnable path:
 

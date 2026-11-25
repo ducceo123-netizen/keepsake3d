@@ -25,6 +25,8 @@ test('real photo analysis builds files, approves, corrects, rejects stale approv
   test.setTimeout(Number(process.env.KEEPSAKE_WEB_LIFECYCLE_TIMEOUT_MS || Math.max(300_000, buildTimeoutMs * 2 + 60_000)));
   const browserErrors: string[] = [];
   page.on('pageerror', error => browserErrors.push(error.message));
+  const hosted = !['localhost', '127.0.0.1', '[::1]'].includes(new URL(testInfo.project.use.baseURL || 'http://127.0.0.1:3000').hostname);
+  const evidencePrefix = hosted ? 'hosted-' : '';
   const screenshots = path.resolve('evidence/screenshots');
   await fs.mkdir(screenshots, { recursive: true });
   let session: { id: string; token: string } | null = null;
@@ -50,7 +52,7 @@ test('real photo analysis builds files, approves, corrects, rejects stale approv
     for (const width of [320, 390]) {
       await page.setViewportSize({ width, height: 900 });
       await expectNoHorizontalOverflow(page);
-      await page.screenshot({ path: path.join(screenshots, `photo-analysis-${width}.jpg`), fullPage: true, type: 'jpeg', quality: 85 });
+      await page.screenshot({ path: path.join(screenshots, `${evidencePrefix}photo-analysis-${width}.jpg`), fullPage: true, type: 'jpeg', quality: 85 });
     }
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.getByRole('button', { name: 'Create my 3D preview', exact: true }).click();
@@ -63,10 +65,10 @@ test('real photo analysis builds files, approves, corrects, rejects stale approv
     for (const width of [320, 390]) {
       await page.setViewportSize({ width, height: 900 });
       await expectNoHorizontalOverflow(page);
-      await page.screenshot({ path: path.join(screenshots, `photo-preview-${width}.jpg`), fullPage: true, type: 'jpeg', quality: 85 });
+      await page.screenshot({ path: path.join(screenshots, `${evidencePrefix}photo-preview-${width}.jpg`), fullPage: true, type: 'jpeg', quality: 85 });
     }
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.screenshot({ path: path.join(screenshots, 'photo-preview-desktop.jpg'), fullPage: true, type: 'jpeg', quality: 85 });
+    await page.screenshot({ path: path.join(screenshots, `${evidencePrefix}photo-preview-desktop.jpg`), fullPage: true, type: 'jpeg', quality: 85 });
     expect(first.artifacts.map((artifact: { kind: string }) => artifact.kind)).toEqual(expect.arrayContaining(['glb', 'stl', 'png', 'qa', 'provenance']));
     await page.getByText('Model files & revision details', { exact: true }).click();
     const downloadEvent = page.waitForEvent('download');
@@ -97,7 +99,7 @@ test('real photo analysis builds files, approves, corrects, rejects stale approv
     await expect(page.getByRole('heading', { name: 'Your favorite photos', exact: true })).toBeVisible();
     expect((await request.get(`/api/v1/sessions/${session.id}/status`, { headers })).status()).toBe(404);
     expect(browserErrors).toEqual([]);
-    await fs.writeFile(path.resolve('evidence/photo-lifecycle-verification.json'), JSON.stringify({
+    await fs.writeFile(path.resolve(`evidence/${evidencePrefix}photo-lifecycle-verification.json`), JSON.stringify({
       passed: true, verified_at: new Date().toISOString(), base_url: testInfo.project.use.baseURL, source: first.appearance.source,
       first_revision: first.revision, second_revision: second.revision,
       first_checksum: first.checksum, second_checksum: second.checksum,

@@ -17,6 +17,21 @@
   color: var(--ks-muted);
   font-size: 0.875rem;
 }
+.analysis-result {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: var(--ks-surface);
+  border: 1px solid var(--ks-border);
+  border-radius: var(--ks-radius-control);
+  font-size: 0.875rem;
+}
+.analysis-result p {
+  margin: 0.5rem 0;
+}
+.appearance-review-columns select:disabled {
+  color: var(--ks-muted);
+  cursor: not-allowed;
+}
 .face-candidates {
   display: flex;
   flex-wrap: wrap;

@@ -56,12 +56,14 @@ export default function PhotoAnalysis({
   consent,
   disabled,
   onReady,
+  onEditPhotos,
 }: {
   photos: Photo[];
   session: Session;
   consent: boolean;
   disabled: boolean;
   onReady: (draft: AppearanceDraft | null) => void;
+  onEditPhotos: () => void;
 }) {
   const [faces, setFaces] = useState<FaceCandidate[]>([]),
     [images, setImages] = useState<Record<string, string>>({}),
@@ -69,6 +71,7 @@ export default function PhotoAnalysis({
     [error, setError] = useState(""),
     [progress, setProgress] = useState(""),
     [running, setRunning] = useState(false),
+    [analyzed, setAnalyzed] = useState(false),
     [reviewed, setReviewed] = useState(false);
   const [selection, setSelection] = useState({ left: "", right: "" }),
     [characters, setCharacters] = useState<{
@@ -188,6 +191,7 @@ export default function PhotoAnalysis({
         setRunning(false);
         setProgress("");
         setFaces([]);
+        setAnalyzed(false);
         setImages({});
         setSelection({ left: "", right: "" });
         setCharacters({ left: null, right: null });
@@ -202,6 +206,7 @@ export default function PhotoAnalysis({
     setReviewed(false);
     setRunning(true);
     setFaces([]);
+    setAnalyzed(false);
     setSelection({ left: "", right: "" });
     setCharacters({ left: null, right: null });
     setWarnings([]);
@@ -302,6 +307,7 @@ export default function PhotoAnalysis({
         setFaces(result.faces);
         setImages(nextImages);
         setWarnings(result.warnings);
+        setAnalyzed(true);
       }
     } catch (e) {
       if (current()) {
@@ -320,15 +326,22 @@ export default function PhotoAnalysis({
     }
   }
   function choose(slot: "left" | "right", id: string) {
+    const face = faces.find((f) => f.id === id);
+    if (
+      id &&
+      (!face?.usable || selection[slot === "left" ? "right" : "left"] === id)
+    )
+      return;
     setSelection((s) => ({ ...s, [slot]: id }));
     setCharacters((c) => ({
       ...c,
-      [slot]: faces.find((f) => f.id === id)?.params || null,
+      [slot]: face?.params || null,
     }));
     setReviewed(false);
   }
   const both =
     characters.left && characters.right && selection.left !== selection.right;
+  const usableCount = faces.filter((f) => f.usable).length;
   return (
     <section className="photo-analysis" aria-labelledby="analysis-heading">
       <div className="panel-heading">
@@ -341,7 +354,8 @@ export default function PhotoAnalysis({
       <p className="field-help">
         Analysis runs on this device. It estimates visible face proportions and
         nearby hair, skin and top colors. Choose a clear, front-facing photo of
-        each person.
+        each person. Separate portraits work too; both people do not need to be
+        in the same photo.
       </p>
       <BrandButton
         variant="secondary"
@@ -371,8 +385,46 @@ export default function PhotoAnalysis({
           {w}
         </p>
       ))}
-      {faces.length > 0 && (
+      {analyzed && (
         <>
+          <div
+            className="analysis-result"
+            id="face-selection-status"
+            role="status"
+          >
+            <strong>
+              {faces.length} {faces.length === 1 ? "face" : "faces"} detected ·{" "}
+              {usableCount} usable
+            </strong>
+            {usableCount < 2 ? (
+              <>
+                <p>
+                  {usableCount === 0
+                    ? "No faces are available to select yet. We could not measure clear face proportions from these photos."
+                    : "One face is ready to select. Add a clear photo of the other person to continue."}
+                </p>
+                <p>
+                  Use a well-lit, front-facing photo with both eyes and the
+                  whole face visible. You can upload one separate portrait per
+                  person.
+                  {photos.length >= 3 &&
+                    " You have 3 photos; remove one above to make room."}
+                </p>
+                <BrandButton
+                  variant="secondary"
+                  onClick={onEditPhotos}
+                  disabled={disabled || running}
+                >
+                  Add or replace photos
+                </BrandButton>
+                <p className="field-help">
+                  After changing photos, choose Analyze photos again.
+                </p>
+              </>
+            ) : (
+              <p>Choose a different person for each character below.</p>
+            )}
+          </div>
           <div className="face-candidates">
             {faces.map((f) => (
               <figure
@@ -388,19 +440,15 @@ export default function PhotoAnalysis({
                 <figcaption>
                   Photo {f.photo_number} · Face {f.face_index + 1}
                   <span>
-                    {f.usable ? "Ready to select" : "Use a clearer photo"}
+                    {f.usable
+                      ? "Ready to select"
+                      : "Unavailable — use another photo"}
                   </span>
                 </figcaption>
                 {!f.usable && <p>{f.warnings[0]}</p>}
               </figure>
             ))}
           </div>
-          {faces.filter((f) => f.usable).length < 2 && (
-            <p className="analysis-warning">
-              We need two distinct, clear faces. Add another front-facing photo
-              and analyze again.
-            </p>
-          )}
           <div className="appearance-review-columns">
             {slots.map((slot) => (
               <fieldset key={slot} disabled={disabled || running}>
@@ -414,22 +462,25 @@ export default function PhotoAnalysis({
                   <select
                     value={selection[slot]}
                     onChange={(e) => choose(slot, e.target.value)}
+                    disabled={usableCount === 0}
+                    aria-describedby="face-selection-status"
                   >
-                    <option value="">Choose a face</option>
-                    {faces
-                      .filter((f) => f.usable)
-                      .map((f) => (
-                        <option
-                          key={f.id}
-                          value={f.id}
-                          disabled={
-                            selection[slot === "left" ? "right" : "left"] ===
-                            f.id
-                          }
-                        >
-                          Photo {f.photo_number} · Face {f.face_index + 1}
-                        </option>
-                      ))}
+                    <option value="">
+                      {usableCount ? "Choose a face" : "No usable faces yet"}
+                    </option>
+                    {faces.map((f) => (
+                      <option
+                        key={f.id}
+                        value={f.id}
+                        disabled={
+                          !f.usable ||
+                          selection[slot === "left" ? "right" : "left"] === f.id
+                        }
+                      >
+                        Photo {f.photo_number} · Face {f.face_index + 1}
+                        {!f.usable && " — unavailable (see photo above)"}
+                      </option>
+                    ))}
                   </select>
                 </label>
                 {characters[slot] && (

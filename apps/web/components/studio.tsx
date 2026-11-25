@@ -76,6 +76,7 @@ export default function Studio() {
     }
   };
   const input = useRef<HTMLInputElement>(null),
+    firstRemovePhoto = useRef<HTMLButtonElement>(null),
     retryKey = useRef<string | null>(null),
     correctionAttempt = useRef<{ fingerprint: string; key: string } | null>(
       null,
@@ -460,6 +461,7 @@ export default function Studio() {
                       alt={`Your private reference photo ${i + 1}`}
                     />
                     <button
+                      ref={i === 0 ? firstRemovePhoto : undefined}
                       aria-label={`Remove photo ${i + 1}`}
                       disabled={!!busy}
                       onClick={() =>
@@ -515,6 +517,15 @@ export default function Studio() {
                 consent={consent}
                 disabled={!!busy}
                 onReady={setAppearance}
+                onEditPhotos={() => {
+                  const target =
+                    photoCount >= 3 ? firstRemovePhoto.current : input.current;
+                  target?.scrollIntoView({
+                    block: "center",
+                    behavior: "auto",
+                  });
+                  target?.focus({ preventScroll: true });
+                }}
               />
             )}
             <div className="panel-heading names-heading">

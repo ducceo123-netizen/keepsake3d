@@ -85,7 +85,9 @@ export function UploaderShell({ children }: { children?: ReactNode }) {
     <div className="upload-shell">
       <UploadCloud size={30} />
       <strong>A favorite photo. A lovely beginning.</strong>
-      <p>Choose 1–3 clear photos, with both faces visible.</p>
+      <p>
+        Choose 1–3 clear photos. Separate portraits of each person work too.
+      </p>
       {children}
     </div>
   );

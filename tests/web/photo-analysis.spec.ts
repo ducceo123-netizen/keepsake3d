@@ -1,8 +1,8 @@
 import { test, expect, type Route } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
-import { demoSession, json } from './helpers';
+import { demoCharacters, demoSession, json } from './helpers';
 
 test('real browser models require explicit face assignment and reviewed appearance', async ({ page }) => {
   test.setTimeout(180_000);
@@ -122,5 +122,98 @@ for (const cancellation of ['cancel button', 'consent revocation']) {
     await analyze.click();
     await expect(page.getByAltText('Photo 1, face 1', { exact: true })).toBeVisible({ timeout: 120_000 });
     expect(await page.evaluate(() => (window as any).__appearanceWorkerStarts)).toBe(1);
+  });
+}
+
+for (const scenario of [
+  { label: 'all detected faces rejected', usableCount: 0, detectedCount: 2, photoCount: 2 },
+  { label: 'exactly one usable face', usableCount: 1, detectedCount: 2, photoCount: 2 },
+  { label: 'no detected faces', usableCount: 0, detectedCount: 0, photoCount: 2 },
+  { label: 'three-photo limit with rejected faces', usableCount: 0, detectedCount: 3, photoCount: 3 },
+]) {
+  const { usableCount, detectedCount, photoCount } = scenario;
+  test(`${scenario.label} explains recovery and keeps incomplete generation disabled`, async ({ page }) => {
+    // Deliberately stub worker output to exercise quality-gate UI states. The
+    // real inference tests above remain unmocked and test the actual models.
+    const photos = await Promise.all(['astronaut.png', 'grace_hopper.jpg', 'astronaut.png'].slice(0, photoCount).map(async (name, index) => {
+      const bytes = await readFile(path.resolve('tests/vision/fixtures', name));
+      return { name, bytes, id: String(index + 1).repeat(32), sha256: createHash('sha256').update(bytes).digest('hex') };
+    }));
+    const rejection = 'This face is turned too far sideways. Choose a more front-facing photo.';
+    const faces = photos.slice(0, detectedCount).map((photo, index) => ({
+      id: `${photo.id}:0`, photo_id: photo.id, photo_sha256: photo.sha256,
+      face_index: 0, face_count: 1, photo_number: index + 1,
+      bounds: { x: .3, y: .1, width: .35, height: .4 },
+      usable: index < usableCount, warnings: index < usableCount ? [] : [rejection],
+      params: structuredClone(index === 0 ? demoCharacters.left : demoCharacters.right),
+      observed_fields: ['face_morphs.face_width', 'skin_material_id'],
+      measurements: { face_pixels: 140, yaw_proxy: index < usableCount ? .02 : .3 },
+    }));
+    await page.route('**/workers/appearance.js', route => route.fulfill({
+      status: 200, contentType: 'text/javascript',
+      body: `self.onmessage = () => self.postMessage(${JSON.stringify({ type: 'result', faces, warnings: [] })});`,
+    }));
+    let uploaded = 0, generationRequests = 0;
+    await page.route('**/api/v1/**', async route => {
+      const req = route.request(), pathname = new URL(req.url()).pathname;
+      if (pathname.endsWith('/customization-sessions') && req.method() === 'POST') return json(route, demoSession);
+      if (pathname.endsWith('/photos') && req.method() === 'POST') { uploaded++; return json(route, {}, 201); }
+      const photo = photos.find(item => pathname.endsWith(`/photos/${item.id}`));
+      if (photo) return route.fulfill({ status: 200, contentType: photo.name.endsWith('png') ? 'image/png' : 'image/jpeg', body: photo.bytes });
+      if (pathname.endsWith('/status')) return json(route, {
+        id: demoSession.id, state: 'PHOTO_UPLOADED', revision: 0,
+        job_id: null, error: null, params: null, artifacts: [], qa: null, checksum: null, history: [],
+        photos: photos.slice(0, uploaded).map(item => ({ id: item.id, width: 512, height: 512, sha256: item.sha256, url: `/api/v1/sessions/${demoSession.id}/photos/${item.id}` })),
+      });
+      if (pathname.endsWith('/submit') || pathname.endsWith('/appearance-profile')) generationRequests++;
+      return json(route, { detail: 'Incomplete face assignment must not request generation' }, 500);
+    });
+    await page.setViewportSize({ width: 420, height: 900 });
+    await page.goto('/studio');
+    const uploader = page.getByLabel('Upload reference photos', { exact: true });
+    await uploader.setInputFiles(photos.map(photo => ({ name: photo.name, mimeType: photo.name.endsWith('png') ? 'image/png' : 'image/jpeg', buffer: photo.bytes })));
+    await expect(page.getByRole('button', { name: `Remove photo ${photoCount}`, exact: true })).toBeVisible();
+    await page.getByRole('checkbox', { name: /permission to use these photos/ }).check();
+    await page.getByRole('button', { name: 'Analyze photos', exact: true }).click();
+    const left = page.getByRole('combobox', { name: 'Left character — reference face', exact: true });
+    const right = page.getByRole('combobox', { name: 'Right character — reference face', exact: true });
+    await expect(page.getByRole('status').filter({ hasText: `${detectedCount} faces detected · ${usableCount} usable` })).toBeVisible();
+    if (detectedCount > 0) await expect(page.getByAltText('Photo 2, face 1', { exact: true })).toBeVisible();
+    await expect(page.getByText(rejection, { exact: true })).toHaveCount(detectedCount - usableCount);
+    for (const face of faces.filter(face => !face.usable)) {
+      for (const select of [left, right]) {
+        const unavailable = select.locator(`option[value="${face.id}"]`);
+        await expect(unavailable).toBeDisabled();
+        await expect(unavailable).toContainText(/unavailable/i);
+      }
+    }
+    if (usableCount === 0) {
+      for (const select of [left, right]) {
+        await expect(select).toBeDisabled();
+        await expect(select.locator('option:checked')).toHaveText('No usable faces yet');
+      }
+    } else {
+      await expect(left).toBeEnabled();
+      await expect(right).toBeEnabled();
+      await left.selectOption(faces[0].id);
+      await expect(left).toHaveValue(faces[0].id);
+      await expect(right).toHaveValue('');
+      await expect(right.locator(`option[value="${faces[0].id}"]`)).toBeDisabled();
+      await expect(page.getByText('One face is ready to select. Add a clear photo of the other person to continue.', { exact: true })).toBeVisible();
+    }
+    await expect(page.getByRole('button', { name: 'Create my 3D preview', exact: true })).toBeDisabled();
+    await expect(page.getByRole('checkbox', { name: /checked the left and right people/ })).toHaveCount(0);
+    if (scenario.label === 'all detected faces rejected') {
+      await mkdir(path.resolve('evidence/screenshots'), { recursive: true });
+      await page.screenshot({ path: path.resolve('evidence/screenshots/face-selection-recovery-mobile.png'), fullPage: true });
+    }
+    await page.getByRole('button', { name: 'Add or replace photos', exact: true }).click();
+    if (photoCount < 3) await expect(uploader).toBeFocused();
+    else {
+      await expect(uploader).toBeDisabled();
+      await expect(page.getByRole('button', { name: 'Remove photo 1', exact: true })).toBeFocused();
+    }
+    if (usableCount === 1) await expect(left).toHaveValue(faces[0].id);
+    expect(generationRequests).toBe(0);
   });
 }
